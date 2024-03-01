@@ -1,0 +1,41 @@
+cff-version: 1.0.1
+message: Please cite this software using these metadata.
+title: TopBids
+authors:
+  - family-names: MARTINS
+    given-names: Diogo
+  - family-names: Marques
+    given-names: Gabriel
+  - family-names: ALMEIDA
+    given-names: Henrique
+  - family-names: QUEIROGA
+    given-names: João
+  - family-names: PAULETTI
+    given-names: João
+  - family-names: LIMA
+    given-names: Lucas
+  - family-names: PAGANINI
+    given-names: Renato
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: BASTOS
+    given-names: Hugo
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: Tavares
+    given-names: Cleiton
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: Lopes
+    given-names: Pedro
+keywords:
+  - Message Queue
+  - RabbitMQ
+  - Django
+  - Python
+  - Docker
+  - Flutter
+repository-code: https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2024-1-ti5-5104100-topbids/
+license: GNU General Public License v3.0
+version: 1.0.0
+date-released: 

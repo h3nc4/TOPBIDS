@@ -34,8 +34,11 @@ _Instituto de Informática e Ciências Exatas – Pontifícia Universidade de Mi
 
 ---
 
-_**Resumo**. Escrever aqui o resumo. O resumo deve contextualizar rapidamente o trabalho, descrever seu objetivo e, ao final,
-mostrar algum resultado relevante do trabalho (até 10 linhas)._
+## Resumo
+
+Nos leilões tradicionais, tanto os leiloeiros quanto os participantes enfrentam diversos obstáculos que prejudicam a eficiência e a comodidade do processo. A falta de uma plataforma digital dedicada muitas vezes limita as operações, o que pode comprometer a experiência do usuário e afetar negativamente os resultados do leilão.
+
+O objetivo do projeto é desenvolver uma aplicação na área de leilão, para proporcionar uma plataforma digital robusta e intuitiva que facilite a realização de leilões online, visando aprimorar a experiência dos leiloeiros e participantes, garantindo eficiência, segurança e transparência ao processo de leilão.
 
 ---
 
@@ -43,9 +46,10 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 
 | **Data** | **Autor** | **Descrição** | **Versão** |
 | --- | --- | --- | --- |
-| **[dd/mm/aaaa]** | [Nome do autor] | [Descrever as principais alterações realizadas no documento, evidenciando as seções ou capítulos alterados] | [X] |
-| | | | |
-| | | | |
+| **[29/02/2024]** | [Henrique] | [Informações dos autores] | [1.0] |
+| **[12/03/2024]** | [João Pauletti] | [Definição da seção 1] | [1.0] |
+| **[13/03/2024]** | [Lucas] | [Definição da seção 2] | [1.0] |
+| **[13/03/2024]** | [João Queiroga] | [Definição da seção 2] | [1.0] |
 
 ## SUMÁRIO
 
@@ -182,8 +186,6 @@ As restrições impostas ao projeto que afetam sua arquitetura são:
 <a name="modelagem"></a>
 
 # 3. Modelagem e Projeto Arquitetural
-
-_Apresente uma visão geral da solução proposta para o projeto e explique brevemente esse diagrama de visão geral, de forma textual. Esse diagrama não precisa seguir os padrões da UML, e deve ser completo e tão simples quanto possível, apresentando a macroarquitetura da solução._
 
 ![Visão Geral da Solução](imagens/visao.png "Visão Geral da Solução")
 

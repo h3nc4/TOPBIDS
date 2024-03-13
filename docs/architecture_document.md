@@ -79,17 +79,43 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 
 # 1. Apresentação
 
-_Faça uma introdução ao projeto, apresentando o contexto onde o projeto se situa. É importante deixar claro para o leitor os aspectos que configuram o problema que será apresentado na sequência. Apresente, se possível, números reais que demonstram a relevância do problema apresentado._
+Os leilões são eventos que têm sido uma parte significativa do comércio e troca de bens há séculos. No contexto atual, onde a digitalização e a conveniência são valorizadas, a transição para platafor-mas online para conduzir leilões se tornou uma tendência crescente. Esta iniciativa visa capitalizar essa tendência, proporcionando uma plataforma robusta e intuitiva para a realização de leilões onli-ne.
+De acordo com estatísticas recentes, o mercado de leilões online está crescendo a uma taxa anual significativa, em 2021, o volume total de vendas em leilões online foi estimado em mais de $900 bilhões de dólares, representando um aumento considerável em relação aos anos anteriores. Este crescimento evidencia a demanda crescente por plataformas eficientes e seguras para a realização de leilões online.
 
 ## 1.1. Problema
 
-_Nesse momento você deve apresentar o problema que a sua aplicação deve resolver. No entanto, não é a hora de comentar sobre a aplicação._
+Nos leilões tradicionais, tanto os leiloeiros quanto os participantes enfrentam diversos obstáculos que prejudicam a eficiência e a comodidade do processo. A falta de uma plataforma digital dedicada muitas vezes resulta em dificuldades para registrar itens, comunicar lances, garantir o anonimato dos participantes e manter um histórico transparente de lances. Além disso, a comunicação entre leiloeiro e compradores muitas vezes é limitada, o que pode comprometer a experiência do usuário e afetar negativamente os resultados do leilão.
+A motivação por trás do desenvolvimento da aplicação de leilões é abordar os desafios enfrentados pelos leiloeiros e participantes, proporcionando uma solução digital completa e eficiente. Ao introdu-zir recursos como registro fácil de itens, tecnologia de mensageria para disputa de valores, chats dedicados para compradores e leiloeiros, garantia de anonimato e histórico transparente de lances, a aplicação visa melhorar significativamente a experiência de todos os envolvidos no processo de leilão.
+O mercado de lances online, em 2021, era de $5.9B, registrando uma alta movimentação, e esti-mando-se um crescimento de 9.7% até 2026, com as novas gerações sendo o motivo no aumento.
 
 ## 1.2. Objetivos do trabalho
 
-_Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é apresentar a descrição do projeto arquitetural da aplicação escolhida. Apresente também os objetivos específicos do projeto, descrevendo onde você vai concentrar sua atenção na descrição arquitetural, ou seja, os pontos onde você vai aprofundar no seu trabalho._
+### 1.2.1. Objetivo Geral
+
+Desenvolver uma aplicação na área de leilão, para proporcionar uma plataforma digital robusta e intuitiva que facilite a realização de leilões online, visando aprimorar a experiência dos leiloeiros e participantes, garantindo eficiência, segurança e transparência ao processo de leilão.
+
+### 1.2.2. Objetivos Específicos
+
+Os objetivos específicos delineados para o desenvolvimento da aplicação de leilão visam abordar diferentes aspectos-chave para garantir a eficiência, segurança e comodidade tanto para os leiloei-ros quanto para os participantes.
+Para facilitar o processo de participação nos leilões, é necessário desenvolver operações CRUD para gerenciar tanto os cartões de crédito dos usuários quanto os itens que serão leiloados. Isso inclui a capacidade de adicionar, visualizar, editar e excluir informações de cartões e produtos de forma intuitiva e segura.
+Além disso, a integração de funcionalidades como definição de datas de leilão, início e fechamento, juntamente com sistemas de mensagens que permitam a comunicação em tempo real entre compra-dores e leiloeiros, é essencial para garantir transparência e facilitar as interações durante os even-tos de leilão.
+Vamos implementar uma arquitetura escalável que possa lidar com um grande volume de usuários e transações durante os leilões, garantindo uma experiência fluida mesmo em momentos de alta de-manda.
+A segurança e o anonimato dos usuários também são prioridades, exigindo a implementação de medidas robustas de proteção de dados e privacidade, como criptografia e autenticação de usuário.
+Para facilitar a descoberta e participação nos leilões, serão desenvolvidas funcionalidades de con-sulta que permitam aos usuários pesquisar itens disponíveis e eventos de leilão agendados para datas específicas, além da integração de um calendário na página inicial para uma visão geral dos próximos eventos.
+Finalmente, um sistema de notificação será implementado para informar os usuários sobre eventos importantes, como leilões próximos e atualizações na plataforma, enquanto as opções de realização de lances específicos e cobertura do maior lance garantirão uma competição justa e dinâmica duran-te os leilões, atendendo às necessidades e expectativas tanto dos leiloeiros quanto dos participantes.
 
 ## 1.3. Definições e Abreviaturas
+
+CRUD: Criar, Ler, Atualizar e Deletar (Create, Read, Update, Delete)
+RMQ: RabbitMQ
+API: Application Programming Interface
+AWS: Amazon Web Services
+Django: Framework de desenvolvimento web para Python
+ORM: Object-Relational Mapping
+Flutter: Framework de desenvolvimento de aplicativos móveis
+Bootsrap: Framework de desenvolvimento web para HTML, CSS e JavaScript
+CSS: Cascading Style Sheets
+Docker: Plataforma de código aberto para automação de implantação de aplicativos
 
 Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
 

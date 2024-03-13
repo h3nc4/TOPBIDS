@@ -127,55 +127,57 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 
 ## 2.1. Requisitos Funcionais
 
-_Enumere os requisitos funcionais previstos para a sua aplicação. Concentre-se nos requisitos funcionais que sejam críticos para a definição arquitetural. Lembre-se de listar todos os requisitos que são necessários para garantir cobertura arquitetural. Esta seção deve conter uma lista de requisitos ainda sem modelagem. Na coluna Prioridade utilize uma escala (do mais prioritário para o menos): Essencial, Desejável, Opcional._
-
 | **ID** | **Descrição** | **Prioridade** | **Plataforma** |
 | --- | --- | --- | --- |
-| RF001 | | | _web_ |
-| RF002 | | | _mobile_ |
-| RF003 | | | _web e mobile_ |
-| | | | |
-| | | | |
-
-Obs: acrescente mais linhas, se necessário.
+| RF001 | Comprador gerencia conta | ESSENCIAL | web/mobile |
+| RF002 | Comprador gerencia formas de pagamento | ESSENCIAL | web/mobile |
+| RF003 | Leiloeiro gerencia item para leilão | ESSENCIAL | web/mobile |
+| RF004 | Leiloeiro gerencia leilão | ESSENCIAL | web/mobile |
+| RF005 | Leiloeiro gerencia data do leilão | ESSENCIAL | web/mobile |
+| RF006 | Usuário consulta calendário de leilões marcados | ESSENCIAL | web/mobile |
+| RF007 | Usuário pesquisa item | ESSENCIAL | web/mobile |
+| RF008 | Usuário consulta calendário na land page | ESSENCIAL | web/mobile |
+| RF009 | Leiloeiro define valor inicial do item | ESSENCIAL | web/mobile |
+| RF010 | Leiloeiro define o valor mínimo/máximo que o lance deve ser | ESSENCIAL | web/mobile |
+| RF011 | Usuário manda mensagem para outro usuário | ESSENCIAL | web/mobile |
+| RF012 | Comprador manda mensagem para o leiloeiro após ganhar | ESSENCIAL | web/mobile |
+| RF013 | Leiloeiro define tempo de espera máximo para lance, antes finalizar o leilão  | ESSENCIAL | web/mobile |
+| RF014 | Sistema valida item | ESSENCIAL | web/mobile |
+| RF015 | Usuário marca leilão que quer participar para receber notificação | ESSENCIAL | web/mobile |
+| RF016 | Sistema notifica início de leilão para os usuários que o marcaram | ESSENCIAL | web/mobile |
+| RF017 | Usuário consulta histórico de lances | ESSENCIAL | web/mobile |
+| RF018 | Comprador consulta log do chat do leilão | ESSENCIAL | web/mobile |
 
 ## 2.2. Requisitos Não-Funcionais
 
-_Enumere os requisitos não-funcionais previstos para a sua aplicação. Entre os requisitos não funcionais, inclua todos os requisitos que julgar importante do ponto de vista arquitetural ou seja os requisitos que terão impacto na definição da arquitetura. Os requisitos devem ser descritos de forma completa e preferencialmente quantitativa._
-
 | **ID** | **Descrição** |
 | --- | --- |
-| RNF001 | |
-| RNF002 | |
-| | |
-| | |
-| | |
-
-Obs: acrescente mais linhas, se necessário.
+| RNF001 | Sistema suporta cerca de 500 usuários |
+| RNF002 | Leilão disponibiliza chat em tempo real |
+| RNF003 | Sistema protege dados do usuário (qual nível de proteção???) |
+| RNF004 | Sistema notifica usuário 2 horas antes |
 
 ## 2.3. Restrições Arquiteturais
 
-_Enumere as restrições arquiteturais. Lembre-se de que as restrições arquiteturais geralmente não são consideradas requisitos uma vez que limitam a solução candidata. Os requisitos não impõem restrição, mas precisam ser satisfeitos._
-
-As restrições impostas ao projeto que afetam sua arquitetura são (por exemplo):
-
-- O software deverá ser desenvolvido em Python/Django;
-- A comunicação da API deve seguir o padrão RESTful.
+As restrições impostas ao projeto que afetam sua arquitetura são:
+• O software deverá ser desenvolvido em Python/Django: A arquitetura do sis-tema deve ser baseada no framework Django para o desenvolvimento do backend da aplicação, aproveitando as funcionalidades e convenções ofereci-das por esse framework para agilizar o processo de desenvolvimento.
+• Utilização de Bootstrap + CSS para o frontend web: A arquitetura do frontend web deve ser desenvolvida utilizando a combinação do framework Bootstrap com CSS para a criação de interfaces de usuário responsivas e visualmente atraentes, seguindo as melhores práticas de design e usabilidade.
+• Utilização do framework Flutter para o desenvolvimento mobile: A arquitetura da aplicação móvel deve ser projetada utilizando o framework Flutter, que permite o desenvolvimento de aplicativos móveis nativos de alta qualidade pa-ra Android e iOS a partir de um único código-fonte, garantindo consistência e eficiência no desenvolvimento.
+• Hospedagem na AWS (Amazon Web Services): A arquitetura do sistema de-ve ser projetada para ser implantada e hospedada na plataforma de serviços em nuvem da AWS, aproveitando a infraestrutura escalável, confiável e segu-ra oferecida por essa plataforma.
+• Utilização de RMQ (RabbitMQ) para mensageria: A arquitetura da aplicação deve ser projetada para integrar o RMQ como sistema de mensageria, permi-tindo a comunicação síncrona e distribuída entre os diferentes componentes da aplicação, garantindo uma arquitetura robusta e escalável.
+• Utilização de Docker para contêineres: A arquitetura da aplicação deve ser projetada para utilizar o Docker para a criação, implantação e execução de contêineres, garantindo a portabilidade e a consistência do ambiente de de-senvolvimento, teste e produção.
 
 ## 2.4. Mecanismos Arquiteturais
 
-_Visão geral dos mecanismos que compõem a arquitetura do sosftware baseando-se em três estados: (1) análise, (2) design e (3) implementação. Em termos de Análise devem ser listados os aspectos gerais que compõem a arquitetura do software como: persistência, integração com sistemas legados, geração de logs do sistema, ambiente de front end, tratamento de exceções, formato dos testes, formato de distribuição/implantação (deploy), entre outros. Em Design deve-se identificar o padrão tecnológico a seguir para cada mecanismo identificado na análise. Em Implementação, deve-se identificar o produto a ser utilizado na solução.
- Ex: Análise (Persistência), Design (ORM), Implementação (Hibernate)._
-
 | **Análise** | **Design** | **Implementação** |
 | --- | --- | --- |
-| Persistência | | |
-| Front end | | |
-| Back end | | |
+| Persistência | ORM | DjangoRM |
+| Front end | Figma | Django Template Engine e Flutter |
+| Back end | | Ninja, Django e RabbitMQ |
 | Integração | | |
-| Log do sistema | | |
-| Teste de Software | | |
-| Deploy | | |
+| Log do sistema | | Shell |
+| Teste de Software | | Django |
+| Deploy | | AWS |
 
 <a name="modelagem"></a>
 

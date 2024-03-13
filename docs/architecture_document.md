@@ -195,11 +195,24 @@ Obs: substitua esta imagem por outra, adequada ao seu projeto (cada arquitetura 
 
 _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo do produto)._
 
-1. O sistema deve...
-2. O sistema deve...
-3. ...
-
-Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os professores/orientadores do trabalho.
+1. O sistema deve permitir que o leiloeiro cadastre um item para leilão.
+2. O sistema deve permitir que o leiloeiro defina o valor inicial do item.
+3. O sistema deve permitir que o leiloeiro defina o valor mínimo/máximo que o lance deve ser.
+4. O sistema deve permitir que o leiloeiro defina o tempo de espera máximo para lance, antes de finalizar o leilão.
+5. O sistema deve permitir que o leiloeiro gerencie o leilão.
+6. O sistema deve permitir que o leiloeiro gerencie a data do leilão.
+7. O sistema deve permitir que o comprador gerencie sua conta.
+8. O sistema deve permitir que o comprador gerencie suas formas de pagamento.
+9. O sistema deve permitir que o usuário consulte o calendário de leilões marcados.
+10. O sistema deve permitir que o usuário pesquise um item.
+11. O sistema deve permitir que o usuário consulte o calendário na land page.
+12. O sistema deve permitir que o usuário mande mensagem para outro usuário.
+13. O sistema deve permitir que o comprador mande mensagem para o leiloeiro após ganhar.
+14. O sistema deve permitir que o sistema valide o item.
+15. O sistema deve permitir que o usuário marque o leilão que quer participar para receber notificação.
+16. O sistema deve permitir que o sistema notifique o início de leilão para os usuários que o marcaram.
+17. O sistema deve permitir que o usuário consulte o histórico de lances.
+18. O sistema deve permitir que o comprador consulte o log do chat do leilão.
 
 ### Histórias de Usuário
 
@@ -207,15 +220,26 @@ _Nesta seção, você deve descrever estórias de usuários seguindo os métodos
 
 Exemplos de Histórias de Usuário:
 
-- Como Fulano eu quero poder convidar meus amigos para que a gente possa se reunir...
-
-- Como Cicrano eu quero poder organizar minhas tarefas diárias, para que...
-
-- Como gerente eu quero conseguir entender o progresso do trabalho do meu time, para que eu possa ter relatórios periódicos dos nossos acertos e falhas.
+- Como **comprador**, eu quero **gerenciar minha conta** para que eu possa **atualizar meus dados pessoais**.
+- Como **comprador**, eu quero **gerenciar minhas formas de pagamento** para que eu possa **adicionar ou remover cartões de crédito**.
+- Como **leiloeiro**, eu quero **gerenciar um item para leilão** para que eu possa **adicionar, visualizar, editar e excluir informações de itens**.
+- Como **leiloeiro**, eu quero **gerenciar um leilão** para que eu possa **adicionar, visualizar, editar e excluir informações de leilões**.
+- Como **leiloeiro**, eu quero **gerenciar a data do leilão** para que eu possa **adicionar, visualizar, editar e excluir informações de datas de leilões**.
+- Como **usuário**, eu quero **consultar o calendário de leilões marcados** para que eu possa **verificar os próximos leilões**.
+- Como **usuário**, eu quero **pesquisar um item** para que eu possa **encontrar um item específico**.
+- Como **usuário**, eu quero **consultar o calendário na land page** para que eu possa **verificar os próximos leilões**.
+- Como **leiloeiro**, eu quero **definir o valor inicial do item** para que eu possa **definir o valor inicial do item**.
+- Como **leiloeiro**, eu quero **definir o valor mínimo/máximo que o lance deve ser** para que eu possa **definir o valor mínimo/máximo que o lance deve ser**.
+- Como **usuário**, eu quero **mandar mensagem para outro usuário** para que eu possa **comunicar com outro usuário**.
+- Como **comprador**, eu quero **mandar mensagem para o leiloeiro após ganhar** para que eu possa **comunicar com o leiloeiro**.
+- Como **leiloeiro**, eu quero **definir o tempo de espera máximo para lance, antes de finalizar o leilão** para que eu possa **definir o tempo de espera máximo para lance, antes de finalizar o leilão**.
+- Como **sistema**, eu quero **validar o item** para que eu possa **verificar se o item é válido**.
+- Como **usuário**, eu quero **marcar o leilão que quero participar para receber notificação** para que eu possa **ser notificado sobre o leilão**.
+- Como **sistema**, eu quero **notificar o início de leilão para os usuários que o marcaram** para que eu possa **notificar os usuários sobre o início do leilão**.
+- Como **usuário**, eu quero **consultar o histórico de lances** para que eu possa **verificar o histórico de lances**.
+- Como **comprador**, eu quero **consultar o log do chat do leilão** para que eu possa **verificar o log do chat do leilão**.
 
 ## 3.2. Visão Lógica
-
-_Apresente os artefatos que serão utilizados descrevendo em linhas gerais as motivações que levaram a equipe a utilizar estes diagramas._
 
 ### Diagrama de Classes
 

@@ -218,8 +218,6 @@ _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo
 
 ### Histórias de Usuário
 
-_Nesta seção, você deve descrever estórias de usuários seguindo os métodos ágeis. Lembre-se das características de qualidade das estórias de usuários, ou seja, o que é preciso para descrever boas histórias de usuários._
-
 Exemplos de Histórias de Usuário:
 
 - Como **comprador**, eu quero **gerenciar minha conta** para que eu possa **atualizar meus dados pessoais**.
@@ -253,24 +251,24 @@ Obs: Acrescente uma breve descrição sobre o diagrama apresentado na Figura 3.
 
 ### Diagrama de componentes
 
-_Apresente o diagrama de componentes da aplicação, indicando, os elementos da arquitetura e as interfaces entre eles. Liste os estilos/padrões arquiteturais utilizados e faça uma descrição sucinta dos componentes indicando o papel de cada um deles dentro da arquitetura/estilo/padrão arquitetural. Indique também quais componentes serão reutilizados (navegadores, SGBDs, middlewares, etc), quais componentes serão adquiridos por serem proprietários e quais componentes precisam ser desenvolvidos._
-
 ![Diagrama de componentes](imagens/componentes.png "Diagrama de componentes")
 
-**Figura 3 – Diagrama de Componentes (exemplo). Fonte: o próprio autor.**
+"Servidor PostgreSQL": Este é um servidor dedicado ao banco de dados PostgreSQL, que é responsável pelo armazenamento persistente dos dados da aplicação. O componente "Postgre SGBD" é utilizado para armazenar e gerenciar os dados da aplicação.
 
-_Apresente uma descrição detalhada dos artefatos que constituem o diagrama de implantação._
+"Servidor de Aplicação": Este servidor é responsável por hospedar a lógica de negócios da aplicação. Ele hospeda diversos componentes, incluindo:
 
-Ex: conforme diagrama apresentado na Figura X, as entidades participantes da solução são:
+- **Visão**: Este componente lida com a apresentação de informações para os usuários finais. Renderiza páginas HTML, processando solicitações de interface do usuário e as enviando para os clientes.
+- **Autenticação**: Responsável pela autenticação de usuários, garantindo que apenas usuários autorizados tenham acesso às funcionalidades de acordo com suas permissões definidas.
+- **Leilão**: Gerencia os processos relacionados aos leilões, incluindo a criação e encerramento de leilões e recebe as atualizações de lances dos usuários.
+- **Comunicação**: Responsável pela comunicação entre o leilão e os usuários, repassando mensagens e notificações para o componente Leilão.
+- **Pagamento**: Permite inserção de chaves pix pelo vendedor e confirmação de pagamento por ambas as partes.
+- **Objeto**: Este componente pode ser responsável pela manipulação de objetos dentro da aplicação, como itens em leilão, produtos ou outros recursos. Pode incluir operações como criação, atualização, exclusão e consulta de objetos.
 
-- **Componente 1** - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nunc magna, accumsan eget porta a, tincidunt sed mauris. Suspendisse orci nulla, sagittis a lorem laoreet, tincidunt imperdiet ipsum. Morbi malesuada pretium suscipit.
-- **Componente 2** - Praesent nec nisi hendrerit, ullamcorper tortor non, rutrum sem. In non lectus tortor. Nulla vel tincidunt eros.
+"Servidor de Mensageria": Sistema de mensageria que permite a comunicação assíncrona entre os diferentes componentes da aplicação. Ele atua como intermediário para a troca de mensagens entre os diferentes servidores e componentes, permitindo uma arquitetura distribuída e escalável.
 
-## 3.3. Modelo de dados (opcional)
+"Aplicativo Usuário": Esta implantação refere-se ao aplicativo móvel que os usuários finais utilizam para interagir com o sistema. O componente "Interface Mobile" permite que os usuários visualizem e interajam com os leilões, façam lances recebam notificações e efetuem pagamentos.
 
-_Caso julgue necessário para explicar a arquitetura, apresente o diagrama de classes ou diagrama de Entidade/Relacionamentos ou tabelas do banco de dados. Este modelo pode ser essencial caso a arquitetura utilize uma solução de banco de dados distribuídos ou um banco NoSQL._
-
-![Diagrama de Entidade Relacionamento (ER) ](imagens/der.png "Diagrama de Entidade Relacionamento (ER) ")
+"Browser Leiloeiro": Esta implantação refere-se à interface web destinada aos leiloeiros ou administradores do sistema. O componente "Interface Web" permite que os vendedores cadastrem-se e gerenciem seus produtos.
 
 **Figura 4 – Diagrama de Entidade Relacionamento (ER) - exemplo. Fonte: o próprio autor.**
 

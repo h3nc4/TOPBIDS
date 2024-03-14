@@ -28,9 +28,9 @@
 
 ---
 
-_Curso de Engenharia de Software, Unidade Praça da Liberdade_
+`Curso de Engenharia de Software, Unidade Praça da Liberdade`
 
-_Instituto de Informática e Ciências Exatas – Pontifícia Universidade de Minas Gerais (PUC MINAS), Belo Horizonte – MG – Brasil_
+`Instituto de Informática e Ciências Exatas – Pontifícia Universidade de Minas Gerais (PUC MINAS), Belo Horizonte – MG – Brasil`
 
 ---
 
@@ -46,50 +46,54 @@ O objetivo do projeto é desenvolver uma aplicação na área de leilão, para p
 
 | **Data** | **Autor** | **Descrição** | **Versão** |
 | --- | --- | --- | --- |
-| **[29/02/2024]** | [Henrique] | [Informações dos autores] | [1.0] |
-| **[12/03/2024]** | [João Pauletti] | [Definição da seção 1] | [1.0] |
-| **[13/03/2024]** | [Lucas] | [Definição da seção 2] | [1.0] |
-| **[13/03/2024]** | [João Queiroga] | [Definição da seção 2] | [1.0] |
+| **29/02/2024** | Henrique | Informações dos autores | 0.1 |
+| **12/03/2024** | João Pauletti | Definição da seção 1 | 1.0 |
+| **13/03/2024** | Lucas | Definição da seção 2 | 1.1 |
+| **13/03/2024** | João Queiroga | Definição da seção 2 | 1.2 |
+| **13/03/2024** | Renato | Definição da seção 3.1 | 1.3 |
+| **14/03/2024** | Gabriel | Definição da seção 3.2 | 1.4 |
+| **14/03/2024** | Henrique | Formatação do documento | 1.4.1 |
 
 ## SUMÁRIO
 
-1. [Apresentação](#apresentacao "Apresentação")  
-    1.1. Problema  
-    1.2. Objetivos do trabalho  
-    1.3. Definições e Abreviaturas  
+1. [Apresentação](#1-apresentação "Apresentação")  
+    1.1. [Problema](#11-problema "Problema")  
+    1.2. [Objetivos do trabalho](#12-objetivos-do-trabalho "Objetivos do trabalho")  
+    1.3. [Definições e Abreviaturas](#13-definições-e-abreviaturas "Definições e Abreviaturas")  
 
-2. [Requisitos](#requisitos "Requisitos")  
-    2.1. Requisitos Funcionais  
-    2.2. Requisitos Não-Funcionais  
-    2.3. Restrições Arquiteturais  
-    2.4. Mecanismos Arquiteturais  
+2. [Requisitos](#2-requisitos "Requisitos")  
+    2.1. [Requisitos Funcionais](#21-requisitos-funcionais "Requisitos Funcionais")  
+    2.2. [Requisitos Não-Funcionais](#22-requisitos-não-funcionais "Requisitos Não-Funcionais")  
+    2.3. [Restrições Arquiteturais](#23-restrições-arquiteturais "Restrições Arquiteturais")  
+    2.4. [Mecanismos Arquiteturais](#24-mecanismos-arquiteturais "Mecanismos Arquiteturais")  
 
-3. [Modelagem](#modelagem "Modelagem e projeto arquitetural")  
-    3.1. Visão de Negócio  
-    3.2. Visão Lógica  
-    3.3. Modelo de dados (opcional)  
+3. [Modelagem](#3-modelagem-e-projeto-arquitetural "Modelagem e Projeto Arquitetural")  
+    3.1. [Visão de Negócio](#31-visão-de-negócio-funcionalidades "Visão de Negócio (Funcionalidades)")  
+    3.2. [Visão Lógica](#32-visão-lógica "Visão Lógica")  
 
-4. [Solução](#solucao "Projeto da Solução")  
+4. [Solução](#4-projeto-da-solução "Solução")  
 
-5. [Avaliação](#avaliacao "Avaliação da Arquitetura")  
-    5.1. Cenários  
-    5.2. Avaliação  
+5. [Avaliação](#5-avaliação-da-arquitetura "Avaliação da Arquitetura")  
+    5.1. [Cenários](#51-cenários "Cenários")  
+    5.2. [Avaliação](#52-avaliação "Avaliação")  
 
-6. [Referências](#referencias "REFERÊNCIAS")  
+6. [Referências](#6-referências "Referências")  
 
-7. [Apêndices](#apendices "APÊNDICES")
+7. [Apêndices](#7-apêndices "Apêndices")
 
-<a name="apresentacao"></a>
+[apresentacao]()
 
 # 1. Apresentação
 
-Os leilões são eventos que têm sido uma parte significativa do comércio e troca de bens há séculos. No contexto atual, onde a digitalização e a conveniência são valorizadas, a transição para platafor-mas online para conduzir leilões se tornou uma tendência crescente. Esta iniciativa visa capitalizar essa tendência, proporcionando uma plataforma robusta e intuitiva para a realização de leilões onli-ne.
+Os leilões são eventos que têm sido uma parte significativa do comércio e troca de bens há séculos. No contexto atual, onde a digitalização e a conveniência são valorizadas, a transição para platafor-mas online para conduzir leilões se tornou uma tendência crescente. Esta iniciativa visa capitalizar essa tendência, proporcionando uma plataforma robusta e intuitiva para a realização de leilões onli-ne.  
 De acordo com estatísticas recentes, o mercado de leilões online está crescendo a uma taxa anual significativa, em 2021, o volume total de vendas em leilões online foi estimado em mais de $900 bilhões de dólares, representando um aumento considerável em relação aos anos anteriores. Este crescimento evidencia a demanda crescente por plataformas eficientes e seguras para a realização de leilões online.
 
 ## 1.1. Problema
 
 Nos leilões tradicionais, tanto os leiloeiros quanto os participantes enfrentam diversos obstáculos que prejudicam a eficiência e a comodidade do processo. A falta de uma plataforma digital dedicada muitas vezes resulta em dificuldades para registrar itens, comunicar lances, garantir o anonimato dos participantes e manter um histórico transparente de lances. Além disso, a comunicação entre leiloeiro e compradores muitas vezes é limitada, o que pode comprometer a experiência do usuário e afetar negativamente os resultados do leilão.
+
 A motivação por trás do desenvolvimento da aplicação de leilões é abordar os desafios enfrentados pelos leiloeiros e participantes, proporcionando uma solução digital completa e eficiente. Ao introdu-zir recursos como registro fácil de itens, tecnologia de mensageria para disputa de valores, chats dedicados para compradores e leiloeiros, garantia de anonimato e histórico transparente de lances, a aplicação visa melhorar significativamente a experiência de todos os envolvidos no processo de leilão.
+
 O mercado de lances online, em 2021, era de $5.9B, registrando uma alta movimentação, e esti-mando-se um crescimento de 9.7% até 2026, com as novas gerações sendo o motivo no aumento.
 
 ## 1.2. Objetivos do trabalho
@@ -100,12 +104,12 @@ Desenvolver uma aplicação na área de leilão, para proporcionar uma plataform
 
 ### 1.2.2. Objetivos Específicos
 
-Os objetivos específicos delineados para o desenvolvimento da aplicação de leilão visam abordar diferentes aspectos-chave para garantir a eficiência, segurança e comodidade tanto para os leiloei-ros quanto para os participantes.
-Para facilitar o processo de participação nos leilões, é necessário desenvolver operações CRUD para gerenciar tanto os cartões de crédito dos usuários quanto os itens que serão leiloados. Isso inclui a capacidade de adicionar, visualizar, editar e excluir informações de cartões e produtos de forma intuitiva e segura.
-Além disso, a integração de funcionalidades como definição de datas de leilão, início e fechamento, juntamente com sistemas de mensagens que permitam a comunicação em tempo real entre compra-dores e leiloeiros, é essencial para garantir transparência e facilitar as interações durante os even-tos de leilão.
-Vamos implementar uma arquitetura escalável que possa lidar com um grande volume de usuários e transações durante os leilões, garantindo uma experiência fluida mesmo em momentos de alta de-manda.
-A segurança e o anonimato dos usuários também são prioridades, exigindo a implementação de medidas robustas de proteção de dados e privacidade, como criptografia e autenticação de usuário.
-Para facilitar a descoberta e participação nos leilões, serão desenvolvidas funcionalidades de con-sulta que permitam aos usuários pesquisar itens disponíveis e eventos de leilão agendados para datas específicas, além da integração de um calendário na página inicial para uma visão geral dos próximos eventos.
+Os objetivos específicos delineados para o desenvolvimento da aplicação de leilão visam abordar diferentes aspectos-chave para garantir a eficiência, segurança e comodidade tanto para os leiloei-ros quanto para os participantes.  
+Para facilitar o processo de participação nos leilões, é necessário desenvolver operações CRUD para gerenciar tanto os cartões de crédito dos usuários quanto os itens que serão leiloados. Isso inclui a capacidade de adicionar, visualizar, editar e excluir informações de cartões e produtos de forma intuitiva e segura.  
+Além disso, a integração de funcionalidades como definição de datas de leilão, início e fechamento, juntamente com sistemas de mensagens que permitam a comunicação em tempo real entre compra-dores e leiloeiros, é essencial para garantir transparência e facilitar as interações durante os even-tos de leilão.  
+Vamos implementar uma arquitetura escalável que possa lidar com um grande volume de usuários e transações durante os leilões, garantindo uma experiência fluida mesmo em momentos de alta de-manda.  
+A segurança e o anonimato dos usuários também são prioridades, exigindo a implementação de medidas robustas de proteção de dados e privacidade, como criptografia e autenticação de usuário.  
+Para facilitar a descoberta e participação nos leilões, serão desenvolvidas funcionalidades de con-sulta que permitam aos usuários pesquisar itens disponíveis e eventos de leilão agendados para datas específicas, além da integração de um calendário na página inicial para uma visão geral dos próximos eventos.  
 Finalmente, um sistema de notificação será implementado para informar os usuários sobre eventos importantes, como leilões próximos e atualizações na plataforma, enquanto as opções de realização de lances específicos e cobertura do maior lance garantirão uma competição justa e dinâmica duran-te os leilões, atendendo às necessidades e expectativas tanto dos leiloeiros quanto dos participantes.
 
 ## 1.3. Definições e Abreviaturas
@@ -123,11 +127,9 @@ Docker: Plataforma de código aberto para automação de implantação de aplica
 
 Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
 
-<a name="requisitos"></a>
+[requisitos]()
 
 # 2. Requisitos
-
-_Esta seção descreve os requisitos comtemplados nesta descrição arquitetural, divididos em dois grupos: funcionais e não funcionais._
 
 ## 2.1. Requisitos Funcionais
 
@@ -158,18 +160,21 @@ _Esta seção descreve os requisitos comtemplados nesta descrição arquitetural
 | --- | --- |
 | RNF001 | Sistema suporta cerca de 500 usuários |
 | RNF002 | Leilão disponibiliza chat em tempo real |
-| RNF003 | Sistema protege dados do usuário (qual nível de proteção???) |
-| RNF004 | Sistema notifica usuário 2 horas antes |
+| RNF003 | Sistema protege senhas do usuário criptografando-as |
+| RNF004 | Sistema notifica usuário 2 horas antes do início do leilão |
 
 ## 2.3. Restrições Arquiteturais
 
 As restrições impostas ao projeto que afetam sua arquitetura são:
-• O software deverá ser desenvolvido em Python/Django: A arquitetura do sis-tema deve ser baseada no framework Django para o desenvolvimento do backend da aplicação, aproveitando as funcionalidades e convenções ofereci-das por esse framework para agilizar o processo de desenvolvimento.
-• Utilização de Bootstrap + CSS para o frontend web: A arquitetura do frontend web deve ser desenvolvida utilizando a combinação do framework Bootstrap com CSS para a criação de interfaces de usuário responsivas e visualmente atraentes, seguindo as melhores práticas de design e usabilidade.
-• Utilização do framework Flutter para o desenvolvimento mobile: A arquitetura da aplicação móvel deve ser projetada utilizando o framework Flutter, que permite o desenvolvimento de aplicativos móveis nativos de alta qualidade pa-ra Android e iOS a partir de um único código-fonte, garantindo consistência e eficiência no desenvolvimento.
-• Hospedagem na AWS (Amazon Web Services): A arquitetura do sistema de-ve ser projetada para ser implantada e hospedada na plataforma de serviços em nuvem da AWS, aproveitando a infraestrutura escalável, confiável e segu-ra oferecida por essa plataforma.
-• Utilização de RMQ (RabbitMQ) para mensageria: A arquitetura da aplicação deve ser projetada para integrar o RMQ como sistema de mensageria, permi-tindo a comunicação síncrona e distribuída entre os diferentes componentes da aplicação, garantindo uma arquitetura robusta e escalável.
-• Utilização de Docker para contêineres: A arquitetura da aplicação deve ser projetada para utilizar o Docker para a criação, implantação e execução de contêineres, garantindo a portabilidade e a consistência do ambiente de de-senvolvimento, teste e produção.
+
+- A aplicação deve ser disponibilizada apenas no Brasil pois utiliza o sistema de pagamentos Pix.
+- O software deverá ser desenvolvido em Python/Django: A arquitetura do sistema deve ser baseada no framework Django para o desenvolvimento do backend da aplicação, aproveitando as funcionalidades e convenções oferecidas por esse framework para agilizar o processo de desenvolvimento.
+- A api deverá ser desenvolvida com a união de Django e Ninja: A arquitetura da aplicação deve ser projetada para utilizar o framework Ninja para o desenvolvimento de APIs RESTful capazes de fornecer acesso aos dados e à mensageria do sistema, garantindo uma comunicação eficiente e segura entre os diferentes componentes da aplicação.
+- Utilização de Bootstrap + CSS para o frontend web: A arquitetura do frontend web deve ser desenvolvida utilizando a combinação do framework Bootstrap com CSS para a criação de interfaces de usuário responsivas e visualmente atraentes, seguindo as melhores práticas de design e usabilidade.
+- Utilização do framework Flutter para o desenvolvimento mobile: A arquitetura da aplicação móvel deve ser projetada utilizando o framework Flutter, que permite o desenvolvimento de aplicativos móveis nativos de alta qualidade para Android e iOS a partir de um único código-fonte, garantindo consistência e eficiência no desenvolvimento.
+- Hospedagem na AWS (Amazon Web Services): A arquitetura do sistema deve ser projetada para ser implantada e hospedada na plataforma de serviços em nuvem da AWS, aproveitando a infraestrutura escalável, confiável e segura oferecida por essa plataforma.
+- Utilização de RMQ (RabbitMQ) para mensageria: A arquitetura da aplicação deve ser projetada para integrar o RMQ como sistema de mensageria, permitindo a comunicação síncrona e distribuída entre os diferentes componentes da aplicação, garantindo uma arquitetura robusta e escalável.  
+- Utilização de Docker para contêineres: A arquitetura da aplicação deve ser projetada para utilizar o Docker para a criação, implantação e execução de contêineres, garantindo a portabilidade e a consistência do ambiente de desenvolvimento, teste e produção.
 
 ## 2.4. Mecanismos Arquiteturais
 
@@ -177,25 +182,19 @@ As restrições impostas ao projeto que afetam sua arquitetura são:
 | --- | --- | --- |
 | Persistência | ORM | DjangoRM |
 | Front end | Figma | Django Template Engine e Flutter |
-| Back end | | Ninja, Django e RabbitMQ |
-| Integração | | |
-| Log do sistema | | Shell |
-| Teste de Software | | Django |
-| Deploy | | AWS |
+| Back end | MVC | Django e RabbitMQ |
+| Integração | API | Ninja |
+| Log do sistema | Shell | Bash |
+| Teste de Software | Unitário | Django |
+| Deploy | Microsserviço | AWS |
 
-<a name="modelagem"></a>
+[modelagem]()
 
 # 3. Modelagem e Projeto Arquitetural
 
 ![Visão Geral da Solução](imagens/visao.png "Visão Geral da Solução")
 
-**Figura 1 - Visão Geral da Solução (fonte: <https://medium.com>)**
-
-Obs: substitua esta imagem por outra, adequada ao seu projeto (cada arquitetura é única).
-
 ## 3.1. Visão de Negócio (Funcionalidades)
-
-_Apresente uma lista simples com as funcionalidades previstas no projeto (escopo do produto)._
 
 1. O sistema deve permitir que o leiloeiro cadastre um item para leilão.
 2. O sistema deve permitir que o leiloeiro defina o valor inicial do item.
@@ -217,8 +216,6 @@ _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo
 18. O sistema deve permitir que o comprador consulte o log do chat do leilão.
 
 ### Histórias de Usuário
-
-Exemplos de Histórias de Usuário:
 
 - Como **comprador**, eu quero **gerenciar minha conta** para que eu possa **atualizar meus dados pessoais**.
 - Como **comprador**, eu quero **gerenciar minhas formas de pagamento** para que eu possa **adicionar ou remover cartões de crédito**.
@@ -245,10 +242,6 @@ Exemplos de Histórias de Usuário:
 
 ![Diagrama de classes](imagens/classes.png "Diagrama de classes")
 
-**Figura 2 – Diagrama de classes (exemplo). Fonte: o próprio autor.**
-
-Obs: Acrescente uma breve descrição sobre o diagrama apresentado na Figura 3.
-
 ### Diagrama de componentes
 
 ![Diagrama de componentes](imagens/componentes.png "Diagrama de componentes")
@@ -262,7 +255,6 @@ Obs: Acrescente uma breve descrição sobre o diagrama apresentado na Figura 3.
 - **Leilão**: Gerencia os processos relacionados aos leilões, incluindo a criação e encerramento de leilões e recebe as atualizações de lances dos usuários.
 - **Comunicação**: Responsável pela comunicação entre o leilão e os usuários, repassando mensagens e notificações para o componente Leilão.
 - **Pagamento**: Permite inserção de chaves pix pelo vendedor e confirmação de pagamento por ambas as partes.
-- **Objeto**: Este componente pode ser responsável pela manipulação de objetos dentro da aplicação, como itens em leilão, produtos ou outros recursos. Pode incluir operações como criação, atualização, exclusão e consulta de objetos.
 
 "Servidor de Mensageria": Sistema de mensageria que permite a comunicação assíncrona entre os diferentes componentes da aplicação. Ele atua como intermediário para a troca de mensagens entre os diferentes servidores e componentes, permitindo uma arquitetura distribuída e escalável.
 
@@ -270,17 +262,13 @@ Obs: Acrescente uma breve descrição sobre o diagrama apresentado na Figura 3.
 
 "Browser Leiloeiro": Esta implantação refere-se à interface web destinada aos leiloeiros ou administradores do sistema. O componente "Interface Web" permite que os vendedores cadastrem-se e gerenciem seus produtos.
 
-**Figura 4 – Diagrama de Entidade Relacionamento (ER) - exemplo. Fonte: o próprio autor.**
-
-Obs: Acrescente uma breve descrição sobre o diagrama apresentado na Figura 3.
-
-<a name="solucao"></a>
+[solucao]()
 
 # 4. Projeto da Solução
 
 _Apresente as telas dos sistema construído com uma descrição sucinta de cada uma das interfaces._
 
-<a name="avaliacao"></a>
+[avaliacao]()
 
 # 5. Avaliação da Arquitetura
 
@@ -323,7 +311,7 @@ Evidências dos testes realizados
 
 _Apresente imagens, descreva os testes de tal forma que se comprove a realização da avaliação._
 
-<a name="referencias"></a>
+[referencias]()
 
 # 6. REFERÊNCIAS
 
@@ -343,7 +331,7 @@ Verifique no link abaixo como devem ser as referências no padrão ABNT:
 
 **[5]** - _RUSSELL, Stuart J.; NORVIG, Peter. **Inteligência artificial**. Rio de Janeiro: Elsevier, c2013. xxi, 988 p. ISBN 9788535237016._
 
-<a name="apendices"></a>
+[apendices]()
 
 # 7. APÊNDICES
 

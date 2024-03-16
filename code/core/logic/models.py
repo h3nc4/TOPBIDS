@@ -17,3 +17,16 @@
 # <https://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
+    vendor = models.BooleanField(default=False)
+    cpf = models.CharField(max_length=11, unique=True)
+    phone = models.CharField(max_length=11)
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=2)
+    zip_code = models.CharField(max_length=8)
+    is_superuser = None; is_staff = None; first_name = None; last_name = None # Herdados de AbstractUser mas sem uso
+

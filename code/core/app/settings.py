@@ -32,7 +32,7 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
-    'logic.apps.PollsConfig',
+    'logic.apps.LogicConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -89,7 +89,7 @@ EMAIL_HOST = os.getenv('EMAIL_HOST')
 
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 
-AUTH_USER_MODEL = None
+AUTH_USER_MODEL = 'logic.User'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend'

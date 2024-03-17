@@ -39,6 +39,12 @@ def cadastro(request):
     cidade = request.POST.get('cidade')
     estado = request.POST.get('estado')
     cep = request.POST.get('cep')
+    if not nome or not email or not senha or not senha2 or not cpf or not telefone or not endereco or not cidade or not estado or not cep:
+        return render(request, 'conta/cadastro.html', {'erro': 'Preencha todos os campos.', 'estados': estados})
+    if len(nome) > 50 or len(email) > 50 or len(cpf) != 11 or len(telefone) != 11 or len(endereco) > 100 or len(cidade) > 50 or len(estado) != 2 or len(cep) != 8:
+        return render(request, 'conta/cadastro.html', {'erro': 'Dados inválidos.', 'estados': estados})
+    if '@' not in email:
+        return render(request, 'conta/cadastro.html', {'erro': 'Email inválido.', 'estados': estados})
     if senha != senha2:
         return render(request, 'conta/cadastro.html', {'erro': 'As senhas não coincidem.', 'estados': estados})
     if User.objects.filter(email=email).exists():

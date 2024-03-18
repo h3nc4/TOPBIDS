@@ -30,3 +30,9 @@ class User(AbstractUser):
     zip_code = models.CharField(max_length=8)
     is_superuser = None; is_staff = None; first_name = None; last_name = None # Herdados de AbstractUser mas sem uso
 
+class Item(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    vendor = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.BinaryField()

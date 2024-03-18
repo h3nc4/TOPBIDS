@@ -24,4 +24,6 @@ urlpatterns = [
     path('cadastro/', views.cadastro, name='cadastro'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
+    path('itens/', views.itens, name='itens'),
+    path('novo_item/', views.novo_item, name='novo_item'),
 ]

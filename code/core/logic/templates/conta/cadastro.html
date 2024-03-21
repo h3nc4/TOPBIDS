@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 class="text-center">Cadastro</h1>
+  {% if erro %}
+    <div class="alert alert-danger">{{ erro }}</div>
+  {% endif %}
+  <form action="{% url 'cadastro' %}" method="post" class="col-md-6 offset-md-3">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome" required />
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" class="form-control" placeholder="Email" required />
+    </div>
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required />
+    </div>
+    <div class="form-group">
+      <label for="senha2">Confirme sua senha</label>
+      <input type="password" name="senha2" id="senha2" class="form-control" placeholder="Confirme sua senha" required />
+    </div>
+    <div class="form-group">
+      <label for="cpf">CPF</label>
+      <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF" required />
+    </div>
+    <div class="form-group">
+      <label for="telefone">Telefone</label>
+      <input type="text" name="telefone" id="telefone" class="form-control" placeholder="Telefone" required />
+    </div>
+    <div class="form-group">
+      <label for="endereco">Endereço</label>
+      <input type="text" name="endereco" id="endereco" class="form-control" placeholder="Endereço" required />
+    </div>
+    <div class="form-group">
+      <label for="cidade">Cidade</label>
+      <input type="text" name="cidade" id="cidade" class="form-control" placeholder="Cidade" required />
+    </div>
+    <div class="form-group">
+      <label for="estado">Estado</label>
+      <select name="estado" id="estado" class="form-control" required>
+        <option value="">Selecione um estado</option>
+        {% for estado in estados %}
+          <option value="{{ estado }}">{{ estado }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="cep">CEP</label>
+      <input type="text" name="cep" id="cep" class="form-control" placeholder="CEP" required />
+    </div>
+    <input type="submit" value="Cadastrar" class="btn btn-primary mt-3" />
+  </form>
+{% endblock %}

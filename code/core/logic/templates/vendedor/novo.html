@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container">
+    <h1 class="text-center">Cadastro de Item</h1>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        {% if erro %}
+          <div class="alert alert-danger">{{ erro }}</div>
+        {% endif %}
+        <form action="{% url 'novo_item' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome" required />
+          </div>
+          <div class="form-group">
+            <label for="descricao">Descrição</label>
+            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="preco">Preço</label>
+            <input type="text" name="preco" id="preco" class="form-control" placeholder="Preço" required />
+          </div>
+          <div class="form-group">
+            <label for="imagem">Imagem</label>
+            <input type="file" name="imagem" id="imagem" class="form-control-file" required />
+          </div>
+          <input type="submit" value="Cadastrar" class="btn btn-primary mt-3" />
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

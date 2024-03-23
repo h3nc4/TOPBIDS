@@ -20,6 +20,7 @@ from django.shortcuts import render
 from .models import *
 from django.contrib.auth import authenticate, logout as logoff, login as logon
 from django.contrib.auth.hashers import make_password
+from django.shortcuts import redirect
 
 estados = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG',
            'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO']
@@ -97,8 +98,10 @@ def novo_item(request):
         return render(request, 'vendedor/novo.html', {'erro': 'Nome ou descrição muito longos.'})
     if len(imagem) > 10485760:
         return render(request, 'vendedor/novo.html', {'erro': 'Imagem muito grande.'})
-    Item.objects.create(name=nome, description=descricao, price=preco, image=imagem.read(), vendor=User.objects.get(id=request.user.id))
-    return render(request, 'index.html')
+    Item.objects.create(name=nome, description=descricao, price=preco,
+                        image=imagem.read(), vendor=User.objects.get(id=request.user.id))
+    return redirect('itens')
+
 
 def itens(request):
     return render(request, 'vendedor/itens.html', {'itens': User.objects.get(id=request.user.id).item_set.all()})

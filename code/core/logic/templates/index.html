@@ -4,6 +4,7 @@
     <h1 class="display-4">Bem vindo ao TopBids</h1>
     {% if user.is_authenticated %}
     <p>Você está logado como {{ user.username }}.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'itens' %}" role="button">Ver Itens</a>
     <!-- Área de usuário não logado -->
     {% else %}
     <p class="lead">Você não está logado.</p>

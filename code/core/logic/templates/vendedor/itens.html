@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+  <div class="container">
+    <h1 class="text-center">Itens Disponíveis</h1>
+    <div class="row">
+      {% for item in itens %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="data:image/png;base64,{{ item.image|b64encode }}" class="card-img-top" alt="{{ item.name }}" />
+            <div class="card-body">
+              <h5 class="card-title">{{ item.name }}</h5>
+              <p class="card-text">{{ item.description }}</p>
+              <p class="card-text">Preço: R$ {{ item.price }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <!-- botão para novo item -->
+    <div class="text-center">
+      <a href="{% url 'novo_item' %}" class="btn btn-primary">Novo Item</a>
+    </div>
+  </div>
+{% endblock %}

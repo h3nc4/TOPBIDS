@@ -72,3 +72,8 @@ docker run -d -p 5432:5432 --name postgres -e POSTGRES_USER=user -e POSTGRES_PAS
 python3 code/core/manage.py runserver
 ```
 
+## Gerar modelo ER
+
+```bash
+./scripts/db.sh
+```

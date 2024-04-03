@@ -153,6 +153,7 @@ Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
 | RF016 | Sistema notifica início de leilão para os usuários que o marcaram | ESSENCIAL | web/mobile |
 | RF017 | Usuário consulta histórico de lances | ESSENCIAL | web/mobile |
 | RF018 | Comprador consulta log do chat do leilão | ESSENCIAL | web/mobile |
+| RF019 | Leiloeiro gerencia conta | ESSENCIAL | web/mobile |
 
 ## 2.2. Requisitos Não-Funcionais
 

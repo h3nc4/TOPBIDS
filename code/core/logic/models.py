@@ -38,7 +38,7 @@ class Item(models.Model):
     image = models.BinaryField()
 
 class Auction(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, unique=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
     date_and_time = models.DateTimeField()
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     current_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)

@@ -18,6 +18,7 @@
 
 from ..models import *
 from django.shortcuts import redirect, render
+from datetime import datetime
 
 
 def index(request):
@@ -31,6 +32,7 @@ def novo_item(request):
     descricao = request.POST.get('descricao')
     preco = request.POST.get('preco')
     imagem = request.FILES.get('imagem')
+    data = request.POST.get('data')
     if imagem is None:
         return render(request, 'vendedor/novo.html', {'erro': 'Selecione uma imagem.'})
     if not nome or not descricao or not preco:
@@ -44,10 +46,21 @@ def novo_item(request):
         return render(request, 'vendedor/novo.html', {'erro': 'Preço inválido.'})
     if len(nome) > 50 or len(descricao) > 1000:
         return render(request, 'vendedor/novo.html', {'erro': 'Nome ou descrição muito longos.'})
-    if len(imagem) > 10485760:
+    if imagem.size > 10485760:
         return render(request, 'vendedor/novo.html', {'erro': 'Imagem muito grande.'})
-    Item.objects.create(name=nome, description=descricao, price=preco,
-                        image=imagem.read(), vendor=User.objects.get(id=request.user.id))
+    if not data:
+        return render(request, 'vendedor/novo.html', {'erro': 'Selecione uma data. Não se preocupe, você poderá alterá-la depois.'})
+    try:
+        data_hora = datetime.strptime(data, '%Y-%m-%dT%H:%M')
+    except ValueError:
+        return render(request, 'vendedor/novo.html', {'erro': 'Formato de data e hora inválido.'})
+    Auction.objects.create(
+        item=Item.objects.create(name=nome, description=descricao,
+                                 price=preco, image=imagem.read(),
+                                 vendor=User.objects.get(id=request.user.id)),
+        date_and_time=data_hora,
+        starting_price=preco
+    )
     return redirect('itens')
 
 

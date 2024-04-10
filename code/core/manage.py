@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
 #  Copyright 2024 TopBids
 # 
 # This file is part of TopBids.

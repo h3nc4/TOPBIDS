@@ -36,3 +36,11 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     vendor = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.BinaryField()
+
+class Auction(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, unique=True)
+    date_and_time = models.DateTimeField()
+    starting_price = models.DecimalField(max_digits=10, decimal_places=2)
+    current_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
+    buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
+    status = models.CharField(max_length=1, choices=[('P', 'Planned'), ('O', 'Ongoing'), ('F', 'Finished'), ('C', 'Cancelled')], default='P')

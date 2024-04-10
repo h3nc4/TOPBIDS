@@ -4,4 +4,45 @@
 __pycache__
 00*.py
 favicon.ico
-*tar.gz
+
+# Miscellaneous
+*.gz
+*.zip
+*.log
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# Flutter/Dart/Pub
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+build/
+app.*.symbols
+app.*.map.json
+
+# Android
+gradle-wrapper.jar
+.gradle
+captures/
+gradlew
+gradlew.bat
+local.properties
+GeneratedPluginRegistrant.java
+key.properties
+**/*.keystore
+**/*.jks
+android/app/debug
+android/app/profile
+android/app/release

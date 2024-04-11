@@ -59,9 +59,81 @@ def cadastro(request):
         return render(request, 'conta/cadastro.html', {'erro': 'As senhas não coincidem.', 'estados': estados})
     if User.objects.filter(email=email).exists():
         return render(request, 'conta/cadastro.html', {'erro': 'Este email já está cadastrado.', 'estados': estados})
-    logon(request, User.objects.create(username=nome, email=email, password=make_password(
-        senha), cpf=cpf, phone=telefone, address=endereco, city=cidade, state=estado, zip_code=cep))
-    return render(request, 'index.html')
+    usr = User.objects.create(username=nome, email=email, password=make_password(
+        senha), cpf=cpf, phone=telefone, address=endereco, city=cidade, state=estado, zip_code=cep)
+    usr.is_active = False
+    usr.save()
+    return ativar_conta(request, usr, email)
+
+
+def ativar_conta(request, usr, email):  # Ativação de conta
+    mail("Ative sua conta", "email/ativacao.html", {
+        'user': usr.username,
+        "protocolo": 'https' if request.is_secure() else 'http',
+        'dominio': get_current_site(request).domain,
+        'uid': urlsafe_base64_encode(force_bytes(usr.pk)),
+        'token': account_activation_token.make_token(usr),
+    }, email)
+    return render(request, 'conta/ativar_conta.html')
+
+
+# Ativação de conta após o usuário clicar no link enviado por email
+def efetuar_ativacao(request, uidb64, token):
+    try:
+        user = get_object_or_404(
+            User, pk=force_str(urlsafe_base64_decode(uidb64)))
+    except:
+        return render(request, 'conta/ativar_conta.html', {'erro': 'Usuário não encontrado.'})
+    if account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return render(request, 'conta/ativar_conta.html', {'sucesso': True})
+    return render(request, 'conta/ativar_conta.html', {'erro': 'Token inválido.'})
+
+
+# Redefine a senha de um usuário e o redireciona para a página inicial
+def redefinir_senha(request, uidb64, token):
+    # Verifica se o token é válido e se o usuário existe
+    try:
+        user = get_object_or_404(
+            User, pk=force_str(urlsafe_base64_decode(uidb64)))
+    except:
+        return render(request, 'conta/redefinir_senha.html', {'erro': 'Usuário não encontrado.'})
+    if request.method != 'POST':
+        if account_activation_token.check_token(user, token):
+            return render(request, 'conta/redefinir_senha.html', {'uidb64': uidb64, 'token': token})
+        else:  # Se o token não for válido, ou o usuário não existir, retorna um erro
+            return render(request, 'conta/redefinir_senha.html', {'erro': 'Token inválido.'})
+    # Se o método for POST, a senha do usuário é redefinida
+    senha_crua = request.POST.get('senha')
+    if not senha_crua:
+        return render(request, 'conta/redefinir_senha.html', {'erro': 'Preencha todos os campos.'})
+    user.password = make_password(senha_crua)
+    user.save()
+    return render(request, 'conta/redefinir_senha.html', {'sucesso': True})
+
+
+# Página de redefinição de senha, recebe o email do usuário e manda um email de redefinição
+def recuperar_senha(request):
+    if request.method != 'POST':
+        return render(request, 'conta/recuperar_senha.html')
+    email = request.POST.get('email')
+    if not email:
+        return render(request, 'conta/recuperar_senha.html', {'erro': 'Preencha todos os campos.'})
+    try:
+        user = User.objects.get(email=email)
+    except:
+        user = None
+    if user is None:
+        return render(request, 'conta/recuperar_senha.html', {'erro': 'Usuário não encontrado.'})
+    mail("Redefinição de senha", "email/redefinir_senha.html", {
+        'user': user.username,
+        "protocolo": 'https' if request.is_secure() else 'http',
+        'dominio': get_current_site(request).domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+    }, email)
+    return render(request, 'conta/recuperar_senha.html', {'sucesso': True})
 
 
 def login(request):
@@ -72,7 +144,7 @@ def login(request):
     user = authenticate(request, username=usuario, password=senha) or authenticate(
         request, email=usuario, password=senha)
     if user is None:
-        return render(request, 'conta/login.html', {'erro': 'Login ou senha incorretos.'})
+        return render(request, 'conta/login.html', {'erro': 'Login ou senha incorretos ou conta não ativada.'})
     logon(request, user)
     return render(request, 'index.html')
 

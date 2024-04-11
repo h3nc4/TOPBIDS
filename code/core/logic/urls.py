@@ -17,7 +17,7 @@
 # <https://www.gnu.org/licenses/>.
 
 from django.urls import path
-from . import views
+from .controllers import views, auth
 from ninja import NinjaAPI
 from .api import api_router
 
@@ -27,9 +27,13 @@ api.add_router('', api_router)
 urlpatterns = [
     path('api/', api.urls),
     path('', views.index, name='index'),
-    path('cadastro/', views.cadastro, name='cadastro'),
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout, name='logout'),
+    path('cadastro/', auth.cadastro, name='cadastro'),
+    path('login/', auth.login, name='login'),
+    path('logout/', auth.logout, name='logout'),
+    path('ativar_conta/', auth.ativar_conta, name='ativar_conta'),
+    path('efetuar_ativacao/<uidb64>/<token>', auth.efetuar_ativacao, name='efetuar_ativacao'),
+    path('recuperar_senha/', auth.recuperar_senha, name='recuperar_senha'),
+    path('redefinir_senha/<uidb64>/<token>', auth.redefinir_senha, name='redefinir_senha'),
     path('itens/', views.itens, name='itens'),
     path('novo_item/', views.novo_item, name='novo_item'),
 ]

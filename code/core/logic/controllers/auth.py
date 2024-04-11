@@ -20,7 +20,7 @@ from ..models import *
 from ..utils import mail, account_activation_token
 from django.contrib.auth import authenticate, logout as logoff, login as logon
 from django.contrib.auth.hashers import make_password
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
@@ -61,6 +61,9 @@ def cadastro(request):
         return render(request, 'conta/cadastro.html', {'erro': 'Este email já está cadastrado.', 'estados': estados})
     usr = User.objects.create(username=nome, email=email, password=make_password(
         senha), cpf=cpf, phone=telefone, address=endereco, city=cidade, state=estado, zip_code=cep)
+    if not Configs.objects.first().emails:
+        logon(request, usr)
+        return redirect('/')
     usr.is_active = False
     usr.save()
     return ativar_conta(request, usr, email)
@@ -138,7 +141,7 @@ def recuperar_senha(request):
 
 def login(request):
     if request.method != 'POST':
-        return render(request, 'conta/login.html')
+        return render(request, 'conta/login.html', {'emails': Configs.objects.first().emails})
     usuario = request.POST.get('usuario')
     senha = request.POST.get('senha')
     user = authenticate(request, username=usuario, password=senha) or authenticate(

@@ -1,31 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
+  <h1 class="text-center">Cadastro de Leilão</h1>
   <div class="container">
-    <h1 class="text-center">Cadastro de Item</h1>
     <div class="row justify-content-center">
-      <div class="col-md-6">
+      <div class="col-md-8 rowCriarLeilao">
         {% if erro %}
           <div class="alert alert-danger">{{ erro }}</div>
         {% endif %}
         <form action="{% url 'novo_item' %}" method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="nome">Nome</label>
-            <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome" required />
+          <div class="row justify-content-center">
+            <div class="col-md-12">
+              {% csrf_token %}
+              <div class="form-group">
+                <div class="file-input-container">
+                  <label for="imagem" class="file-input-label">
+                    <img id="imagem-preview" src="#" alt="Preview da Imagem" style="display: none;" />
+                    <span id="select-image-text">Selecionar Imagem</span>
+                  </label>
+                  <input type="file" name="imagem" id="imagem" class="form-control-file" required onchange="previewImage(event)" />
+                </div>
+              </div>
+            </div>
+            <div class="col m-2">
+              <div class="form-group">
+                <label for="nome">Título do Leilão</label>
+                <input type="text" name="nome" id="nome" class="form-control inputNovoItem" required />
+              </div>
+              <div class="form-group">
+                <label for="preco">Preço do item</label>
+                <input type="text" name="preco" id="preco" class="form-control inputNovoItem" required />
+              </div>
+              <div class="form-group">
+                <label for="data">Data</label>
+                <input type="datetime-local" name="data" id="data" class="form-control inputNovoItem" required />
+              </div>
+            </div>
+            <div class="col m-2">
+              <div class="form-group">
+                <label for="descricao">Descrição do item</label>
+                <textarea name="descricao" id="descricao" class="form-control inputNovoItem" rows="9" required></textarea>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="descricao">Descrição</label>
-            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição" required></textarea>
+          <div class="form-group text-center mt-0 mb-0">
+            <input type="submit" value="SALVAR" class="btn btn-primary mr-5 slvrBtn" />
+            <a href="{% url 'itens' %}" class="btn btn-secondary ml-5 cancBtn">CANCELAR</a>
           </div>
-          <div class="form-group">
-            <label for="preco">Preço</label>
-            <input type="text" name="preco" id="preco" class="form-control" placeholder="Preço" required />
-          </div>
-          <div class="form-group">
-            <label for="imagem">Imagem</label>
-            <input type="file" name="imagem" id="imagem" class="form-control-file" required />
-          </div>
-          <input type="submit" value="Cadastrar" class="btn btn-primary mt-3" />
         </form>
       </div>
     </div>

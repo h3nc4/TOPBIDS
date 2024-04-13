@@ -1,16 +1,25 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<div class="jumbotron">
-    <h1 class="display-4">Bem vindo ao TopBids</h1>
-    {% if user.is_authenticated %}
-    <p>Você está logado como {{ user.username }}.</p>
-    <a class="btn btn-primary btn-lg" href="{% url 'itens' %}" role="button">Ver Itens</a>
-    <!-- Área de usuário não logado -->
-    {% else %}
-    <p class="lead">Você não está logado.</p>
-    <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Log In</a>
-    <p class="mt-4">Não tem uma conta?</p>
-    <a class="btn btn-success btn-lg" href="{% url 'cadastro' %}" role="button">Criar</a>
-    {% endif %}
-</div>
+  <div class="jumbotron">
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="display-5">Seu site de leilões</h2>
+        <p class="lead mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium arcu vitae tortor gravida, vel commodo elit efficitur. Vivamus vulputate fringilla tellus non vestibulum. Quisque vehicula, felis eget fermentum consectetur, nisi ipsum tincidunt dui, a fermentum risus ipsum ac est. Nulla facilisi. Donec nec aliquet libero. Ut ut tortor condimentum, vehicula nisl ut, efficitur velit. Curabitur nec magna euismod, dignissim felis a, rhoncus ipsum. Duis gravida, nulla at tristique tincidunt, lorem mi aliquet ligula, id molestie justo arcu non ligula. Proin malesuada velit nec tellus hendrerit, eu lacinia enim convallis. Ut congue, nulla et dictum lobortis, libero est tincidunt sem, a vulputate urna odio sit amet arcu. Nulla at sapien nec libero lobortis efficitur et ac leo.</p>
+      </div>
+      <div class="col-md-6 mt-4">
+        <img src="{% static 'img/photo.jpg' %}" alt="Photo" class="img-fluid bigImg" />
+      </div>
+    </div>
+    <div class="row ml-3 mt-n5">
+      <div class="col-md-6">
+        <h2 class="display-5">Leiloeiro e Comprador</h2>
+        <p class="lead mr-4 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium arcu vitae tortor gravida, vel commodo elit efficitur. Vivamus vulputate fringilla tellus non vestibulum. Quisque vehicula, felis eget fermentum consectetur, nisi ipsum tincidunt dui, a fermentum risus ipsum ac est. Nulla facilisi. Donec nec aliquet libero. Ut ut tortor condimentum, vehicula nisl ut, efficitur velit. Curabitur nec magna euismod, dignissim felis a, rhoncus ipsum. Duis gravida, nulla at tristique tincidunt, lorem mi aliquet ligula, id molestie justo arcu non ligula.</p>
+      </div>
+      <div class="col-md-6 mt-4">
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium arcu vitae tortor gravida, vel commodo elit efficitur. Vivamus vulputate fringilla tellus non vestibulum. Quisque vehicula, felis eget fermentum consectetur, nisi ipsum tincidunt dui, a fermentum risus ipsum ac est. Nulla facilisi. Donec nec aliquet libero. Ut ut tortor condimentum, vehicula nisl ut, efficitur velit. Curabitur nec magna euismod, dignissim felis a, rhoncus ipsum. Duis gravida, nulla at tristique tincidunt, lorem mi aliquet ligula, id molestie justo arcu non ligula.</p>
+      </div>
+    </div>
+  </div>
 {% endblock %}

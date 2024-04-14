@@ -65,4 +65,14 @@ def novo_item(request):
 
 
 def itens(request):
-    return render(request, 'vendedor/itens.html', {'itens': User.objects.get(id=request.user.id).item_set.all()})
+    items = []
+    for auction in Auction.objects.filter(item__vendor=request.user).exclude(status='C'):
+        items.append({
+            'name': auction.item.name,
+            'description': auction.item.description,
+            'price': auction.item.price,
+            'image': auction.item.image,
+            'date': auction.date_and_time,
+            'status': auction.status
+        })
+    return render(request, 'vendedor/itens.html', { 'itens': items })

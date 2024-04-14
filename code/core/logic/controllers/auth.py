@@ -144,8 +144,7 @@ def login(request):
         return render(request, 'conta/login.html', {'emails': Configs.objects.first().emails})
     usuario = request.POST.get('usuario')
     senha = request.POST.get('senha')
-    user = authenticate(request, username=usuario, password=senha) or authenticate(
-        request, email=usuario, password=senha)
+    user = authenticate(request, username=usuario, password=senha)
     if user is None:
         return render(request, 'conta/login.html', {'erro': 'Login ou senha incorretos ou conta não ativada.'})
     logon(request, user)

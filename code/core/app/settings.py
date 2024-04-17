@@ -20,18 +20,18 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR=Path(__file__).resolve().parent.parent
 
 if not load_dotenv():
     print('No .env file found')
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-ds45545gpp39)+kydou*#=fhp!3^y+06p)8d%@mn4@x0u(!(ih')
+SECRET_KEY=os.getenv('SECRET_KEY', 'django-insecure-ds45545gpp39)+kydou*#=fhp!3^y+06p)8d%@mn4@x0u(!(ih')
 
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG=os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS=['localhost', '127.0.0.1']
 
-INSTALLED_APPS = [
+INSTALLED_APPS=[
     'logic.apps.LogicConfig',
     'django_extensions',
     'django.contrib.admin',
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE=[
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,9 +52,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'logic.urls'
+ROOT_URLCONF='logic.urls'
 
-TEMPLATES = [
+TEMPLATES=[
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-DATABASES = {
+DATABASES={
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DATABASE_NAME'),
@@ -81,22 +81,22 @@ DATABASES = {
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = 'True'
-EMAIL_HOST_USER = os.getenv('EMAIL_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
-EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_PORT=587
+EMAIL_USE_TLS='True'
+EMAIL_HOST_USER=os.getenv('EMAIL_USER')
+EMAIL_HOST_PASSWORD=os.getenv('EMAIL_PASSWORD')
+EMAIL_HOST=os.getenv('EMAIL_HOST')
 
-PASSWORD_RESET_TIMEOUT_DAYS = 1
+PASSWORD_RESET_TIMEOUT_DAYS=1
 
-AUTH_USER_MODEL = 'logic.User'
+AUTH_USER_MODEL='logic.User'
 
-AUTHENTICATION_BACKENDS = [
+AUTHENTICATION_BACKENDS=[
     'django.contrib.auth.backends.ModelBackend'
 ]
 
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS=[
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
@@ -114,22 +114,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-PASSWORD_HASHERS = ["django.contrib.auth.hashers.PBKDF2PasswordHasher"]
+PASSWORD_HASHERS=["django.contrib.auth.hashers.PBKDF2PasswordHasher"]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE='en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE='UTC'
 
-USE_I18N = True
+USE_I18N=True
 
-USE_TZ = True
+USE_TZ=True
 
-STATIC_URL = 'static/'
+STATIC_URL='static/'
 
-STATICFILES_DIRS = [
+STATICFILES_DIRS=[
     os.path.join(BASE_DIR, 'static'),
 ]
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
 
-WSGI_APPLICATION = 'app.wsgi.application'
+WSGI_APPLICATION='app.wsgi.application'
+

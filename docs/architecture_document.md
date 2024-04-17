@@ -81,8 +81,6 @@ O objetivo do projeto é desenvolver uma aplicação na área de leilão, para p
 
 7. [Apêndices](#7-apêndices "Apêndices")
 
-[apresentacao]()
-
 # 1. Apresentação
 
 Os leilões são eventos que têm sido uma parte significativa do comércio e troca de bens há séculos. No contexto atual, onde a digitalização e a conveniência são valorizadas, a transição para platafor-mas online para conduzir leilões se tornou uma tendência crescente. Esta iniciativa visa capitalizar essa tendência, proporcionando uma plataforma robusta e intuitiva para a realização de leilões onli-ne.  
@@ -127,33 +125,30 @@ Docker: Plataforma de código aberto para automação de implantação de aplica
 
 Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
 
-[requisitos]()
-
 # 2. Requisitos
 
 ## 2.1. Requisitos Funcionais
 
 | **ID** | **Descrição** | **Prioridade** | **Plataforma** |
 | --- | --- | --- | --- |
-| RF001 | Comprador gerencia conta | ESSENCIAL | web/mobile |
-| RF002 | Comprador gerencia formas de pagamento | ESSENCIAL | web/mobile |
-| RF003 | Leiloeiro gerencia item para leilão | ESSENCIAL | web/mobile |
-| RF004 | Leiloeiro gerencia leilão | ESSENCIAL | web/mobile |
-| RF005 | Leiloeiro gerencia data do leilão | ESSENCIAL | web/mobile |
-| RF006 | Usuário consulta calendário de leilões marcados | ESSENCIAL | web/mobile |
-| RF007 | Usuário pesquisa item | ESSENCIAL | web/mobile |
-| RF008 | Usuário consulta calendário na land page | ESSENCIAL | web/mobile |
-| RF009 | Leiloeiro define valor inicial do item | ESSENCIAL | web/mobile |
-| RF010 | Leiloeiro define o valor mínimo/máximo que o lance deve ser | ESSENCIAL | web/mobile |
-| RF011 | Usuário manda mensagem para outro usuário | ESSENCIAL | web/mobile |
-| RF012 | Comprador manda mensagem para o leiloeiro após ganhar | ESSENCIAL | web/mobile |
-| RF013 | Leiloeiro define tempo de espera máximo para lance, antes finalizar o leilão  | ESSENCIAL | web/mobile |
-| RF014 | Sistema valida item | ESSENCIAL | web/mobile |
-| RF015 | Usuário marca leilão que quer participar para receber notificação | ESSENCIAL | web/mobile |
-| RF016 | Sistema notifica início de leilão para os usuários que o marcaram | ESSENCIAL | web/mobile |
-| RF017 | Usuário consulta histórico de lances | ESSENCIAL | web/mobile |
-| RF018 | Comprador consulta log do chat do leilão | ESSENCIAL | web/mobile |
-| RF019 | Leiloeiro gerencia conta | ESSENCIAL | web/mobile |
+| RF001 | Comprador gerencia conta | ESSENCIAL | web |
+| RF002 | Leiloeiro gerencia item para leilão | ESSENCIAL | web |
+| RF003 | Leiloeiro gerencia leilão | ESSENCIAL | web |
+| RF004 | Leiloeiro gerencia data do leilão | ESSENCIAL | web |
+| RF005 | Usuário consulta calendário de leilões marcados | ESSENCIAL | mobile |
+| RF006 | Usuário pesquisa item | ESSENCIAL | mobile |
+| RF007 | Usuário entra em leilão | ESSENCIAL | mobile |
+| RF008 | Usuário lança bids | ESSENCIAL | mobile |
+| RF009 | Usuário consulta calendário na land page | ALTO | mobile |
+| RF010 | Leiloeiro define valor inicial do item | ALTO | web |
+| RF011 | Leiloeiro define o valor mínimo que o lance deve ser | ALTO | web |
+| RF012 | Comprador envia pix para o leiloeiro após ganhar | ALTO | mobile |
+| RF013 | Usuário manda mensagem para outro usuário | BAIXO | mobile |
+| RF014 | Sistema valida item | BAIXO | web |
+| RF015 | Usuário marca leilão que quer participar para receber notificação | BAIXO | mobile |
+| RF016 | Sistema notifica início de leilão para os usuários que o marcaram | BAIXO | mobile |
+| RF017 | Usuário consulta histórico de lances | BAIXO | mobile |
+| RF018 | Leiloeiro gerencia conta | BAIXO | web |
 
 ## 2.2. Requisitos Não-Funcionais
 
@@ -161,7 +156,7 @@ Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
 | --- | --- |
 | RNF001 | Sistema suporta cerca de 500 usuários |
 | RNF002 | Leilão disponibiliza chat em tempo real |
-| RNF003 | Sistema protege senhas do usuário criptografando-as |
+| RNF003 | Sistema protege senhas do usuário criptografando-as utilizando algoritmo Argon2 |
 | RNF004 | Sistema notifica usuário 2 horas antes do início do leilão |
 
 ## 2.3. Restrições Arquiteturais
@@ -188,8 +183,6 @@ As restrições impostas ao projeto que afetam sua arquitetura são:
 | Log do sistema | Shell | Bash |
 | Teste de Software | Unitário | Django |
 | Deploy | Microsserviço | AWS |
-
-[modelagem]()
 
 # 3. Modelagem e Projeto Arquitetural
 
@@ -243,7 +236,7 @@ As restrições impostas ao projeto que afetam sua arquitetura são:
 
 ![Diagrama de classes](imagens/classes.png "Diagrama de classes")
 
-### Diagrama de componentes
+### Diagrama de componentes/arquitetura
 
 ![Diagrama de componentes](imagens/componentes.png "Diagrama de componentes")
 
@@ -263,13 +256,9 @@ As restrições impostas ao projeto que afetam sua arquitetura são:
 
 "Browser Leiloeiro": Esta implantação refere-se à interface web destinada aos leiloeiros ou administradores do sistema. O componente "Interface Web" permite que os vendedores cadastrem-se e gerenciem seus produtos.
 
-[solucao]()
-
 # 4. Projeto da Solução
 
 _Apresente as telas dos sistema construído com uma descrição sucinta de cada uma das interfaces._
-
-[avaliacao]()
 
 # 5. Avaliação da Arquitetura
 
@@ -312,8 +301,6 @@ Evidências dos testes realizados
 
 _Apresente imagens, descreva os testes de tal forma que se comprove a realização da avaliação._
 
-[referencias]()
-
 # 6. REFERÊNCIAS
 
 _Como um projeto da arquitetura de uma aplicação não requer revisão bibliográfica, a inclusão das referências não é obrigatória. No entanto, caso você deseje incluir referências relacionadas às tecnologias, padrões, ou metodologias que serão usadas no seu trabalho, relacione-as de acordo com a ABNT._
@@ -331,8 +318,6 @@ Verifique no link abaixo como devem ser as referências no padrão ABNT:
 **[4]** - _SUTHERLAND, Jeffrey Victor. **Scrum: a arte de fazer o dobro do trabalho na metade do tempo**. 2. ed. rev. São Paulo, SP: Leya, 2016. 236, [4] p. ISBN 9788544104514._
 
 **[5]** - _RUSSELL, Stuart J.; NORVIG, Peter. **Inteligência artificial**. Rio de Janeiro: Elsevier, c2013. xxi, 988 p. ISBN 9788535237016._
-
-[apendices]()
 
 # 7. APÊNDICES
 

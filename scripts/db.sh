@@ -3,4 +3,4 @@
 # Check if venv is activated, activate if not
 [ -z "$VIRTUAL_ENV" ] && source .venv/bin/activate
 
-python3 code/core/manage.py graph_models logic | dot -Tpng -o ./docs/imagens/Modelo-ER.png
+code/core/manage.py graph_models logic | dot -Tpng -o ./docs/imagens/Modelo-ER.png

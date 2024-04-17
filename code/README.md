@@ -57,8 +57,8 @@ DATABASES = {
     source .venv/bin/activate
     pip install -U pip wheel setuptools
     pip install -r code/core/requirements.txt
-    python3 code/core/manage.py makemigrations
-    python3 code/core/manage.py migrate
+    code/core/manage.py makemigrations
+    code/core/manage.py migrate
     ```
 
 Use `deactivate` para sair do ambiente virtual.
@@ -69,11 +69,20 @@ Use `source .venv/bin/activate` antes de executar qualquer dos seguintes comando
 
 ```bash
 docker run -d -p 5432:5432 --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=senha postgres
-python3 code/core/manage.py runserver
+code/core/manage.py runserver
 ```
 
 ## Gerar modelo ER
 
 ```bash
-./scripts/db.sh
+scripts/db.sh
+```
+
+## Atualização de dependências
+
+Este script atualiza as dependências do projeto e gera um arquivo requirements.txt atualizado.
+Em caso de atualização de dependências, um arquivo de backup é criado.
+
+```bash
+scripts/upgrade-core.sh
 ```

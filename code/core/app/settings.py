@@ -29,11 +29,12 @@ SECRET_KEY=os.getenv('SECRET_KEY', 'django-insecure-ds45545gpp39)+kydou*#=fhp!3^
 
 DEBUG=os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS=['localhost', '127.0.0.1']
+ALLOWED_HOSTS=['*']
 
 INSTALLED_APPS=[
     'logic.apps.LogicConfig',
     'django_extensions',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +44,7 @@ INSTALLED_APPS=[
 ]
 
 MIDDLEWARE=[
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,6 +52,10 @@ MIDDLEWARE=[
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS=[
+    'http://localhost:8081',
 ]
 
 ROOT_URLCONF='logic.urls'
@@ -133,4 +139,3 @@ STATICFILES_DIRS=[
 DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
 
 WSGI_APPLICATION='app.wsgi.application'
-

@@ -1,0 +1,4 @@
+const MASTER_URL = '';
+const API_URL = `${MASTER_URL}:port/api`;
+
+export { API_URL };

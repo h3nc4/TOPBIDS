@@ -26,6 +26,19 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 8,
     },
+    searchContainer: {
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        marginBottom: 8,
+        borderRadius: 8,
+    },
+    searchInput: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 16,
+    },
 });
 
 export default styles;

@@ -2,22 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { FlatList, View, Text, Image } from 'react-native';
 import Header from './components/Header';
 import styles from './styles/styles';
-import { fetchItems } from './api/itemsApi';
+import { fetchData } from './utils/dataFetching';
 
 export default function App() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    fetchData().then(data => setItems(data));
   }, []);
-
-  const fetchData = async () => {
-    try {
-      setItems(await fetchItems());
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
 
   const renderItem = ({ item }) => {
     return (

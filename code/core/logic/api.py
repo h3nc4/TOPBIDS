@@ -17,18 +17,19 @@
 # <https://www.gnu.org/licenses/>.
 
 from django.http import JsonResponse
-from django.db.models import Max
 from ninja import Router
 from ninja import Schema
 from .models import *
 from typing import List
 import base64
+import json
 
 
 api_router = Router()
 
 
 class ItemSchema(Schema):
+    id: int
     name: str
     description: str
     price: float
@@ -42,26 +43,31 @@ def status(request):
     return JsonResponse({"status": "ok"})
 
 
-@api_router.get("/items/", response=List[ItemSchema])
-def get_items(request):
-    items = Item.objects.filter(
-        auction__status__in=['P', 'O']).distinct().order_by('auction__date_and_time')
+def get_selected_items(items):
     response_data = []
     for item in items:
-        latest_auction = Auction.objects.filter(item=item, status__in=['P', 'O']).aggregate(
-            Max('date_and_time'))['date_and_time__max']
-        auction_date = latest_auction.strftime(
-            '%Y-%m-%d %H:%M:%S') if latest_auction else None
-        if not auction_date:
+        latest_auction = Auction.objects.filter(item=item, status__in=['P', 'O']).first()
+        if not latest_auction:
             continue
-
         item_data = {
+            "id": item.id,
             "name": item.name,
             "description": item.description,
             "price": item.price,
             "vendor": item.vendor.username,
-            "date": auction_date,
+            "date": latest_auction.date_and_time.strftime('%Y-%m-%d %H:%M:%S'),
             "image": base64.b64encode(item.image).decode('utf-8'),
         }
         response_data.append(item_data)
     return response_data
+
+
+@api_router.get("/items/", response=List[ItemSchema])
+def get_items(request):
+    return get_selected_items(Item.objects.all())
+
+
+@api_router.post("/items/update/", response=List[ItemSchema])
+def update_items(request):
+    ids = json.loads(request.body.decode("utf-8")).get('ids', [])
+    return get_selected_items(Item.objects.exclude(id__in=ids))

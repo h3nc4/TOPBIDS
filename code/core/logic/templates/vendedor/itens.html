@@ -1,57 +1,34 @@
 {% extends 'base.html' %}
-{% load custom_filters %}
 {% block content %}
-  <div class="container containerItensLeilao">
+<div class="container containerItensLeilao">
     <div class="row justify-content-center mt-5">
-      <div class="col m-3">
-        <h6 class="text-center mb-4">EM ANDAMENTO</h6>
-        <div class="row py-5 rowLeilao">
-          {% if itens %}
-            {% for item in itens %}
-              <div class="col-md-12 mb-4">
-                <div class="card cardLeilao">
-                  <img src="data:image/png;base64,{{ item.image|b64encode }}" class="card-img-top" alt="{{ item.name }}" />
-                  <div class="card-body">
-                    <h5 class="card-title cardTitleItem">{{ item.name }}</h5>
-                    <p class="card-text">{{ item.description }}</p>
-                    <p class="card-text">Preço: R$ {{ item.price }}</p>
-                    <p class="card-text">Data: {{ item.date|date:'d/m/Y H:i' }}</p>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
-          {% else %}
-            <div class="col-md-12 py-5 my-5">
-              <div class="card-body bodyLeilao">
-                <h6 class="card-title titleItems">Lista de leilões <br /> com data</h6>
-              </div>
+        {% if erro %}
+        <div class="alert alert-danger">{{ erro }}</div>
+        {% endif %}
+        <div class="col m-3">
+            <h6 class="text-center mb-4">EM ANDAMENTO</h6>
+            <div class="row py-5 rowLeilao">
+                {% for auction in auctions %}
+                    {% include 'vendedor/itemcard.html' with auction=auction %}
+                {% endfor %}
             </div>
-          {% endif %}
         </div>
-      </div>
-      <div class="col m-3">
-        <h6 class="text-center mb-4">SUSPENSOS</h6>
-        <div class="row py-5 rowLeilao">
-          <div class="col-md-12 py-5 my-5">
-            <div class="card-body bodyLeilao">
-              <h6 class="card-title titleItems">Lista de leilões <br /> suspenso/sem data</h6>
+        <div class="col m-3">
+            <h6 class="text-center mb-4">SUSPENSOS</h6>
+            <div class="row py-5 rowLeilao">
+                {% for auction in cancelled_auctions %}
+                    {% include 'vendedor/itemcard.html' with auction=auction %}
+                {% endfor %}
             </div>
-          </div>
         </div>
-      </div>
-      <div class="col m-3">
-        <h6 class="text-center mb-4">FINALIZADOS</h6>
-        <div class="row py-5 rowLeilao">
-          <div class="col-md-12 py-5 my-5">
-            <div class="card-body bodyLeilao">
-              <h6 class="card-title titleItems">Lista de leilões <br /> Finalizados</h6>
+        <div class="col m-3">
+            <h6 class="text-center mb-4">FINALIZADOS</h6>
+            <div class="row py-5 rowLeilao">
+                {% for auction in completed_auctions %}
+                    {% include 'vendedor/itemcard.html' with auction=auction %}
+                {% endfor %}
             </div>
-          </div>
         </div>
-      </div>
     </div>
-    <div class="text-center">
-      <a href="{% url 'novo_item' %}" class="btn btn-primary btn-super-lg mt-3 mb-4 leilaoBtn">ADICIONE NOVO LEILÃO</a>
-    </div>
-  </div>
+</div>
 {% endblock %}

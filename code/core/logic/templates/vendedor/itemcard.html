@@ -1,0 +1,26 @@
+{% load custom_filters %}
+<div class="col-md-12 mb-4">
+    <div class="card cardLeilao">
+        <img src="data:image/png;base64,{{ auction.item.image|b64encode }}" class="card-img-top" alt="{{ auction.item.name }}" />
+        <div class="card-body">
+            <h5 class="card-title cardTitleItem">{{ auction.item.name }}</h5>
+            <p class="card-text">{{ auction.item.description }}</p>
+            <p class="card-text">Preço: R$ {{ auction.item.price }}</p>
+            <p class="card-text">Data: {{ auction.date_and_time|date:'d/m/Y H:i' }}</p>
+            <form action="{% url 'change_auction_date' auction.id %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <div class="form-group d-inline">
+                    <label for="new_date">Remarcar:</label>
+                    <input type="datetime-local" name="new_date" id="new_date" class="form-control mb-4" required />
+                </div>
+                <button type="submit" class="btn btn-primary d-inline">Alterar Data</button>
+            </form>
+            <div class="float-right">
+                <form action="{% url 'delete_auction' auction.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Remover</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

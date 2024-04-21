@@ -65,14 +65,32 @@ def novo_item(request):
 
 
 def itens(request):
-    items = []
-    for auction in Auction.objects.filter(item__vendor=request.user).exclude(status='C'):
-        items.append({
-            'name': auction.item.name,
-            'description': auction.item.description,
-            'price': auction.item.price,
-            'image': auction.item.image,
-            'date': auction.date_and_time,
-            'status': auction.status
-        })
-    return render(request, 'vendedor/itens.html', { 'itens': items })
+    return render(request, 'vendedor/itens.html', {
+        'auctions': Auction.objects.filter(item__vendor=request.user, status__in=['P', 'O']),
+        'completed_auctions': Auction.objects.filter(item__vendor=request.user, status='F'),
+        'cancelled_auctions': Auction.objects.filter(item__vendor=request.user, status='C'),
+    })
+
+
+
+def change_auction_date(request, auction_id):
+    if request.method != 'POST':
+        return render(request, 'error.html', {'error': 'Método de requisição inválido.'})
+    new_date = request.POST.get('new_date')
+    try:
+        new_date_time = datetime.strptime(new_date, '%Y-%m-%dT%H:%M')
+        auction = Auction.objects.get(pk=auction_id)
+        auction.reschedule()
+        Auction.objects.create(
+            item=auction.item,
+            date_and_time=new_date_time,
+            starting_price=auction.starting_price
+        )
+        return redirect('itens')
+    except ValueError:
+        return render(request, 'error.html', {'error': 'Formato de data e hora inválido.'})
+
+
+def delete_auction(request, auction_id):
+    Auction.objects.get(pk=auction_id).cancel()
+    return redirect('itens')

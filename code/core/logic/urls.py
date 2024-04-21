@@ -16,7 +16,7 @@
 # General Public License along with TopBids. If not, see
 # <https://www.gnu.org/licenses/>.
 
-from django.urls import path
+from django.urls import path, include
 from .controllers import views, auth
 from ninja import NinjaAPI
 from .api import api_router
@@ -24,9 +24,7 @@ from .api import api_router
 api = NinjaAPI()
 api.add_router('', api_router)
 
-urlpatterns = [
-    path('api/', api.urls),
-    path('', views.index, name='index'),
+auth_patterns = [
     path('cadastro/', auth.cadastro, name='cadastro'),
     path('login/', auth.login, name='login'),
     path('logout/', auth.logout, name='logout'),
@@ -34,6 +32,14 @@ urlpatterns = [
     path('efetuar_ativacao/<uidb64>/<token>', auth.efetuar_ativacao, name='efetuar_ativacao'),
     path('recuperar_senha/', auth.recuperar_senha, name='recuperar_senha'),
     path('redefinir_senha/<uidb64>/<token>', auth.redefinir_senha, name='redefinir_senha'),
+]
+
+urlpatterns = [
+    path('api/', api.urls),
+    path('auth/', include(auth_patterns)),
+    path('', views.index, name='index'),
     path('itens/', views.itens, name='itens'),
     path('novo_item/', views.novo_item, name='novo_item'),
+    path('change_auction_date/<int:auction_id>/', views.change_auction_date, name='change_auction_date'),
+    path('delete_auction/<int:auction_id>/', views.delete_auction, name='delete_auction'),
 ]

@@ -148,9 +148,9 @@ def login(request):
     if user is None:
         return render(request, 'conta/login.html', {'erro': 'Login ou senha incorretos ou conta não ativada.'})
     logon(request, user)
-    return render(request, 'index.html')
+    return redirect('/')
 
 
 def logout(request):
     logoff(request)
-    return render(request, 'index.html')
+    return redirect('/')

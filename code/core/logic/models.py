@@ -43,7 +43,13 @@ class Auction(models.Model):
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     current_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
     buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
-    status = models.CharField(max_length=1, choices=[('P', 'Planned'), ('O', 'Ongoing'), ('F', 'Finished'), ('C', 'Cancelled')], default='P')
+    status = models.CharField(max_length=1, choices=[('P', 'Planned'), ('O', 'Ongoing'), ('F', 'Finished'), ('C', 'Cancelled'), ('R', 'Rescheduled')], default='P')
+    def reschedule(self):
+        self.status = 'R'
+        self.save()
+    def cancel(self):
+        self.status = 'C'
+        self.save()
 
 class Configs(models.Model):
     emails = models.BooleanField(default=False)

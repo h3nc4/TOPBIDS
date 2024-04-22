@@ -57,6 +57,7 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+    color: #000000;
 }
 
 /* Estilização do Login */
@@ -86,7 +87,9 @@ footer a:hover {
 .btnRedefSenha,
 .btnRedefSenha:hover,
 .btnCadastro,
-.btnCadastro:hover {
+.btnCadastro:hover,
+.btnAltData,
+.btnAltData:hover {
     background-color: #000000;
     border-radius: 0px;
     border: 1px solid transparent !important;
@@ -96,7 +99,8 @@ footer a:hover {
 .btnLogin:active,
 .btnRedefSenha:active,
 .btnCadastro:active,
-.slvrBtn:active {
+.slvrBtn:active,
+.btnAltData:active {
     background-color: #000000 !important;
 }
 
@@ -205,8 +209,9 @@ footer a:hover {
 }
 
 .cancBtn,
-.cancBtn:hover {
-    width: 7.5em;
+.cancBtn:hover,
+.btnRemv,
+.btnRemv:hover {
     color: #000000;
     background-color: #ffffff;
     border-color: #525252;
@@ -214,6 +219,12 @@ footer a:hover {
     box-shadow: none !important;
 }
 
-.cancBtn:active {
+.cancBtn,
+.cancBtn:hover {
+    width: 7.5em;
+}
+
+.cancBtn:active,
+.btnRemv:active {
     background-color: #525252;
 }

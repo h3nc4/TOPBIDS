@@ -1,5 +1,5 @@
-Olá {{ user }},{% autoescape 'off' %}
-  Por favor, clique no link abaixo para redefinir sua senha:
+Olá {{ user }},{% autoescape off %}
+Por favor, clique no link abaixo para redefinir sua senha:
 
-  {{ protocolo }}://{{ dominio }}{% url 'redefinir_senha' uidb64=uid token=token %}
+{{ protocolo }}://{{ dominio }}{% url 'redefinir_senha' uidb64=uid token=token %}
 {% endautoescape %}

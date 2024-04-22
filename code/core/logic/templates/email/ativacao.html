@@ -1,5 +1,5 @@
-Olá {{ user }},{% autoescape 'off' %}
-  Por favor, clique no link abaixo para confirmar seu cadastro:
+Olá {{ user }},{% autoescape off %}
+Por favor, clique no link abaixo para confirmar seu cadastro:
 
-  {{ protocolo }}://{{ dominio }}{% url 'efetuar_ativacao' uidb64=uid token=token %}
+{{ protocolo }}://{{ dominio }}{% url 'efetuar_ativacao' uidb64=uid token=token %}
 {% endautoescape %}

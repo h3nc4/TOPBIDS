@@ -13,7 +13,7 @@ pip freeze > $DIR/requirements.txt
 ! cmp -s $DIR/requirements.txt $DIR/requirements.txt.tmp && {
     echo "Warning: Changes detected in core libs."
     diff $DIR/requirements.txt.tmp $DIR/requirements.txt
-    cp $DIR/requirements.txt $DIR/requirements.txt.bak.$(date +"%Y%m%d%H%M%S")
+    cp $DIR/requirements.txt.tmp $DIR/requirements.txt.bak.$(date +"%Y%m%d%H%M%S")
 } || echo "No changes detected in core libs."
 
 rm $DIR/requirements.txt.tmp

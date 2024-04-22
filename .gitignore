@@ -1,12 +1,14 @@
+# config files
 .env
 .config.js
+
+# python
 .venv
 *.sqlite3
 __pycache__
 00*.py
-favicon.ico
 
-# Miscellaneous
+# miscellaneous
 *.gz
 *.zip
 *.log
@@ -35,3 +37,6 @@ yarn-error.*
 *.pem
 .env*.local
 *.tsbuildinfo
+
+# vscode
+.vscode/

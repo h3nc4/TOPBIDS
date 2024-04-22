@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: 45,
-        maxWidth: '500px',
+        maxWidth: 500,
     },
     item: {
         backgroundColor: '#fff',

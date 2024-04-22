@@ -3,9 +3,10 @@ import { FlatList, View, Text, Image, TextInput, RefreshControl } from 'react-na
 import Header from './components/Header';
 import styles from './styles/styles';
 import { fetchData } from './utils/dataFetching';
+import Item from './types/Item';
 
 export default function App() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 
@@ -21,7 +22,7 @@ export default function App() {
     setRefreshing(false);
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item }: { item: Item }) => {
     return (
       <View style={styles.item}>
         <Image
@@ -54,7 +55,7 @@ export default function App() {
       <FlatList
         data={items}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

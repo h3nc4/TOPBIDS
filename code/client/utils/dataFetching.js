@@ -12,7 +12,7 @@ export const fetchData = async () => {
       console.log('No stored items found');
       data = await fetchItems(); // Fetch all items
     }
-    console.log('Fetched items:', data);
+    console.log('Writing items:', data);
     await AsyncStorage.setItem('storedItems', JSON.stringify(data)); // Store fetched items
     return data;
   } catch (error) {

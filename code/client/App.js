@@ -54,7 +54,7 @@ export default function App() {
       <FlatList
         data={items}
         renderItem={renderItem}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item.id}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

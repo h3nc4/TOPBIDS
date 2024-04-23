@@ -43,6 +43,7 @@ def cadastro(request):
     cidade = request.POST.get('cidade')
     estado = request.POST.get('estado')
     cep = request.POST.get('cep')
+    pix = request.POST.get('pix')
     if not nome or not email or not senha or not senha2 or not cpf or not telefone or not endereco or not cidade or not estado or not cep:
         return render(request, 'conta/cadastro.html', {'erro': 'Preencha todos os campos.', 'estados': estados})
     if len(nome) > 50 or len(email) > 50:
@@ -59,8 +60,13 @@ def cadastro(request):
         return render(request, 'conta/cadastro.html', {'erro': 'As senhas não coincidem.', 'estados': estados})
     if User.objects.filter(email=email).exists():
         return render(request, 'conta/cadastro.html', {'erro': 'Este email já está cadastrado.', 'estados': estados})
-    usr = User.objects.create(username=nome, email=email, password=make_password(
-        senha), cpf=cpf, phone=telefone, address=endereco, city=cidade, state=estado, zip_code=cep)
+    if len(pix) > 36:
+        return render(request, 'conta/cadastro.html', {'erro': 'Chave PIX inválida.'})
+    usr = User.objects.create(username=nome, email=email,
+                              password=make_password(senha), cpf=cpf,
+                              phone=telefone, address=endereco, city=cidade,
+                              state=estado, zip_code=cep,
+                              vendor=Vendor.objects.create(pix=pix))
     if not Configs.objects.first().emails:
         logon(request, usr)
         return redirect('/')

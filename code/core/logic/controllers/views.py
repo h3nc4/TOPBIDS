@@ -54,23 +54,24 @@ def novo_item(request):
         data_hora = datetime.strptime(data, '%Y-%m-%dT%H:%M')
     except ValueError:
         return render(request, 'vendedor/novo.html', {'erro': 'Formato de data e hora inválido.'})
-    Auction.objects.create(
-        item=Item.objects.create(name=nome, description=descricao,
-                                 price=preco, image=imagem.read(),
-                                 vendor=User.objects.get(id=request.user.id)),
-        date_and_time=data_hora,
-        starting_price=preco
-    )
+    Item.objects.create(
+        name=nome, description=descricao,
+        price=preco, image=imagem.read(),
+        vendor=User.objects.get(id=request.user.id),
+        auction=Auction.objects.create(
+            date_and_time=data_hora,
+            starting_price=preco
+        )
+    ),
     return redirect('itens')
 
 
 def itens(request):
     return render(request, 'vendedor/itens.html', {
-        'auctions': Auction.objects.filter(item__vendor=request.user, status__in=['P', 'O']),
-        'completed_auctions': Auction.objects.filter(item__vendor=request.user, status='F'),
-        'cancelled_auctions': Auction.objects.filter(item__vendor=request.user, status='C'),
+        'auctions': Item.objects.filter(vendor=request.user, auction__status__in=['P', 'O']),
+        'completed_auctions': Item.objects.filter(vendor=request.user, auction__status='F'),
+        'cancelled_auctions': Item.objects.filter(vendor=request.user, auction__status='C'),
     })
-
 
 
 def change_auction_date(request, auction_id):
@@ -79,18 +80,12 @@ def change_auction_date(request, auction_id):
     new_date = request.POST.get('new_date')
     try:
         new_date_time = datetime.strptime(new_date, '%Y-%m-%dT%H:%M')
-        auction = Auction.objects.get(pk=auction_id)
-        auction.reschedule()
-        Auction.objects.create(
-            item=auction.item,
-            date_and_time=new_date_time,
-            starting_price=auction.starting_price
-        )
+        Item.objects.get(pk=auction_id).auction.reschedule(new_date_time)
         return redirect('itens')
     except ValueError:
         return render(request, 'error.html', {'error': 'Formato de data e hora inválido.'})
 
 
 def delete_auction(request, auction_id):
-    Auction.objects.get(pk=auction_id).cancel()
+    Item.objects.get(pk=auction_id).auction.cancel()
     return redirect('itens')

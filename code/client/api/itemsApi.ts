@@ -1,5 +1,5 @@
 import { API_URL } from '../.config';
-import Item from '../types/Item';
+import { Item, ItemUpdate, UpdateResponse } from '../types/Item';
 
 export const fetchItems = async (): Promise<Item[]> => {
   const response = await fetch(`${API_URL}/items/`);
@@ -12,15 +12,15 @@ export const fetchItems = async (): Promise<Item[]> => {
   return data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
 
-export const updateItems = async (sentIds: number[]): Promise<Item[]> => {
-  const ids = JSON.stringify({ ids: sentIds });
-  console.log('Updating items with sent IDs:', ids);
+export const updateItems = async (myItems: ItemUpdate[]): Promise<UpdateResponse> => {
+  const localItems = JSON.stringify({ localItems: myItems });
+  console.log('Updating items with sent IDs:', localItems);
   const response = await fetch(`${API_URL}/items/update/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: ids,
+    body: localItems,
   });
-  const data: Item[] = await response.json();
+  const data: UpdateResponse = await response.json();
   if (!response.ok && !response.redirected) {
     console.log('Error updating items:', data);
     throw new Error(JSON.stringify(data));

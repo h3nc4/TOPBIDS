@@ -8,4 +8,15 @@ interface Item {
     image: string;
 }
 
-export default Item;
+interface ItemUpdate {
+  id: number;
+  date: string;
+}
+
+interface UpdateResponse {
+  delete: number[];
+  update: ItemUpdate[];
+  add: Item[];
+}
+
+export type { Item, UpdateResponse, ItemUpdate};

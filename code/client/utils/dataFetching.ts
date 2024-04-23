@@ -1,24 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchItems, updateItems } from '../api/itemsApi';
-import Item from '../types/Item';
+import { Item, ItemUpdate, UpdateResponse } from '../types/Item';
 
 export const fetchData = async (): Promise<Item[]> => {
   try {
     const storedItems = await AsyncStorage.getItem('storedItems');
     let data: Item[] = [];
-
-    if (storedItems) {
-      const updatedItemIds: number[] = JSON.parse(storedItems).map((item: Item) => item.id);
-      const newData: Item[] = await updateItems(updatedItemIds);
-      data = [...newData, ...JSON.parse(storedItems)]; // Merge new items with stored items
+    if (storedItems && storedItems !== '[]') {
+      data = await updateData(storedItems); // Update stored items
     } else {
       console.log('No stored items found');
       data = await fetchItems(); // Fetch all items
     }
-
     console.log('Writing items:', data);
     await AsyncStorage.setItem('storedItems', JSON.stringify(data)); // Store fetched items
-
     return data;
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -26,3 +21,28 @@ export const fetchData = async (): Promise<Item[]> => {
     return storedItems ? JSON.parse(storedItems) : [];
   }
 };
+
+const updateData = async (storedItems: string): Promise<Item[]> => {
+  const myItems: ItemUpdate[] = JSON.parse(storedItems).map((item: Item) => ({ id: item.id, date: item.date }));
+  const newData: UpdateResponse = await updateItems(myItems);
+  const data: Item[] = JSON.parse(storedItems);
+  newData.delete.forEach((id) => {
+    const index = data.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      console.log('Deleting item:', data[index]);
+      data.splice(index, 1);
+    }
+  });
+  newData.update.forEach((item) => {
+    console.log('Updating item:', item);
+    const index = data.findIndex((oldItem) => oldItem.id === item.id);
+    if (index !== -1) {
+      data[index].date = item.date;
+    }
+  });
+  newData.add.forEach((item) => {
+    console.log('Adding item:', item);
+    data.push(item);
+  });
+  return data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}

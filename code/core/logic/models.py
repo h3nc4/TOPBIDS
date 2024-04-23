@@ -19,16 +19,48 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
+class Vendor(models.Model):
+    pix = models.CharField(max_length=36)
+
+
+class Buyer(models.Model):
+    items_to_pay = models.ForeignKey('Auction', on_delete=models.DO_NOTHING)
+    bought_items = models.ForeignKey('Item', on_delete=models.DO_NOTHING)
+    active = models.BooleanField(default=True)
+    def buy_item(self, item):
+        self.items_to_pay = item.auction
+        self.bought_items = item
+        self.save()
+
+
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    vendor = models.BooleanField(default=False)
     cpf = models.CharField(max_length=11, unique=True)
     phone = models.CharField(max_length=11)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=2)
     zip_code = models.CharField(max_length=8)
+    vendor = models.OneToOneField(Vendor, on_delete=models.CASCADE, null=True, blank=True)
+    buyer = models.OneToOneField(Buyer, on_delete=models.CASCADE, null=True, blank=True)
     is_superuser = None; is_staff = None; first_name = None; last_name = None # Herdados de AbstractUser mas sem uso
+
+
+class Auction(models.Model):
+    date_and_time = models.DateTimeField(null=True, blank=True)
+    starting_price = models.DecimalField(max_digits=10, decimal_places=2)
+    current_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
+    last_buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
+    status = models.CharField(max_length=1, choices=[('P', 'Planned'), ('O', 'Ongoing'), ('F', 'Finished'), ('C', 'Cancelled')], default='P')
+    def reschedule(self, new_date):
+        self.date_and_time = new_date
+        self.status = 'P'
+        self.save()
+    def cancel(self):
+        self.date_and_time = None
+        self.status = 'C'
+        self.save()
 
 class Item(models.Model):
     name = models.CharField(max_length=50)
@@ -36,20 +68,7 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     vendor = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     image = models.BinaryField()
-
-class Auction(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    date_and_time = models.DateTimeField()
-    starting_price = models.DecimalField(max_digits=10, decimal_places=2)
-    current_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
-    buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
-    status = models.CharField(max_length=1, choices=[('P', 'Planned'), ('O', 'Ongoing'), ('F', 'Finished'), ('C', 'Cancelled'), ('R', 'Rescheduled')], default='P')
-    def reschedule(self):
-        self.status = 'R'
-        self.save()
-    def cancel(self):
-        self.status = 'C'
-        self.save()
+    auction = models.OneToOneField(Auction, on_delete=models.CASCADE)
 
 class Configs(models.Model):
     emails = models.BooleanField(default=False)

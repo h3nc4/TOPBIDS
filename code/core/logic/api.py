@@ -21,6 +21,7 @@ from ninja import Router
 from ninja import Schema
 from .models import *
 from typing import List
+from datetime import datetime
 import base64
 import json
 
@@ -55,7 +56,7 @@ def get_selected_items(items):
             "description": item.description,
             "price": item.price,
             "vendor": item.vendor.username,
-            "date": latest_auction.date_and_time.strftime('%Y-%m-%d %H:%M:%S'),
+            "date": latest_auction.date_and_time.strftime('%Y-%m-%d %H:%M'),
             "image": base64.b64encode(item.image).decode('utf-8'),
         }
         response_data.append(item_data)
@@ -67,7 +68,25 @@ def get_items(request):
     return get_selected_items(Item.objects.all())
 
 
-@api_router.post("/items/update/", response=List[ItemSchema])
+@api_router.post("/items/update/", response=dict)
 def update_items(request):
-    ids = json.loads(request.body.decode("utf-8")).get('ids', [])
-    return get_selected_items(Item.objects.exclude(id__in=ids))
+    c_info = json.loads(request.body.decode("utf-8")).get('localItems', []) # client side info
+    c_item_ids = [item['id'] for item in c_info] # the ids of the items last known by the client
+    c_items = Item.objects.filter(id__in=c_item_ids).select_related('auction')
+    items_to_delete = []
+    updated_items = []
+    for info in c_info:
+        item = next((x for x in c_items if x.id == info['id']), None)
+        if not item:
+            items_to_delete.append(info['id'])
+        elif item.auction.status not in ['P', 'O']:
+            items_to_delete.append(info['id'])
+        elif item.auction.date_and_time.strftime('%Y-%m-%d %H:%M') != info['date']:
+            updated_items.append({'id': item.id, 'date': item.auction.date_and_time.strftime('%Y-%m-%d %H:%M')})
+    response_data = {
+        "delete": items_to_delete,
+        "update": updated_items,
+        "add": get_selected_items(Item.objects.exclude(id__in=c_item_ids))
+    }
+    print(response_data)
+    return response_data

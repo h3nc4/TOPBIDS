@@ -19,23 +19,17 @@
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link mr-2 btn" href="/">Início</a>
+              <a class="nav-link mr-3 btn" href="/">Início</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link mr-2 btn" href="{% url 'itens' %}">Meus Leilões</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link mr-2 btn" href="">Calendário</a>
+              <a class="nav-link mr-3 btn" href="{% url 'itens' %}">Meus Leilões</a>
             </li>
             <li class="nav-item">
               <a class="nav-link mr-5 logBtn" href="{% url 'logout' %}">Logout</a>
             </li>
           {% else %}
             <li class="nav-item">
-              <a class="nav-link mr-2 btn" href="/">Início</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link mr-2 btn" href="">Calendário</a>
+              <a class="nav-link mr-3 btn" href="/">Início</a>
             </li>
             <li class="nav-item">
               <a class="nav-link mr-5 logBtn" href="{% url 'login' %}">Entrar</a>

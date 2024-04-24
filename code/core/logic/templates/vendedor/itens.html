@@ -1,37 +1,61 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div class="container containerItensLeilao">
-    <div class="row justify-content-center mt-5">
-      {% if erro %}
-        <div class="alert alert-danger">{{ erro }}</div>
-      {% endif %}
-      <div class="col m-3">
-        <h6 class="text-center mb-4">EM ANDAMENTO</h6>
-        <div class="row py-5 rowLeilao">
-          {% for auction in auctions %}
-            {% include 'vendedor/itemcard.html' with auction=auction %}
-          {% endfor %}
+<div class="container containerItensLeilao">
+  <div class="row justify-content-center mt-5">
+    {% if erro %}
+    <div class="alert alert-danger">{{ erro }}</div>
+    {% endif %}
+    <div class="col m-3">
+      <h6 class="text-center mb-4">EM ANDAMENTO</h6>
+      <div class="row py-5 rowLeilao">
+        {% if auctions %}
+        {% for auction in auctions %}
+        {% include 'vendedor/itemcard.html' with auction=auction %}
+        {% endfor %}
+        {% else %}
+        <div class="col-md-12 py-5 my-5">
+          <div class="card-body">
+            <h6 class="card-title titleItems">Lista de leilões <br/> com data</h6>
+          </div>
         </div>
-      </div>
-      <div class="col m-3">
-        <h6 class="text-center mb-4">SUSPENSOS</h6>
-        <div class="row py-5 rowLeilao">
-          {% for auction in cancelled_auctions %}
-            {% include 'vendedor/itemcard.html' with auction=auction %}
-          {% endfor %}
-        </div>
-      </div>
-      <div class="col m-3">
-        <h6 class="text-center mb-4">FINALIZADOS</h6>
-        <div class="row py-5 rowLeilao">
-          {% for auction in completed_auctions %}
-            {% include 'vendedor/itemcard.html' with auction=auction %}
-          {% endfor %}
-        </div>
+        {% endif %}
       </div>
     </div>
-    <div class="text-center">
-      <a href="{% url 'novo_item' %}" class="btn btn-primary btn-super-lg mt-3 mb-4 leilaoBtn">ADICIONE NOVO LEILÃO</a>
+    <div class="col m-3">
+      <h6 class="text-center mb-4">SUSPENSOS</h6>
+      <div class="row py-5 rowLeilao">
+        {% if cancelled_auctions %}
+        {% for auction in cancelled_auctions %}
+        {% include 'vendedor/itemcard.html' with auction=auction %}
+        {% endfor %}
+        {% else %}
+        <div class="col-md-12 py-5 my-5">
+          <div class="card-body">
+            <h6 class="card-title titleItems">Lista de leilões <br/> suspensos</h6>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col m-3">
+      <h6 class="text-center mb-4">FINALIZADOS</h6>
+      <div class="row py-5 rowLeilao">
+        {% if completed_auctions %}
+        {% for auction in completed_auctions %}
+        {% include 'vendedor/itemcard.html' with auction=auction %}
+        {% endfor %}
+        {%else %}
+        <div class="col-md-12 py-5 my-5">
+          <div class="card-body">
+            <h6 class="card-title titleItems">Lista de leilões <br/> finalizados</h6>
+          </div>
+        </div>
+        {% endif %}
+      </div>
     </div>
   </div>
+  <div class="text-center">
+    <a href="{% url 'novo_item' %}" class="btn btn-primary btn-super-lg mt-3 mb-4 leilaoBtn">ADICIONE NOVO LEILÃO</a>
+  </div>
+</div>
 {% endblock %}

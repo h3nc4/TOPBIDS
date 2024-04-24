@@ -39,7 +39,7 @@
     font-size: 0.9em;
 }
 
-.bigImg {
+.indexImg {
     width: 100%;
     height: 70%;
 }
@@ -136,6 +136,7 @@ footer a:hover {
 .titleItems {
     text-align: center;
     color: #ffffff;
+    font-size: 1.1em;
 }
 
 .cardLeilao {
@@ -148,9 +149,6 @@ footer a:hover {
     font-size: 1.2em;
 }
 
-.bodyLeilao {
-    background-color: #525252;
-}
 
 .leilaoBtn,
 .leilaoBtn:hover {

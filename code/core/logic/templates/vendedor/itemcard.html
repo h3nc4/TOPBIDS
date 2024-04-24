@@ -23,7 +23,7 @@
         {% if auction.auction.status != 'C' %}
           <form action="{% url 'delete_auction' auction.auction.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger btnRemv">Remover</button>
+            <button type="submit" class="btn btn-danger btnRemv">Suspender</button>
           </form>
         {% endif %}
       </div>

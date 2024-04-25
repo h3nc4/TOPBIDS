@@ -4,7 +4,7 @@ This directory contains the source code for the project. The code is organized a
 
 - `client/`: Contains the code for the client-side mobile application.
 - `core/`: Contains the core code for the project, including the API, database, and MVC architecture.
-- `slave/`: Contains the slaves which handle WebSockets and messaging.
+- `guard/`: Contains the guard which handle WebSockets and messaging.
 - `README.md`: This file.
 
 ## Client
@@ -15,6 +15,6 @@ The client-side mobile application is built using React Native.
 
 The core code for the project is built using Django and Ninja.
 
-## Slave
+## Guard
 
-The slaves are built using Node.js and Socket.IO. (todo)
+The guard are built using Node.js and Socket.IO. (todo)

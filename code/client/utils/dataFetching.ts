@@ -34,9 +34,9 @@ const updateData = async (storedItems: string): Promise<Item[]> => {
     }
   });
   newData.update.forEach((item) => {
-    console.log('Updating item:', item);
     const index = data.findIndex((oldItem) => oldItem.id === item.id);
     if (index !== -1) {
+      console.log('Updating item:', item);
       data[index].date = item.date;
     }
   });

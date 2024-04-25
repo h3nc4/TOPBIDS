@@ -14,7 +14,8 @@
             <div class="form-group">
               <div class="file-input-container">
                 <label for="imagem" class="file-input-label">
-                  <img id="imagem-preview" src="#" alt="Selecionar Imagem"/>
+                  <img id="imagem-preview" src="#" alt="Preview da Imagem" style="display: none;"/>
+                  <span id="select-image-text">Selecionar Imagem</span>
                 </label>
                 <input type="file" name="imagem" id="imagem" class="form-control-file" required
                   onchange="previewImage(event)" />

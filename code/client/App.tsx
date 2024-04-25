@@ -3,7 +3,7 @@ import { FlatList, View, Text, Image, TextInput, RefreshControl } from 'react-na
 import Header from './components/Header';
 import styles from './styles/styles';
 import { fetchData } from './utils/dataFetching';
-import Item from './types/Item';
+import { Item } from './types/Item';
 
 export default function App() {
   const [items, setItems] = useState<Item[]>([]);

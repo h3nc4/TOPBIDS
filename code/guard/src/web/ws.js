@@ -1,22 +1,27 @@
 const mq = require('../mq/messaging');
-const io = require('socket.io')(3000, {
+const cfg = require('../.config');
+const io = require('socket.io')(cfg.WS_PORT, {
     cors: {
         origin: '*',
     }
 });
 
-function startWS() {
-    io.on('connection', (socket) => { // Handle incoming connections from WebSocket clients
+function initServer() {
+    io.on('connection', (socket) => { // Handle incoming connections from clients
         console.log('WebSocket client connected');
-        socket.on('message', async (message) => { // On message event
-            console.log('WS->Receive:', message);
-            await mq.sendtoMQ(message); // Send message to MQ
+        mq.addClient(socket); // Add the new client to the list
+        socket.on('message', async (message) => { // On message from client
+            await mq.publish(message); // Update guards
         });
     });
+    io.on('disconnect', (socket) => { // Handle disconnections from WebSocket clients
+        console.log('WebSocket client disconnected');
+        mq.removeClient(socket); // Remove the client from the list
+    });
 
-    mq.listenAllMQ(); // Listen to all messages from MQ
+    mq.consume(); // Listen to messages from other guards
 }
 
 module.exports = {
-    startWS
+    initServer
 };

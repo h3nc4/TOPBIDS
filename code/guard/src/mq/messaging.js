@@ -1,28 +1,36 @@
 const { getChannel } = require('./connect');
 const cfg = require('../.config');
 
-// Function to send message to RabbitMQ
-async function sendtoMQ(message) {
+let clients = []; // All connected clients
+
+function removeClient(clientWS) { // Removes a client from the list
+    clients = clients.filter((client) => client !== clientWS);
+}
+
+function addClient(clientWS) { // Adds a new client to the list
+    clients.push(clientWS);
+}
+
+async function publish(message) { // Sends message to other guards
   try {
     const channel = await getChannel();
     channel.publish(cfg.EXCHANGE_NAME, cfg.ROUTING_KEY, Buffer.from(message));
-    console.log(`MQ->Sent: ${message}`);
   } catch (error) {
     console.error('Error sending message to RabbitMQ:', error);
   }
 }
 
-// Function to listen for messages from RabbitMQ
-async function listenAllMQ() {
+async function consume() { // Listens to messages from other guards
   try {
     const channel = await getChannel();
     const queue = await channel.assertQueue('', { exclusive: true });
     await channel.bindQueue(queue.queue, cfg.EXCHANGE_NAME, cfg.ROUTING_KEY);
     console.log('Waiting for messages from MQ...');
-
     channel.consume(queue.queue, (message) => {
       if (message.content)
-        console.log('MQ->Receive:', message.content.toString());
+        clients.forEach((client) => { // Sends the message to all clients connected to this guard
+          client.emit('mqMessage', message.content.toString());
+        });
     }, { noAck: true });
   } catch (error) {
     console.error('Error listening for messages from RabbitMQ:', error);
@@ -30,6 +38,8 @@ async function listenAllMQ() {
 }
 
 module.exports = {
-  sendtoMQ,
-  listenAllMQ
+  addClient,
+  removeClient,
+  publish,
+  consume
 };

@@ -2,5 +2,5 @@
 
 const ws = require('./web/ws');
 
-ws.startWS(); // Start WebSocket server and listen for incoming messages
+ws.initServer();
 console.log('Guard service started');

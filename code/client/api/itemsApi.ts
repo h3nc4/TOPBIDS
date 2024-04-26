@@ -1,9 +1,9 @@
 import { API_URL } from '../.config';
 import { Item, ItemUpdate, UpdateResponse } from '../types/Item';
 
-export const fetchItems = async (): Promise<Item[]> => {
+export const fetchItems = async (): Promise<Array<Item>> => {
   const response = await fetch(`${API_URL}/items/`);
-  const data: Item[] = await response.json();
+  const data: Array<Item> = await response.json();
   if (!response.ok && !response.redirected) {
     console.log('Error fetching items:', data);
     throw new Error(JSON.stringify(data));
@@ -12,7 +12,7 @@ export const fetchItems = async (): Promise<Item[]> => {
   return data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
 
-export const updateItems = async (myItems: ItemUpdate[]): Promise<UpdateResponse> => {
+export const updateItems = async (myItems: Array<ItemUpdate>): Promise<UpdateResponse> => {
   const localItems = JSON.stringify({ localItems: myItems });
   console.log('Updating items with sent IDs:', localItems);
   const response = await fetch(`${API_URL}/items/update/`, {

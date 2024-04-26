@@ -14,9 +14,9 @@ interface ItemUpdate {
 }
 
 interface UpdateResponse {
-  delete: number[];
-  update: ItemUpdate[];
-  add: Item[];
+  delete: Array<number>;
+  update: Array<ItemUpdate>;
+  add: Array<Item>;
 }
 
 export type { Item, UpdateResponse, ItemUpdate};

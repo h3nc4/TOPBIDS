@@ -2,10 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchItems, updateItems } from '../api/itemsApi';
 import { Item, ItemUpdate, UpdateResponse } from '../types/Item';
 
-export const fetchData = async (): Promise<Item[]> => {
+export const fetchData = async (): Promise<Array<Item>> => {
   try {
     const storedItems = await AsyncStorage.getItem('storedItems');
-    let data: Item[] = [];
+    let data: Array<Item> = [];
     if (storedItems && storedItems !== '[]') {
       data = await updateData(storedItems); // Update stored items
     } else {
@@ -22,10 +22,10 @@ export const fetchData = async (): Promise<Item[]> => {
   }
 };
 
-const updateData = async (storedItems: string): Promise<Item[]> => {
-  const myItems: ItemUpdate[] = JSON.parse(storedItems).map((item: Item) => ({ id: item.id, date: item.date }));
+const updateData = async (storedItems: string): Promise<Array<Item>> => {
+  const myItems: Array<ItemUpdate> = JSON.parse(storedItems).map((item: Item) => ({ id: item.id, date: item.date }));
   const newData: UpdateResponse = await updateItems(myItems);
-  const data: Item[] = JSON.parse(storedItems);
+  const data: Array<Item> = JSON.parse(storedItems);
   newData.delete.forEach((id) => {
     const index = data.findIndex((item) => item.id === id);
     if (index !== -1) {

@@ -6,7 +6,7 @@ import { fetchData } from './utils/dataFetching';
 import { Item } from './types/Item';
 
 export default function App() {
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<Array<Item>>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 

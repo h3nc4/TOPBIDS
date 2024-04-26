@@ -1,5 +1,5 @@
 const { getChannel } = require('./connect');
-const cfg = require('../.config');
+const cfg = require('../.config.json');
 
 let clients = []; // All connected clients
 

@@ -88,5 +88,4 @@ def update_items(request):
         "update": updated_items,
         "add": get_selected_items(Item.objects.exclude(id__in=c_item_ids))
     }
-    print(response_data)
     return response_data

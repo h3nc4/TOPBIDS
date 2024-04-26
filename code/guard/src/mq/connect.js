@@ -1,5 +1,5 @@
 const amqp = require('amqplib');
-const cfg = require('../.config');
+const cfg = require('../.config.json');
 
 let connection;
 let channel;

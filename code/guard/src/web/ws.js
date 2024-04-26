@@ -1,5 +1,5 @@
 const mq = require('../mq/messaging');
-const cfg = require('../.config');
+const cfg = require('../.config.json');
 const io = require('socket.io')(cfg.WS_PORT, {
     cors: {
         origin: '*',

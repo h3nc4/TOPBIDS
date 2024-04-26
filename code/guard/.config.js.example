@@ -1,0 +1,9 @@
+const MQ_CONNECTION_URL = 'url to connect to rabbitmq server'
+const EXCHANGE_NAME = 'some-exchange-name'
+const ROUTING_KEY = 'this is temporary, each auction will have its own routing key'
+
+module.exports = {
+    MQ_CONNECTION_URL,
+    EXCHANGE_NAME,
+    ROUTING_KEY
+}

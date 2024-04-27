@@ -9,17 +9,29 @@
 
 <body>
   <h1>WebSocket Client</h1>
-  <input type="text" id="msgInpt" onkeydown="enter(event)" placeholder="Enter message here..." />
+  <label for="roomInput">Enter Room Name:</label>
+  <input type="text" id="roomInput" placeholder="Enter room name..." />
+  <button onclick="joinRoom()">Join Room</button>
+  <hr>
+  <input type="text" id="msgInput" onkeydown="enter(event)" placeholder="Enter message here..." />
   <button onclick="sendMessage()">Send</button>
   <div id="incoming"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
   <script>
     const socket = io('http://localhost:3000');
-    function sendMessage() {
-      const message = document.getElementById('msgInpt').value;
-      socket.emit('message', message);
+    function joinRoom() {
+      const room = document.getElementById('roomInput').value;
+      socket.emit('joinRoom', room);
+      console.log(`Joined room: ${room}`);
     }
-    socket.on('mqMessage', (message) => {
+    function sendMessage() {
+      const message = document.getElementById('msgInput').value;
+      const room = document.getElementById('roomInput').value;
+      socket.emit('message', { message, room });
+      console.log(`Sent message: ${message}`)
+    }
+    socket.on('update', (message) => {
+      console.log(`Received message: ${message}`)
       const receivedMessagesDiv = document.getElementById('incoming');
       const messageElement = document.createElement('p');
       messageElement.textContent = `New msg: ${message}`;

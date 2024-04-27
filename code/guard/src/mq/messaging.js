@@ -1,4 +1,3 @@
-// mq/messaging.js
 const { getChannel } = require('./connect');
 const cfg = require('../.config.json');
 

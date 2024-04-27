@@ -2,10 +2,10 @@
 
 ## Pré-requisitos
 
-Crie um arquivo .config.js na raiz do projeto com as variáveis de ambiente:
+Crie um arquivo .config.json na pasta src/ com as variáveis de ambiente:
 
 ```bash
-cp .config.js.example .config.js
+cp .config.json.example src/.config.json
 ```
 
 Preencha as variáveis de ambiente com os valores desejados:

@@ -1,4 +1,4 @@
-# Código fonte - Cliente
+# Código fonte - Guard
 
 ## Pré-requisitos
 
@@ -11,8 +11,9 @@ cp .config.js.example .config.js
 Preencha as variáveis de ambiente com os valores desejados:
 
 ```json
-"MASTER_URL": "Url do core",
-"API_ROUTE": `${MASTER_URL}:port/api`
+"MQ_CONNECTION_URL": "amqp://localhost",
+"EXCHANGE_NAME": "exchangeName",
+"WS_PORT": 3000
 ```
 
 ## Instalação
@@ -34,14 +35,21 @@ Preencha as variáveis de ambiente com os valores desejados:
 3. Instale as dependências do projeto:
 
     ```bash
-    cd code/client
+    cd code/guard
     npm install
     ```
 
 ## Execução em desenvolvimento
 
 ```bash
-./scripts/run-client.sh
+cd code/guard
+npm start
 ```
 
-Para acessar a aplicação, abra o navegador e acesse o endereço `http://localhost:8081` ou instale o app Expo no seu celular e escaneie o QR Code.
+## Suíte de teste de WS e MQ
+
+Este script inicia duas instâncias do guard e de um cliente em portas diferentes para testar a comunicação entre guardas e clientes
+
+```bash
+./test/testWSMQ.sh
+```

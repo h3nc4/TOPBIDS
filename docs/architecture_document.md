@@ -146,18 +146,18 @@ Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
 | RF013 | Usuário manda mensagem para outro usuário | BAIXO | mobile |
 | RF014 | Sistema valida item | BAIXO | web |
 | RF015 | Usuário marca leilão que quer participar para receber notificação | BAIXO | mobile |
-| RF016 | Sistema notifica início de leilão para os usuários que o marcaram | BAIXO | mobile |
-| RF017 | Usuário consulta histórico de lances | BAIXO | mobile |
+| RF016 | Usuário recebe notificação ao início de leilão que marcou | BAIXO | mobile |
+| RF017 | Usuário consulta seu histórico de lances realizados | BAIXO | mobile |
 | RF018 | Leiloeiro gerencia conta | BAIXO | web |
 
 ## 2.2. Requisitos Não-Funcionais
 
 | **ID** | **Descrição** |
 | --- | --- |
-| RNF001 | Sistema suporta cerca de 500 usuários |
-| RNF002 | Leilão disponibiliza chat em tempo real |
-| RNF003 | Sistema protege senhas do usuário criptografando-as utilizando algoritmo Argon2 |
-| RNF004 | Sistema notifica usuário 2 horas antes do início do leilão |
+| RNF001 | Sistema suporta de 500 usuários |
+| RNF002 | Sistema protege senhas do usuário criptografando-as utilizando algoritmo Argon2 |
+| RNF003 | Tempo de resposta do sistema deve ser inferior a 2 segundos para a maioria das operações |
+| RNF004 | O sistema deve ser hospedado em um servidor com pelo menos 4GB de RAM e 4 núcleos de processamento |
 
 ## 2.3. Restrições Arquiteturais
 

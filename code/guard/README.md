@@ -42,8 +42,7 @@ Preencha as variáveis de ambiente com os valores desejados:
 ## Execução em desenvolvimento
 
 ```bash
-cd code/guard
-npm start
+./scripts/run-guard.sh
 ```
 
 ## Suíte de teste de WS e MQ

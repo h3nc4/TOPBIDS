@@ -36,3 +36,4 @@ sed -i 's/3001/3000/g' src/.config.json
 # Print the PIDs of the started processes
 echo "WebSocket server 1 on 3000: $pid1"
 echo "WebSocket server 2 on 3001: $pid2"
+echo "kill $pid1 $pid2"

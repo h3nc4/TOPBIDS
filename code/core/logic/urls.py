@@ -19,11 +19,16 @@
 from django.urls import path, include
 from .controllers import views, auth
 from ninja import NinjaAPI
-from .api import api_router
+from .api.index import index_router
+from .api.items import item_router
 
 api = NinjaAPI()
-api.add_router('', api_router)
 
+# Add both routers to the API instance with their respective base paths
+api.add_router('index/', index_router)
+api.add_router('items/', item_router)
+
+# Define authentication patterns
 auth_patterns = [
     path('cadastro/', auth.cadastro, name='cadastro'),
     path('login/', auth.login, name='login'),
@@ -34,6 +39,7 @@ auth_patterns = [
     path('redefinir_senha/<uidb64>/<token>', auth.redefinir_senha, name='redefinir_senha'),
 ]
 
+# Define urlpatterns
 urlpatterns = [
     path('api/', api.urls),
     path('auth/', include(auth_patterns)),

@@ -16,59 +16,39 @@
 # General Public License along with TopBids. If not, see
 # <https://www.gnu.org/licenses/>.
 
-from django.http import JsonResponse
-from ninja import Router
-from ninja import Schema
-from .models import *
+from ..models import *
+from .schemas import ItemSchema
 from typing import List
-from datetime import datetime
+from ninja import Router
 import base64
 import json
 
 
-api_router = Router()
-
-
-class ItemSchema(Schema):
-    id: int
-    name: str
-    description: str
-    price: float
-    vendor: str
-    date: str
-    image: str
-
-
-@api_router.get("/status/")
-def status(request):
-    return JsonResponse({"status": "ok"})
+item_router = Router()
 
 
 def get_selected_items(items):
     response_data = []
     for item in items:
-        latest_auction = Auction.objects.filter(item=item, status__in=['P', 'O']).first()
-        if not latest_auction:
-            continue
         item_data = {
             "id": item.id,
             "name": item.name,
             "description": item.description,
             "price": item.price,
             "vendor": item.vendor.username,
-            "date": latest_auction.date_and_time.strftime('%Y-%m-%d %H:%M'),
+            "date": item.auction.date_and_time.strftime('%Y-%m-%d %H:%M'),
             "image": base64.b64encode(item.image).decode('utf-8'),
         }
         response_data.append(item_data)
     return response_data
 
 
-@api_router.get("/items/", response=List[ItemSchema])
+@item_router.get("/", response=List[ItemSchema])
 def get_items(request):
     return get_selected_items(Item.objects.all())
 
 
-@api_router.post("/items/update/", response=dict)
+@item_router.post("/update/", response=dict)
 def update_items(request):
     c_info = json.loads(request.body.decode("utf-8")).get('localItems', []) # client side info
     c_item_ids = [item['id'] for item in c_info] # the ids of the items last known by the client
@@ -83,9 +63,8 @@ def update_items(request):
             items_to_delete.append(info['id'])
         elif item.auction.date_and_time.strftime('%Y-%m-%d %H:%M') != info['date']:
             updated_items.append({'id': item.id, 'date': item.auction.date_and_time.strftime('%Y-%m-%d %H:%M')})
-    response_data = {
+    return {
         "delete": items_to_delete,
         "update": updated_items,
         "add": get_selected_items(Item.objects.exclude(id__in=c_item_ids))
     }
-    return response_data

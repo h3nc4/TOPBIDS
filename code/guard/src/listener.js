@@ -4,7 +4,7 @@
 const amqp = require('amqplib/callback_api');
 const cfg = require('./.config');
 
-amqp.connect('amqp://localhost', function (error0, connection) {
+amqp.connect(cfg.MQ_CONNECTION_URL, function (error0, connection) {
     if (error0)
         throw error0;
     connection.createChannel(function (error1, channel) {

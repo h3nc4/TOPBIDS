@@ -1,4 +1,4 @@
 {
-  "MASTER_URL": "http://serverip",
-  "API_ROUTE": ":serverport/api"
+  "MASTER_URL": "http://serverip:serverport",
+  "API_ROUTE": "/api"
 }

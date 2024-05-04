@@ -27,3 +27,20 @@ class ItemSchema(Schema):
     vendor: str
     date: str
     image: str
+
+
+class SignupInput(Schema):
+    username: str
+    email: str
+    password: str
+    cpf: str
+    phone: str
+    address: str
+    city: str
+    state: str
+    zip_code: str
+
+
+class LoginInput(Schema):
+    username: str
+    password: str

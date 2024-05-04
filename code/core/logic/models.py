@@ -27,7 +27,6 @@ class Vendor(models.Model):
 class Buyer(models.Model):
     items_to_pay = models.ForeignKey('Auction', on_delete=models.DO_NOTHING)
     bought_items = models.ForeignKey('Item', on_delete=models.DO_NOTHING)
-    active = models.BooleanField(default=True)
     def buy_item(self, item):
         self.items_to_pay = item.auction
         self.bought_items = item

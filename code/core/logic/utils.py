@@ -19,15 +19,19 @@
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from datetime import datetime
+from django.conf import settings
+from datetime import datetime, timedelta
 from threading import Thread
+import jwt
 import six
+
 
 # Gerador de tokens para ativação de conta
 class token_gen(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):
         return (six.text_type(user.pk) + six.text_type(timestamp)  + six.text_type(user.is_active))
 account_activation_token = token_gen()
+
 
 # Envia um email assíncrono
 def mail(subject, template_name, context, to_email):
@@ -40,3 +44,16 @@ def mail(subject, template_name, context, to_email):
             print(f"Error sending email: {str(e)}")
     email_thread = Thread(target=send_email)
     email_thread.start()
+
+
+def generate_token(user_id):
+    return jwt.encode({'user_id': user_id}, settings.SECRET_KEY_JWT, algorithm='HS256')
+
+
+def decode_token(token):
+    try:
+        return jwt.decode(token, settings.SECRET_KEY_JWT, algorithms=['HS256'])['user_id']
+    except jwt.ExpiredSignatureError:
+        return None
+    except jwt.InvalidTokenError:
+        return None

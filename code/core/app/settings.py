@@ -27,6 +27,8 @@ if not load_dotenv():
 
 SECRET_KEY=os.getenv('SECRET_KEY', 'django-insecure-ds45545gpp39)+kydou*#=fhp!3^y+06p)8d%@mn4@x0u(!(ih')
 
+SECRET_KEY_JWT=os.getenv('SECRET_KEY_JWT', 'django-insecure-4jh668g*p5^v3@n+!d2)bpjs@b4o5%e#un(crtib%sc6k$5a%h')
+
 DEBUG=os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS=['*']

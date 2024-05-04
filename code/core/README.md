@@ -12,6 +12,7 @@ Preencha as variáveis de ambiente com os valores desejados:
 
 ```bash
 SECRET_KEY = 'Chave secreta do django'
+SECRET_KEY_JWT = 'Chave secreta para JWT'
 DEBUG = 'Modo de depuração'
 DATABASE_HOST = 'IP do banco de dados'
 DATABASE_PORT = 'Porta do banco de dados'

@@ -21,12 +21,14 @@ from .controllers import views, auth
 from ninja import NinjaAPI
 from .api.index import index_router
 from .api.items import item_router
+from .api.auth import auth_router
 
 api = NinjaAPI()
 
-# Add both routers to the API instance with their respective base paths
+# Define api routes
 api.add_router('index/', index_router)
 api.add_router('items/', item_router)
+api.add_router('auth/', auth_router)
 
 # Define authentication patterns
 auth_patterns = [

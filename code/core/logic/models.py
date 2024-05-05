@@ -25,12 +25,7 @@ class Vendor(models.Model):
 
 
 class Buyer(models.Model):
-    items_to_pay = models.ForeignKey('Auction', on_delete=models.DO_NOTHING)
-    bought_items = models.ForeignKey('Item', on_delete=models.DO_NOTHING)
-    def buy_item(self, item):
-        self.items_to_pay = item.auction
-        self.bought_items = item
-        self.save()
+    pass
 
 
 class User(AbstractUser):
@@ -51,6 +46,7 @@ class Auction(models.Model):
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     current_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
     last_buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
+    paid = models.BooleanField(default=False)
     status = models.CharField(max_length=1, choices=[('P', 'Planned'), ('O', 'Ongoing'), ('F', 'Finished'), ('C', 'Cancelled')], default='P')
     def reschedule(self, new_date):
         self.date_and_time = new_date

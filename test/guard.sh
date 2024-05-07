@@ -18,20 +18,20 @@ sed -i 's/3001/3000/g' test/client/index.html
 cd code/guard
 
 # Start the first instance of the WebSocket server and capture its PID
-src/index.js &
+node --env-file=.env ./src/index.js &
 pid1=$!
 sleep 1
 
 # Modify the configuration file to listen on port 3001
-sed -i 's/3000/3001/g' src/.config.json
+sed -i 's/3000/3001/g' src/.env
 
 # Start the second instance of the WebSocket server and capture its PID
-src/index.js &
+node --env-file=.env ./src/index.js &
 pid2=$!
 sleep 1
 
 # Modify the configuration file to listen back on port 3000
-sed -i 's/3001/3000/g' src/.config.json
+sed -i 's/3001/3000/g' src/.env
 
 # Print the PIDs of the started processes
 echo "WebSocket server 1 on 3000: $pid1"

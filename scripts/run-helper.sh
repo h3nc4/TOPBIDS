@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-cd code/guard
+cd code/helper
 node --env-file=.env ./src/index.js

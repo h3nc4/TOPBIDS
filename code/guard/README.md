@@ -2,18 +2,21 @@
 
 ## Pré-requisitos
 
-Crie um arquivo .config.json na pasta src/ com as variáveis de ambiente:
+Crie um arquivo .env na raiz do guard com as variáveis de ambiente:
 
 ```bash
-cp .config.json.example src/.config.json
+cp .env.example .env
 ```
 
 Preencha as variáveis de ambiente com os valores desejados:
 
-```json
-"MQ_CONNECTION_URL": "amqp://localhost",
-"EXCHANGE_NAME": "exchangeName",
-"WS_PORT": 3000
+```bash
+MQ_CONNECTION_URL="amqp://localhost"
+EXCHANGE_NAME="exchange"
+WS_PORT=3000
+MASTER_URL="http://localhost:8000"
+API_ROUTE="/api"
+INTERVAL=600000
 ```
 
 ## Instalação

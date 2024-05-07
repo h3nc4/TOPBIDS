@@ -1,29 +1,24 @@
 #!/usr/bin/env node
 
-const mq = require('./mq/messaging');
-const cfg = require('./.config.json');
-const io = require('socket.io')(cfg.WS_PORT, {
-    cors: {
-        origin: '*',
-    }
-});
+import { consume } from './mq/messaging.js'; // Import consume function
+import { setupSockets } from './update/socket.js'; // Import setupSockets function
 
-io.on('connection', (socket) => { // Handle incoming connections from clients
-    console.log('WebSocket client connected');
-    socket.on('joinRoom', (room) => { // Join room when requested by client
-        mq.addClient(socket, room);
-        socket.join(room);
-        console.log(`Socket ${socket.id} joined room: ${room}`);
-    });
-    socket.on('message', async (data) => { // On message from client
-        const { message, room } = data; // Assuming data includes both message and room name
-        await mq.publish(message, room); // Update guards
-    });
-    socket.on('disconnect', () => { // Handle disconnections from WebSocket clients
-        console.log('WebSocket client disconnected');
-        mq.removeClient(socket); // Remove the client from the list
-    });
-});
+const API_URL = process.env.MASTER_URL + process.env.API_ROUTE;
 
-mq.consume(); // Listen to messages from other guards
-console.log('Guard service started');
+function pingMaster() {
+    fetch(`${API_URL}/guard/status/`).then(response => {
+        if (!response.ok)
+            console.log('Failed to ping Master server at', process.env.MASTER_URL);
+        console.log('Master server acknowledged');
+    }).catch(error => {
+        console.log('Failed to ping Master server', process.env.MASTER_URL);
+        console.error(error.message);
+    });
+}
+
+consume(); // Start consuming messages from RabbitMQ
+
+setupSockets(); // Setup WebSocket server
+
+pingMaster(); // Ping Master server to let it know this guard is online
+setInterval(pingMaster, process.env.INTERVAL || 60000); // Ping Master server every minute

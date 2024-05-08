@@ -1,4 +1,5 @@
 {
   "MASTER_URL": "http://serverip:serverport",
+  "GUARD_URL": "http://guardip:guardport",
   "API_ROUTE": "/api"
 }

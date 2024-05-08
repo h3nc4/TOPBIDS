@@ -43,7 +43,6 @@ class User(AbstractUser):
 
 class Auction(models.Model):
     date_and_time = models.DateTimeField(null=True, blank=True)
-    starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     current_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
     last_buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
     paid = models.BooleanField(default=False)
@@ -57,10 +56,11 @@ class Auction(models.Model):
         self.status = 'C'
         self.save()
 
+
 class Item(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    base_price = models.DecimalField(max_digits=10, decimal_places=2)
     vendor = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     image = models.BinaryField()
     auction = models.OneToOneField(Auction, on_delete=models.CASCADE)

@@ -22,13 +22,15 @@ from ninja import NinjaAPI
 from .api.index import index_router
 from .api.items import item_router
 from .api.auth import auth_router
+from .api.auction import auction_router
 
 api = NinjaAPI()
 
 # Define api routes
-api.add_router('index/', index_router)
+api.add_router('guard/', index_router)
 api.add_router('items/', item_router)
 api.add_router('auth/', auth_router)
+api.add_router('auction/', auction_router)
 
 # Define authentication patterns
 auth_patterns = [
@@ -50,4 +52,5 @@ urlpatterns = [
     path('novo_item/', views.novo_item, name='novo_item'),
     path('change_auction_date/<int:auction_id>/', views.change_auction_date, name='change_auction_date'),
     path('delete_auction/<int:auction_id>/', views.delete_auction, name='delete_auction'),
+    path('confirm_payment/<int:auction_id>/', views.confirm_payment, name='confirm_payment'),
 ]

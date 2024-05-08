@@ -20,10 +20,11 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.conf import settings
-from datetime import datetime, timedelta
+from datetime import datetime
 from threading import Thread
 import jwt
 import six
+import secrets
 
 
 # Gerador de tokens para ativação de conta
@@ -47,7 +48,7 @@ def mail(subject, template_name, context, to_email):
 
 
 def generate_token(user_id):
-    return jwt.encode({'user_id': user_id}, settings.SECRET_KEY_JWT, algorithm='HS256')
+    return jwt.encode({'user_id': user_id, 'filler': secrets.token_urlsafe(10)}, settings.SECRET_KEY_JWT, algorithm='HS256')
 
 
 def decode_token(token):

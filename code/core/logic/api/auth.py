@@ -31,25 +31,39 @@ auth_router = Router()
 
 @auth_router.post("/signup/")
 def signup(request):
-    print(request.body.decode("utf-8"))
     inpt = json.loads(request.body.decode("utf-8")).get('user', {})
     try:
         User.objects.create(username=inpt['username'],  email=inpt['email'],  password=make_password(inpt['password']),  cpf=inpt['cpf'],
                             phone=inpt['phone'],  address=inpt['address'],  city=inpt['city'],  state=inpt['state'],  zip_code=inpt['zip_code'], buyer=Buyer.objects.create())
     except Exception:
+         # print information about the error
+         print("Error: ", Exception)
          return JsonResponse({"status": "nok"}, status=400)
-    return JsonResponse({"token": generate_token(User.objects.get(username=inpt['username']).id)})
+    user = User.objects.get(username=inpt['username'])
+    return JsonResponse({"token": generate_token(user.id), "user": user.username})
 
 
 @auth_router.post("/login/")
 def user_login(request):
     inpt = json.loads(request.body.decode("utf-8")).get('user', [])
-    print(inpt, inpt['username'], inpt['password'])
     user = authenticate(request, username=inpt['username'], password=inpt['password'])
-    print(user)
     if user:
-        return JsonResponse({"token": generate_token(user.id)})
+        return JsonResponse({"token": generate_token(user.id), "user": user.username})
     return JsonResponse({"error": "Invalid credentials"}, status=401)
+
+
+@auth_router.post("/check/")
+def check_token(request): # receices token and returns if it is valid
+    try:
+        body = json.loads(request.body.decode("utf-8"))
+        user_id = decode_token(body.get('token', []))
+        username = body.get('user', [])
+        user = User.objects.get(id=user_id)
+        if user.username == username:
+            return JsonResponse({"status": "ok"})
+        return JsonResponse({"status": "nok"}, status=401)
+    except Exception:
+        return JsonResponse({"status": "nok"}, status=401)
 
 
 @auth_router.get("/deactivate/")

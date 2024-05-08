@@ -34,7 +34,7 @@ def get_selected_items(items):
             "id": item.id,
             "name": item.name,
             "description": item.description,
-            "price": item.price,
+            "price": item.base_price,
             "vendor": item.vendor.username,
             "date": item.auction.date_and_time.strftime('%Y-%m-%d %H:%M'),
             "image": base64.b64encode(item.image).decode('utf-8'),
@@ -66,5 +66,5 @@ def update_items(request):
     return {
         "delete": items_to_delete,
         "update": updated_items,
-        "add": get_selected_items(Item.objects.exclude(id__in=c_item_ids))
+        "add": get_selected_items(Item.objects.exclude(id__in=c_item_ids).filter(auction__status__in=['P', 'O']))
     }

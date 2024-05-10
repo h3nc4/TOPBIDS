@@ -39,4 +39,9 @@ interface UpdateResponse {
   add: Array<Item>;
 }
 
-export type { Item, UpdateResponse, ItemUpdate};
+type JWT = {
+    user: string;
+    token: string;
+};
+
+export type { Item, UpdateResponse, ItemUpdate, JWT };

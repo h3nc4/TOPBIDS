@@ -20,7 +20,16 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchItems, updateItems } from '../api/itemsApi';
-import { Item, ItemUpdate, UpdateResponse } from '../types/Item';
+
+export const getUserJWT = async (): Promise<JWT | null> => {
+  try {
+    const user = await AsyncStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  } catch (error) {
+    console.error('Error getting user:', error);
+    return null;
+  }
+}
 
 export const fetchData = async (): Promise<Array<Item>> => {
   try {

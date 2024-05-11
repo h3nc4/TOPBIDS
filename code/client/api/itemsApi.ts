@@ -31,7 +31,7 @@ export const fetchItems = async (): Promise<Array<Item>> => {
     throw new Error(JSON.stringify(data));
   }
   console.log('Items received:', data);
-  return data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 };
 
 export const updateItems = async (myItems: Array<ItemUpdate>): Promise<UpdateResponse> => {

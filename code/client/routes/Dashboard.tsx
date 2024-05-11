@@ -19,19 +19,37 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { FlatList, View, Text, Image, TextInput, RefreshControl, StyleSheet } from 'react-native';
+import { FlatList, View, Text, Image, TextInput, RefreshControl, StyleSheet, Button } from 'react-native';
 import Header from '../components/Header';
 import { fetchData } from '../utils/dataFetching';
 import { Item } from '../types/Item';
+import { useNavigation } from '@react-navigation/native';
+import { type StackNavigation } from '../App';
 
 export default function Dashboard() {
+  const { navigate } = useNavigation<StackNavigation>();
   const [items, setItems] = useState<Array<Item>>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => { fetchData().then(data => setItems(data)); }, []);
+  useEffect(() => {
+    console.log(new Date(), "fetching data...");
+    fetchData().then(data => setItems(data));
+  }, []);
 
   const handleSearch = () => setItems(items.filter(item => `${item.name} ${item.description}`.toLowerCase().includes(searchQuery.toLowerCase())));
+
+  const diff = (date: Date) => {
+    let delta = Math.abs(date.getTime() - new Date().getTime()) / 1000;
+    const days = Math.floor(delta / 86400);
+    delta -= days * 86400;
+    const hours = Math.floor(delta / 3600) % 24;
+    delta -= hours * 3600;
+    const minutes = Math.floor(delta / 60) % 60;
+    delta -= minutes * 60;
+    const seconds = Math.floor(delta % 60);
+    return { days, hours, minutes, seconds, isFuture: date.getTime() > new Date().getTime() };
+  }
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -40,6 +58,14 @@ export default function Dashboard() {
   };
 
   const renderItem = ({ item }: { item: Item }) => {
+    const tDiff = diff(new Date(item.date));
+    const navigateToAuction = () => { // Navigate to Auction page with item ID as parameter
+      console.log("Navigating to Auction page...", item.id);
+      navigate('Auction', { id: item.id });
+    };
+
+    const showButton = tDiff.days === 0 && tDiff.hours === 0 && tDiff.minutes <= 15 && !tDiff.isFuture;
+
     return (
       <View style={styles.item}>
         <Image
@@ -52,7 +78,9 @@ export default function Dashboard() {
           <Text>Price: {item.price}</Text>
           <Text>Vendor: {item.vendor}</Text>
           <Text>Date: {item.date}</Text>
+          { tDiff.isFuture && <Text>Time Left: {tDiff.days}d {tDiff.hours}h {tDiff.minutes}m {tDiff.seconds}s</Text>}
         </View>
+        {showButton && <Button title="View Details" onPress={navigateToAuction} />}
       </View>
     );
   };

@@ -20,6 +20,21 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchItems, updateItems } from '../api/itemsApi';
+import { Item, ItemUpdate, UpdateResponse, JWT } from '../types/Item';
+
+export const getStoredItem = async (id: number): Promise<Item | null> => {
+  try {
+    const storedItems = await AsyncStorage.getItem('storedItems');
+    if (storedItems) {
+      const data: Array<Item> = JSON.parse(storedItems);
+      return data.find((item) => item.id === id) || null;
+    }
+    return null;
+  } catch (error) {
+    console.error('Error getting stored item:', error);
+    return null;
+  }
+}
 
 export const getUserJWT = async (): Promise<JWT | null> => {
   try {
@@ -73,5 +88,5 @@ const updateData = async (storedItems: string): Promise<Array<Item>> => {
     console.log('Adding item:', item);
     data.push(item);
   });
-  return data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }

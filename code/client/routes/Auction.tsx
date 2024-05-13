@@ -71,11 +71,14 @@ export default function Auction({ route }: AuctionProps) {
         }
     }, [jwt, loading]); // Depend on jwt and loading states
 
-
     useEffect(() => {
         if (socket) {
             socket.on('bid', (data: string) => {
                 setCurrentPrice(parseFloat(data));
+            });
+            socket.on('chat', (data: { updated_value: string, user: string }) => {
+                const { updated_value: message, user } = data;
+                setMessages(prevMessages => [...prevMessages, `${user}: ${message}`]);
             });
         }
     }, [socket]);
@@ -90,6 +93,15 @@ export default function Auction({ route }: AuctionProps) {
             });
         } else
             console.log("error initializing socket, current price or jwt", socket, currentPrice, jwt);
+    };
+
+    const sendMessage = () => { // Function to send a chat message
+        if (socket !== null && newMessage.trim() !== '' && jwt !== null) {
+            console.log("emitting chat message...", newMessage);
+            socket.emit('message', { room: id, message: newMessage, user: jwt.user });
+            setNewMessage('');
+        } else
+            console.log("error initializing socket or jwt or message empty", socket, jwt, newMessage);
     };
 
     return (
@@ -109,6 +121,18 @@ export default function Auction({ route }: AuctionProps) {
                         <Text>Date: {item.date}</Text>
                     </View>
                     <Button title="Place Bid" onPress={placeBid} />
+                    <ScrollView style={styles.chatContainer}>
+                        {messages.map((msg, index) => (
+                            <Text key={index} style={styles.chatMessage}>{msg}</Text>
+                        ))}
+                    </ScrollView>
+                    <TextInput
+                        style={styles.chatInput}
+                        value={newMessage}
+                        onChangeText={setNewMessage}
+                        placeholder="Type a message..."
+                    />
+                    <Button title="Send" onPress={sendMessage} />
                 </View>
             ) : <></>}
         </View>
@@ -140,5 +164,25 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 10,
         borderRadius: 8,
+    },
+    chatContainer: {
+        marginTop: 10,
+        height: 100,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 8,
+    },
+    chatMessage: {
+        fontSize: 14,
+        marginBottom: 5,
+    },
+    chatInput: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        marginVertical: 10,
     },
 });

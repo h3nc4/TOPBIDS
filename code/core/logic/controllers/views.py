@@ -19,6 +19,7 @@
 from ..models import *
 from django.shortcuts import redirect, render
 from datetime import datetime
+from django.utils import timezone
 
 
 def index(request):
@@ -56,19 +57,26 @@ def novo_item(request):
         return render(request, 'vendedor/novo.html', {'erro': 'Formato de data e hora inválido.'})
     Item.objects.create(
         name=nome, description=descricao,
-        price=preco, image=imagem.read(),
+        base_price=preco, image=imagem.read(),
         vendor=User.objects.get(id=request.user.id),
         auction=Auction.objects.create(
             date_and_time=data_hora,
-            starting_price=preco
+            current_price=preco
         )
     ),
     return redirect('itens')
 
 
 def itens(request):
+    items = Item.objects.filter(vendor=request.user, auction__status__in=['P', 'O'])
+    for item in items:
+        if item.auction.date_and_time <= timezone.now() - timezone.timedelta(minutes=15, hours=3):
+            print(item.auction.date_and_time, timezone.now(), '-', timezone.timedelta(minutes=15, hours=3))
+            item.auction.status = 'F' if item.auction.last_buyer else 'C'
+            item.auction.save()
+            items = items.exclude(pk=item.pk) # Remove the item from the list
     return render(request, 'vendedor/itens.html', {
-        'auctions': Item.objects.filter(vendor=request.user, auction__status__in=['P', 'O']),
+        'auctions': items,
         'completed_auctions': Item.objects.filter(vendor=request.user, auction__status='F'),
         'cancelled_auctions': Item.objects.filter(vendor=request.user, auction__status='C'),
     })
@@ -85,7 +93,12 @@ def change_auction_date(request, auction_id):
     except ValueError:
         return render(request, 'error.html', {'error': 'Formato de data e hora inválido.'})
 
-
 def delete_auction(request, auction_id):
     Item.objects.get(pk=auction_id).auction.cancel()
+    return redirect('itens')
+
+def confirm_payment(request, auction_id):
+    auction = Auction.objects.get(pk=auction_id)
+    auction.paid = True
+    auction.save()
     return redirect('itens')

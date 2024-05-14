@@ -5,7 +5,7 @@
     <div class="card-body">
       <h5 class="card-title cardTitleItem">{{ auction.name }}</h5>
       <p class="card-text">{{ auction.description }}</p>
-      <p class="card-text">Preço: R$ {{ auction.price }}</p>
+      <p class="card-text">Preço: R$ {{ auction.auction.current_price }}</p>
       {% if auction.auction.date_and_time %}
         <p class="card-text">Data: {{ auction.auction.date_and_time|date:'d/m/Y H:i' }}</p>
       {% endif %}
@@ -18,15 +18,22 @@
           </div>
           <button type="submit" class="btn btn-primary d-inline btnAltData">Alterar Data</button>
         </form>
+        <div class="float-right">
+          {% if auction.auction.status != 'C' %}
+            <form action="{% url 'delete_auction' auction.auction.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btnRemv">Suspender</button>
+            </form>
+          {% endif %}
+        </div>
+      {% elif not auction.auction.paid %}
+        <form action="{% url 'confirm_payment' auction.auction.id %}" method="post" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary d-inline btnAltData">Confirmar Pagamento</button>
+        </form>
+      {% else %}
+        <p class="card-text">Vendido para {{ auction.auction.last_buyer.username }}</p>
       {% endif %}
-      <div class="float-right">
-        {% if auction.auction.status != 'C' %}
-          <form action="{% url 'delete_auction' auction.auction.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger btnRemv">Suspender</button>
-          </form>
-        {% endif %}
-      </div>
     </div>
   </div>
 </div>

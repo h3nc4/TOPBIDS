@@ -121,7 +121,6 @@ ORM: Object-Relational Mapping
 Flutter: Framework de desenvolvimento de aplicativos móveis
 Bootsrap: Framework de desenvolvimento web para HTML, CSS e JavaScript
 CSS: Cascading Style Sheets
-Docker: Plataforma de código aberto para automação de implantação de aplicativos
 
 Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
 
@@ -169,8 +168,7 @@ As restrições impostas ao projeto que afetam sua arquitetura são:
 - Utilização de Bootstrap + CSS para o frontend web: A arquitetura do frontend web deve ser desenvolvida utilizando a combinação do framework Bootstrap com CSS para a criação de interfaces de usuário responsivas e visualmente atraentes, seguindo as melhores práticas de design e usabilidade.
 - Utilização do framework Flutter para o desenvolvimento mobile: A arquitetura da aplicação móvel deve ser projetada utilizando o framework Flutter, que permite o desenvolvimento de aplicativos móveis nativos de alta qualidade para Android e iOS a partir de um único código-fonte, garantindo consistência e eficiência no desenvolvimento.
 - Hospedagem na AWS (Amazon Web Services): A arquitetura do sistema deve ser projetada para ser implantada e hospedada na plataforma de serviços em nuvem da AWS, aproveitando a infraestrutura escalável, confiável e segura oferecida por essa plataforma.
-- Utilização de RMQ (RabbitMQ) para mensageria: A arquitetura da aplicação deve ser projetada para integrar o RMQ como sistema de mensageria, permitindo a comunicação síncrona e distribuída entre os diferentes componentes da aplicação, garantindo uma arquitetura robusta e escalável.  
-- Utilização de Docker para contêineres: A arquitetura da aplicação deve ser projetada para utilizar o Docker para a criação, implantação e execução de contêineres, garantindo a portabilidade e a consistência do ambiente de desenvolvimento, teste e produção.
+- Utilização de RMQ (RabbitMQ) para mensageria: A arquitetura da aplicação deve ser projetada para integrar o RMQ como sistema de mensageria, permitindo a comunicação síncrona e distribuída entre os diferentes componentes da aplicação, garantindo uma arquitetura robusta e escalável.
 
 ## 2.4. Mecanismos Arquiteturais
 

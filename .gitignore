@@ -20,23 +20,19 @@ __pycache__
 
 # React Native
 node_modules/
+client/build
 .expo/
 dist/
-web-build/
-*.orig.*
+npm-debug.*
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
-.metro-health-check*
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-.DS_Store
-*.pem
-.env*.local
-*.tsbuildinfo
+*.orig.*
+web-build/
+expo-env.d.ts
+code/client/.gitignore
 
 # vscode
 .vscode/

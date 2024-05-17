@@ -12,7 +12,6 @@ Preencha as variáveis de ambiente com os valores desejados:
 
 ```json
 "MASTER_URL": "Url do core:porta",
-"API_ROUTE": `/api`
 ```
 
 ## Instalação

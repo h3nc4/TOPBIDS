@@ -20,25 +20,20 @@
 
 import React, { useEffect } from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../components/Header';
 
-interface HomeProps {
-  navigation: NativeStackScreenProps<any, 'Home'>['navigation'];
-}
-
-const Home = ({ navigation }: HomeProps) => {
-
+export default function home() {
   useEffect(() => { checkToken(); }, []);
 
   const checkToken = async () => {
     const user = await AsyncStorage.getItem('user');
-    if (user) navigation.replace('Dashboard'); // Navigate to Dashboard if user is logged in
+    if (user) router.replace('dashboard'); // Navigate to Dashboard if user is logged in
   };
 
-  const gotoLogin = () => navigation.navigate('Login');
-  const gotoSignup = () => navigation.navigate('Signup');
+  const gotoLogin = () => router.navigate('login');
+  const gotoSignup = () => router.navigate('signup');
 
   return (
     <View style={styles.container}>
@@ -64,5 +59,3 @@ const styles = StyleSheet.create({
   },
   buttonContainer: { width: '80%' }
 });
-
-export default Home;

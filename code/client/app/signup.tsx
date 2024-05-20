@@ -21,15 +21,11 @@
 import React, { useState } from 'react';
 import { Button, View, Text, TextInput, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { router } from 'expo-router';
 import { signupUser } from '../api/userApi';
 import Header from '../components/Header';
 
-interface SignupProps {
-    navigation: NativeStackScreenProps<any, 'Signup'>['navigation'];
-}
-
-const Signup = ({ navigation }: SignupProps) => {
+export default function signup() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -43,7 +39,7 @@ const Signup = ({ navigation }: SignupProps) => {
     const handleSignup = async () => {
         try {
             await AsyncStorage.setItem('user', await signupUser(username, email, password, cpf, phone, address, city, state, zipCode));
-            navigation.replace('Dashboard'); // Navigate to Dashboard
+            router.replace('dashboard'); // Navigate to Dashboard
         } catch (error) {
             console.error('Error signing up:', error);
         }
@@ -86,5 +82,3 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
 });
-
-export default Signup;

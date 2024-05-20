@@ -23,11 +23,9 @@ import { FlatList, View, Text, Image, TextInput, RefreshControl, StyleSheet, But
 import Header from '../components/Header';
 import { fetchData } from '../utils/dataFetching';
 import { Item } from '../types/Item';
-import { useNavigation } from '@react-navigation/native';
-import { type StackNavigation } from '../App';
+import { router } from 'expo-router';
 
-export default function Dashboard() {
-  const { navigate } = useNavigation<StackNavigation>();
+export default function dashboard() {
   const [items, setItems] = useState<Array<Item>>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
@@ -61,7 +59,7 @@ export default function Dashboard() {
     const tDiff = diff(new Date(item.date));
     const navigateToAuction = () => { // Navigate to Auction page with item ID as parameter
       console.log("Navigating to Auction page...", item.id);
-      navigate('Auction', { id: item.id });
+      router.push({pathname: '/auction', params: { id: item.id }});
     };
 
     const showButton = tDiff.days === 0 && tDiff.hours === 0 && tDiff.minutes <= 15 && !tDiff.isFuture;
@@ -107,6 +105,7 @@ export default function Dashboard() {
             onRefresh={onRefresh}
           />
         }
+        contentContainerStyle={[styles.flatListContent, items.length === 0 && styles.minHeightContainer]}
       />
     </View>
   );
@@ -150,5 +149,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 16,
+  },
+  flatListContent: {
+    flexGrow: 1,
+  },
+  minHeightContainer: {
+    minHeight: 200, // Set a minimum height for FlatList container when there are no items
   },
 });

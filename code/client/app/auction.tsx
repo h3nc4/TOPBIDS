@@ -18,23 +18,19 @@
 * <https://www.gnu.org/licenses/>.
 */
 
-import config from '../.config.json';
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, Button, TextInput, ScrollView } from 'react-native';
 import Header from '../components/Header';
 import { getStoredItem, getUserJWT } from '../utils/dataFetching';
+import { bestGuard } from '../utils/dataFetching';
 import { Item, JWT } from '../types/Item';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useLocalSearchParams } from 'expo-router';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { io, Socket } from "socket.io-client";
 
-type Params = {
-    Auction: { id: number };
-};
-
-type AuctionProps = NativeStackScreenProps<Params, 'Auction'>;
-
-export default function Auction({ route }: AuctionProps) {
-    const { id } = route.params; // Extract the item ID from the route params
+export default function auction() {
+    const { id } = useLocalSearchParams(); // Extract the item ID from the route params
+    const itemId = typeof id === 'string' ? parseInt(id, 10) : typeof id === 'number' ? id : 0;
     const [item, setItem] = useState<Item | null>(null);
     const [socket, setSocket] = useState<Socket | null>(null); // State to hold the WebSocket connection
     const [currentPrice, setCurrentPrice] = useState<number | null>(null); // State to hold the current price
@@ -43,9 +39,38 @@ export default function Auction({ route }: AuctionProps) {
     const [newMessage, setNewMessage] = useState<string>(''); // State for new chat message
     const [loading, setLoading] = useState(true); // Add loading state
 
+    const initializeSocket = async () => {
+        if (!loading && jwt !== null && item !== null) {
+            console.log("initializing socket...")
+            try {
+                const url = await bestGuard();
+                console.log("WebSocket URL:", url);
+                const socket = io(url, { auth: { jwt } });
+                setSocket(socket);
+                socket.on('connect', () => { 
+                    console.log('Connected to guard');
+                });
+                socket.on('disconnect', () => { console.log('Disconnected from guard') });
+                socket.on('connect_error', (error: Error) => { console.error('Connection error:', error) });
+                socket.on('error', (error: Error) => { console.error('Socket error:', error) });
+                socket.on('bid', (data: string) => {
+                    console.log("current price updated...", data);
+                    setCurrentPrice(parseFloat(data));
+                });
+                socket.on('chat', (data: { updated_value: string, user: string }) => {
+                    const { updated_value: message, user } = data;
+                    setMessages(prevMessages => [...prevMessages, `${user}: ${message}`]);
+                });
+                console.log("joining room...", id, "with current price...", item.price);
+                socket.emit('join', { room: id, currentPrice: item.price });
+            } catch (error) {
+                console.error('Error initializing socket:', error);
+            }
+        }
+    };
+
     useEffect(() => {
-        console.log("getting item from storage...", route.params);
-        getStoredItem(id).then(data => setItem(data));
+        getStoredItem(itemId).then(data => setItem(data));
     }, []);
 
     useEffect(() => {
@@ -62,26 +87,9 @@ export default function Auction({ route }: AuctionProps) {
     }, [item]);
 
     useEffect(() => {
-        if (!loading && jwt !== null && item !== null) {
-            const socket = io(config.GUARD_URL, { auth: { jwt } });
-            setSocket(socket);
-            console.log("joining room...", id, "with current price...", item.price);
-            socket.emit('join', { room: id, currentPrice: item.price });
-            return () => { socket.disconnect(); };
-        }
-    }, [jwt, loading]); // Depend on jwt and loading states
-
-    useEffect(() => {
-        if (socket) {
-            socket.on('bid', (data: string) => {
-                setCurrentPrice(parseFloat(data));
-            });
-            socket.on('chat', (data: { updated_value: string, user: string }) => {
-                const { updated_value: message, user } = data;
-                setMessages(prevMessages => [...prevMessages, `${user}: ${message}`]);
-            });
-        }
-    }, [socket]);
+        initializeSocket();
+        return () => { if (socket) socket.disconnect(); };
+    }, [jwt, loading, item]); // Depend on jwt and loading states
 
     const placeBid = () => { // Function to place a bid
         if (socket !== null && currentPrice !== null && jwt !== null) {
@@ -105,37 +113,44 @@ export default function Auction({ route }: AuctionProps) {
     };
 
     return (
-        <View style={styles.container}>
-            <Header />
-            {item ? ( // Conditionally render only if item is not null
-                <View style={styles.item}>
-                    <Image
-                        style={styles.image}
-                        source={{ uri: `data:image/jpeg;base64,${item.image}` }}
-                    />
-                    <Text style={styles.title}>{item.name}</Text>
-                    <Text>{item.description}</Text>
-                    <View style={{ marginTop: 10 }}>
-                        <Text>Price: {currentPrice !== null ? currentPrice : item.price}</Text>
-                        <Text>Vendor: {item.vendor}</Text>
-                        <Text>Date: {item.date}</Text>
+        <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={styles.container}
+        enableOnAndroid={true}
+        extraScrollHeight={150} // Adjust this value as needed
+        >
+            <View style={styles.container}>
+                <Header />
+                {item ? ( // Conditionally render only if item is not null
+                    <View style={styles.item}>
+                        <Image
+                            style={styles.image}
+                            source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+                        />
+                        <Text style={styles.title}>{item.name}</Text>
+                        <Text>{item.description}</Text>
+                        <View style={{ marginTop: 10 }}>
+                            <Text>Price: {currentPrice !== null ? currentPrice : item.price}</Text>
+                            <Text>Vendor: {item.vendor}</Text>
+                            <Text>Date: {item.date}</Text>
+                        </View>
+                        <Button title="Place Bid" onPress={placeBid} />
+                        <ScrollView style={styles.chatContainer}>
+                            {messages.map((msg, index) => (
+                                <Text key={index} style={styles.chatMessage}>{msg}</Text>
+                            ))}
+                        </ScrollView>
+                        <TextInput
+                            style={styles.chatInput}
+                            value={newMessage}
+                            onChangeText={setNewMessage}
+                            placeholder="Type a message..."
+                        />
+                        <Button title="Send" onPress={sendMessage} />
                     </View>
-                    <Button title="Place Bid" onPress={placeBid} />
-                    <ScrollView style={styles.chatContainer}>
-                        {messages.map((msg, index) => (
-                            <Text key={index} style={styles.chatMessage}>{msg}</Text>
-                        ))}
-                    </ScrollView>
-                    <TextInput
-                        style={styles.chatInput}
-                        value={newMessage}
-                        onChangeText={setNewMessage}
-                        placeholder="Type a message..."
-                    />
-                    <Button title="Send" onPress={sendMessage} />
-                </View>
-            ) : <></>}
-        </View>
+                ) : <></>}
+            </View>
+        </KeyboardAwareScrollView>
     );
 }
 

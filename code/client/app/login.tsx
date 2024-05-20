@@ -21,22 +21,18 @@
 import React, { useState } from 'react';
 import { Button, View, Text, TextInput, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { router } from 'expo-router';
 import { loginUser } from '../api/userApi';
 import Header from '../components/Header';
 
-interface LoginProps {
-    navigation: NativeStackScreenProps<any, 'Login'>['navigation'];
-}
-
-const Login = ({ navigation }: LoginProps) => {
+export default function login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
         try {
             await AsyncStorage.setItem('user', await loginUser(username, password));
-            navigation.replace('Dashboard'); // Navigate to Dashboard
+            router.replace('dashboard'); // Navigate to Dashboard
         } catch (error) {
             console.error('Error logging in:', error);
         }
@@ -83,5 +79,3 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
 });
-
-export default Login;

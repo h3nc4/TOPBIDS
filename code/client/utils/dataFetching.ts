@@ -21,6 +21,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchItems, updateItems } from '../api/itemsApi';
 import { Item, ItemUpdate, UpdateResponse, JWT } from '../types/Item';
+import { getGuards } from '../api/guardsApi';
 
 export const getStoredItem = async (id: number): Promise<Item | null> => {
   try {
@@ -45,6 +46,51 @@ export const getUserJWT = async (): Promise<JWT | null> => {
     return null;
   }
 }
+
+export const bestGuard = async (): Promise<string> => {
+  const guards: string[] = await getGuards();
+  console.log('Guards:', guards);
+
+  // Function to ping a guard with a timeout
+  const pingGuard = async (guard: string): Promise<number> => {
+    const start = new Date().getTime();
+    const ctrl = new AbortController();
+    const timeoutId = setTimeout(() => ctrl.abort(), 5000); // 5 seconds timeout
+    try {
+      const response = await fetch(`http://${guard}:3000/status`, { method: 'GET', signal: ctrl.signal });
+      clearTimeout(timeoutId);
+      if (response.ok) {
+        console.log(`Ping to ${guard} successful`);
+        return new Date().getTime() - start; // Return the response time
+      }
+    } catch (error) {
+      if (error instanceof Error)
+        if (error.name === 'AbortError')
+          console.log(`Ping to ${guard} timed out.`);
+        else
+          console.log(`Error pinging ${guard}:`, error);
+      else
+        console.log(`Unknown error pinging ${guard}`);
+    }
+    return Infinity; // If ping failed, return a very high response time
+  };
+
+  // Ping all guards and find the one with the lowest response time
+  const pingResults = await Promise.all(
+    guards.map(async (guard) => {
+      const responseTime = await pingGuard(guard);
+      return { guard, responseTime };
+    })
+  );
+
+  // Find the guard with the minimum response time
+  const bestGuard = pingResults.reduce((prev, curr) =>
+    prev.responseTime < curr.responseTime ? prev : curr
+  );
+
+  console.log('Best guard:', bestGuard.guard);
+  return `http://${bestGuard.guard}:3000`;
+};
 
 export const fetchData = async (): Promise<Array<Item>> => {
   try {

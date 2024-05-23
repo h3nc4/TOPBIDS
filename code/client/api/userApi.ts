@@ -20,7 +20,7 @@
 
 import config from '../.config.json';
 
-const API_URL = config.MASTER_URL + config.API_ROUTE;
+const API_URL = config.MASTER_URL + '/api';
 
 export const loginUser = async (username: string, password: string): Promise<string> => {
     const response = await fetch(`${API_URL}/auth/login/`, {

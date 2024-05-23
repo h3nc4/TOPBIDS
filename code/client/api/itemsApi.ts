@@ -21,7 +21,7 @@
 import config from '../.config.json';
 import { Item, ItemUpdate, UpdateResponse } from '../types/Item';
 
-const API_URL = config.MASTER_URL + config.API_ROUTE;
+const API_URL = config.MASTER_URL + '/api';
 
 export const fetchItems = async (): Promise<Array<Item>> => {
   const response = await fetch(`${API_URL}/items/`);

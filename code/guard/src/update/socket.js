@@ -1,16 +1,11 @@
-import { Server } from 'socket.io';
-import http from 'http'; // Import HTTP library
 import { addClient, removeClient, publish, currentBid } from '../mq/messaging.js'; // Import messaging functions
 
-const server = http.createServer(); // Create HTTP server for WebSocket
-const io = new Server(server, { cors: { origin: '*' } }); // Create WebSocket server
-
-export function setupSockets() {
+export function setupSockets(io) {
     io.on('connection', (socket) => {
         console.log('WebSocket client connected', socket.handshake.auth.jwt);
         fetch(`${process.env.MASTER_URL}/api/auth/check/`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(socket.handshake.auth.jwt),
         }).then(response => {
             if (!response.ok)
@@ -20,17 +15,22 @@ export function setupSockets() {
             socket.id = data.user_id;
         }).catch(error => {
             console.error(error.message);
+            console.log('Invalid token, disconnecting');
             socket.disconnect(true);
         });
+
         socket.on('join', (data) => {
             const { room, currentPrice } = data;
             addClient(socket, room);
-            socket.join(room);
-            if (currentBid.id === room) {
+            let roomInt = parseInt(room, 10);
+            socket.join(roomInt);
+            if (currentBid.id === roomInt) {
+                console.log('Sending current bid to existing room', currentBid.amount);
                 socket.emit('bid', currentBid.amount);
             } else {
+                console.log('New room: ', roomInt)
                 currentBid.amount = currentPrice;
-                currentBid.id = room;
+                currentBid.id = roomInt;
                 socket.emit('bid', currentBid.amount);
             }
         });
@@ -55,9 +55,5 @@ export function setupSockets() {
             console.log('WebSocket client disconnected');
             removeClient(socket);
         });
-    });
-
-    server.listen(process.env.WS_PORT || 3000, () => {
-        console.log(`WebSocket server listening on port ${process.env.WS_PORT || 3000}`);
     });
 }

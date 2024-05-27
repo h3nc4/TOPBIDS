@@ -22,14 +22,14 @@ amqp.connect(process.env.MQ_CONNECTION_URL, function (error0, connection) {
                 topic = msg.fields.routingKey.split('.');
                 if (topic[1] === 'chat')
                     return;
-                fetch(`${process.env.MASTER_URL}/auction/update/`, {
+                fetch(`${API_URL}/auction/update/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', },
                     body: JSON.stringify({ ...JSON.parse(msg.content.toString()), item: topic[0] }),
                 }).then(response => {
                     console.log('Sent message to Master', msg.fields.routingKey, msg.content.toString());
                     if (!response.ok)
-                        console.log('Failed to ping Master server at', process.env.MASTER_URL);
+                        console.log('Failed to ping Master server at', API_URL);
                 }).catch(error => {
                     console.error(error.message);
                 });

@@ -60,7 +60,7 @@ def check_token(request): # receices token and returns if it is valid
         username = body.get('user', [])
         user = User.objects.get(id=user_id)
         if user.username == username:
-            return JsonResponse({"status": "ok"})
+            return JsonResponse({"user_id": user_id, "status": "ok"})
         return JsonResponse({"status": "nok"}, status=401)
     except Exception:
         return JsonResponse({"status": "nok"}, status=401)

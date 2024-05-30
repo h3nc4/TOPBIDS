@@ -31,6 +31,16 @@ SECRET_KEY_JWT=os.getenv('SECRET_KEY_JWT', 'django-insecure-4jh668g*p5^v3@n+!d2)
 
 DEBUG=os.getenv('DEBUG', 'True') == 'True'
 
+LANGUAGE_CODE='en-us'
+
+TIME_ZONE = 'America/Sao_Paulo'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = False
+
 ALLOWED_HOSTS=['*']
 
 INSTALLED_APPS=[
@@ -123,14 +133,6 @@ AUTH_PASSWORD_VALIDATORS=[
 ]
 
 PASSWORD_HASHERS=["django.contrib.auth.hashers.PBKDF2PasswordHasher"]
-
-LANGUAGE_CODE='en-us'
-
-TIME_ZONE='UTC'
-
-USE_I18N=True
-
-USE_TZ=True
 
 STATIC_URL='static/'
 

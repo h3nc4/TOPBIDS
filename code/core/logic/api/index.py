@@ -30,10 +30,10 @@ ipw = IpWare()
 
 @index_router.get("/status/")
 def status(request):
-    print(active_guards)
     ip, trusted_route = ipw.get_client_ip(request.META)
     if ip:  # Add or Update the guard to the active guards list
         active_guards[ip] = datetime.now()
+        print('Active guards:\n', active_guards)
         return JsonResponse({"status": "ok"})
     return JsonResponse({"error": "Couldnt get ip"}, status=500)
 

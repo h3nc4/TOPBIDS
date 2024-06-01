@@ -70,9 +70,9 @@ def novo_item(request):
 def itens(request):
     items = Item.objects.filter(vendor=request.user, auction__status__in=['P', 'O'])
     for item in items:
-        if item.auction.date_and_time <= timezone.now() - timezone.timedelta(minutes=15, hours=3):
-            print(item.auction.date_and_time, timezone.now(), '-', timezone.timedelta(minutes=15, hours=3))
-            item.auction.status = 'F' if item.auction.last_buyer else 'C'
+        if item.auction.date_and_time <= timezone.now() - timezone.timedelta(minutes=15):
+            print(item.auction.date_and_time, timezone.now(), '-', timezone.timedelta(minutes=15))
+            item.auction.status = 'F' if item.auction.last_buyer is not None else 'C'
             item.auction.save()
             items = items.exclude(pk=item.pk) # Remove the item from the list
     return render(request, 'vendedor/itens.html', {

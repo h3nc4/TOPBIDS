@@ -18,8 +18,10 @@
 
 from ..models import *
 from .schemas import ItemSchema
+from django.utils.timezone import now
 from typing import List
 from ninja import Router
+from datetime import timedelta
 import base64
 import json
 
@@ -27,7 +29,7 @@ import json
 item_router = Router()
 
 
-def get_selected_items(items):
+def format_items(items):
     response_data = []
     for item in items:
         item_data = {
@@ -45,7 +47,9 @@ def get_selected_items(items):
 
 @item_router.get("/", response=List[ItemSchema])
 def get_items(request):
-    return get_selected_items(Item.objects.all())
+    fifteen_minutes_ago = now() - timedelta(minutes=15)
+    return format_items(Item.objects.filter(auction__status__in=['P', 'O'],
+                                                auction__date_and_time__gt=fifteen_minutes_ago))
 
 
 @item_router.post("/update/", response=dict)
@@ -55,16 +59,18 @@ def update_items(request):
     c_items = Item.objects.filter(id__in=c_item_ids).select_related('auction')
     items_to_delete = []
     updated_items = []
+    fifteen_minutes_ago = now() - timedelta(minutes=15)
     for info in c_info:
         item = next((x for x in c_items if x.id == info['id']), None)
-        if not item:
-            items_to_delete.append(info['id'])
-        elif item.auction.status not in ['P', 'O']:
+        if not item or item.auction.date_and_time < fifteen_minutes_ago or item.auction.status not in ['P', 'O']:
             items_to_delete.append(info['id'])
         elif item.auction.date_and_time.strftime('%Y-%m-%d %H:%M') != info['date']:
             updated_items.append({'id': item.id, 'date': item.auction.date_and_time.strftime('%Y-%m-%d %H:%M')})
     return {
         "delete": items_to_delete,
         "update": updated_items,
-        "add": get_selected_items(Item.objects.exclude(id__in=c_item_ids).filter(auction__status__in=['P', 'O']))
+        "add": format_items(Item.objects.exclude(id__in=c_item_ids)
+                                .filter(auction__status__in=['P', 'O'],
+                                        auction__date_and_time__gt=fifteen_minutes_ago)
+        )
     }

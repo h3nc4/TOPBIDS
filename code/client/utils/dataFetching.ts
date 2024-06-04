@@ -19,7 +19,7 @@
 */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fetchItems, updateItems } from '../api/itemsApi';
+import { fetchItems, updateItems, geyMyItems, fetchSelectedItems, finishedItem } from '../api/itemsApi';
 import { Item, ItemUpdate, UpdateResponse, JWT } from '../types/Item';
 import { getGuards } from '../api/guardsApi';
 
@@ -35,7 +35,7 @@ export const getStoredItem = async (id: number): Promise<Item | null> => {
     console.error('Error getting stored item:', error);
     return null;
   }
-}
+};
 
 export const getUserJWT = async (): Promise<JWT | null> => {
   try {
@@ -45,7 +45,7 @@ export const getUserJWT = async (): Promise<JWT | null> => {
     console.error('Error getting user:', error);
     return null;
   }
-}
+};
 
 export const bestGuard = async (): Promise<string> => {
   const guards: string[] = await getGuards();
@@ -119,8 +119,8 @@ const updateData = async (storedItems: string): Promise<Array<Item>> => {
   newData.delete.forEach((id) => {
     const index = data.findIndex((item) => item.id === id);
     if (index !== -1) {
-      console.log('Deleting item:', data[index]);
-      data.splice(index, 1);
+      console.log('Marking item as inactive:', data[index]);
+      data[index].isActive = false; // Mark as inactive instead of deleting
     }
   });
   newData.update.forEach((item) => {
@@ -128,11 +128,61 @@ const updateData = async (storedItems: string): Promise<Array<Item>> => {
     if (index !== -1) {
       console.log('Updating item:', item);
       data[index].date = item.date;
+      data[index].isActive = true; // Ensure updated items are active
     }
   });
   newData.add.forEach((item) => {
     console.log('Adding item:', item);
+    item.isActive = true; // Ensure new items are active
     data.push(item);
   });
   return data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-}
+};
+
+
+export const fetchBoughtItems = async (): Promise<Array<Item>> => {
+  try {
+    const user = await getUserJWT();
+    const storedItems = await AsyncStorage.getItem('storedItems');
+    if (!storedItems || !user) return [];
+    const data: Array<Item> = JSON.parse(storedItems);
+    const myItems = await geyMyItems(user);
+    const partial = data.filter((item) => myItems.includes(item.id));
+    if (partial.length === myItems.length) {
+      console.log('My items:', partial);
+      return partial;
+    }
+    const missingItems = myItems.filter((id) => !(partial.map((item) => item.id)).includes(id));
+    const missingData = await fetchSelectedItems(missingItems);
+    const newData = [...partial, ...missingData];
+    await AsyncStorage.setItem('storedItems', JSON.stringify(newData));
+    console.log('My items:', newData);
+    return newData;
+  } catch (error) {
+    console.error('Error fetching bought items:', error);
+    return [];
+  }
+};
+
+export const paymentStatus = async (id: number): Promise<{ pix: string; isPaid: boolean; finalPrice: number } | null> => {
+  try {
+    const user = await getUserJWT();
+    if (!user) throw new Error('User not authenticated');
+    const storedItems = await AsyncStorage.getItem('storedItems');
+    if (!storedItems) throw new Error('No stored items found');
+    const items: Array<Item> = JSON.parse(storedItems);
+    const itemIndex = items.findIndex((item) => item.id === id);
+    if (itemIndex === -1) throw new Error('Item not found');
+    const { pix, sold, price } = await finishedItem(id);
+    items[itemIndex].isPaid = sold;
+    items[itemIndex].finalPrice = price;
+    items[itemIndex].pix = pix;
+    console.log('Item updated:', items[itemIndex]);
+    await AsyncStorage.setItem('storedItems', JSON.stringify(items));
+    console.log('Payment status:', { pix, sold, price });
+    return { pix, isPaid: sold, finalPrice: price };
+  } catch (error) {
+    console.error('Error getting payment status:', error);
+    return null;
+  }
+};

@@ -19,13 +19,17 @@
 */
 
 interface Item {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    vendor: string;
-    date: string;
-    image: string;
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  vendor: string;
+  date: string;
+  image: string;
+  isActive: boolean;
+  isPaid: boolean;
+  finalPrice: number;
+  pix: string;
 }
 
 interface ItemUpdate {
@@ -40,8 +44,8 @@ interface UpdateResponse {
 }
 
 type JWT = {
-    user: string;
-    token: string;
+  user: string;
+  token: string;
 };
 
 export type { Item, UpdateResponse, ItemUpdate, JWT };

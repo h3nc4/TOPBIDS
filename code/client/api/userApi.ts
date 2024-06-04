@@ -23,28 +23,28 @@ import config from '../.config.json';
 const API_URL = config.MASTER_URL + '/api';
 
 export const loginUser = async (username: string, password: string): Promise<string> => {
-    const response = await fetch(`${API_URL}/auth/login/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user: { username, password } }),
-    });
-    if (response.ok) {
-        const data = await response.json();
-        return JSON.stringify(data);
-    }
-    throw new Error('Invalid credentials');
+  const response = await fetch(`${API_URL}/auth/login/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user: { username, password } }),
+  });
+  if (response.ok || response.redirected) {
+    const data = await response.json();
+    return JSON.stringify(data);
+  }
+  throw new Error('Invalid credentials');
 };
 
-export const signupUser = async (username: string, email: string, password: string, cpf: string, phone: string, address: string, city: string, state: string, zipCode: string): Promise<string> => {
-    console.log("Sending data: " + JSON.stringify({ user: { username, email, password, cpf, phone, address, city, state, zip_code: zipCode } }));
-    const response = await fetch(`${API_URL}/auth/signup/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user: { username, email, password, cpf, phone, address, city, state, zip_code: zipCode } }),
-    });
-    if (response.ok) {
-        const data = await response.json();
-        return JSON.stringify(data);
-    }
-    throw new Error('Error signing up');
+export const signupUser = async (user: string): Promise<string> => {
+  console.log("Sending data: " + user);
+  const response = await fetch(`${API_URL}/auth/signup/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: user,
+  });
+  if (response.ok || response.redirected) {
+    const data = await response.json();
+    return JSON.stringify(data);
+  }
+  throw new Error('Error signing up');
 };

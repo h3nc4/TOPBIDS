@@ -23,15 +23,15 @@ import config from '../.config.json';
 const API_URL = config.MASTER_URL + '/api';
 
 interface GuardsResponse {
-    guards: string[];
+  guards: string[];
 }
 
 export const getGuards = async (): Promise<Array<string>> => {
-    const response = await fetch(`${API_URL}/guard/get`);
-    const data: GuardsResponse = await response.json();
-    if (!response.ok && !response.redirected) {
-        console.log('Error fetching guards:', data);
-        throw new Error(JSON.stringify(data));
-    }
-    return data.guards;
+  const response = await fetch(`${API_URL}/guard/get`);
+  const data: GuardsResponse = await response.json();
+  if (!response.ok && !response.redirected) {
+    console.log('Error fetching guards:', data);
+    throw new Error(JSON.stringify(data));
+  }
+  return data.guards;
 }

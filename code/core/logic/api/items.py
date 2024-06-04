@@ -74,3 +74,17 @@ def update_items(request):
                                         auction__date_and_time__gt=fifteen_minutes_ago)
         )
     }
+
+
+@item_router.post("/my_items/", response=List[int])
+def my_items(request):
+    fifteen_minutes_ago = now() - timedelta(minutes=15)
+    items = Item.objects.filter(auction__status__in=['P', 'O'],
+                                auction__date_and_time__gt=fifteen_minutes_ago,
+                                # auction__last_buyer=request.user)
+                                auction__last_buyer=request.body.decode("utf-8").get('id'))
+    for item in items:
+        if item.auction.date_and_time <= fifteen_minutes_ago:
+            item.auction.status = 'F' if item.auction.last_buyer is not None else 'C'
+            item.auction.save()
+    return [item.id for item in items]

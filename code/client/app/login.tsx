@@ -26,56 +26,56 @@ import { loginUser } from '../api/userApi';
 import Header from '../components/Header';
 
 export default function login() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-    const handleLogin = async () => {
-        try {
-            await AsyncStorage.setItem('user', await loginUser(username, password));
-            router.replace('dashboard'); // Navigate to Dashboard
-        } catch (error) {
-            console.error('Error logging in:', error);
-        }
-    };
+  const handleLogin = async () => {
+    try {
+      await AsyncStorage.setItem('user', await loginUser(username, password));
+      router.replace('dashboard'); // Navigate to Dashboard
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  };
 
-    return (
-        <View style={styles.container}>
-            <Header />
-            <Text style={styles.title}>Login</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Username"
-                value={username}
-                onChangeText={setUsername}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-            />
-            <Button title="Login" onPress={handleLogin} />
-        </View>
-    );
+  return (
+    <View style={styles.container}>
+      <Header />
+      <Text style={styles.title}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      <Button title="Login" onPress={handleLogin} />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    title: {
-        fontSize: 20,
-        marginBottom: 20,
-    },
-    input: {
-        width: '80%',
-        height: 40,
-        borderWidth: 1,
-        borderColor: 'gray',
-        marginBottom: 10,
-        paddingHorizontal: 10,
-    },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  input: {
+    width: '80%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: 'gray',
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
 });

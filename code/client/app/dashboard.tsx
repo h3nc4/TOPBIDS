@@ -56,6 +56,7 @@ export default function dashboard() {
   };
 
   const renderItem = ({ item }: { item: Item }) => {
+    if (!item.isActive) return null; // Only render if the item is active
     const tDiff = diff(new Date(item.date));
     const navigateToAuction = () => { // Navigate to Auction page with item ID as parameter
       console.log("Navigating to Auction page...", item.id);

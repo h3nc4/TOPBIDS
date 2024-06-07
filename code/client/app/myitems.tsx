@@ -19,65 +19,82 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { FlatList, View, Text, Image, StyleSheet, RefreshControl } from 'react-native';
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, TextInput, Button } from 'react-native';
 import Header from '../components/Header';
-import { fetchBoughtItems } from '../utils/dataFetching';
+import { fetchBoughtItems, paymentStatus, getStoredItem } from '../utils/dataFetching';
 import { Item } from '../types/Item';
 
 export default function BoughtItems() {
   const [items, setItems] = useState<Array<Item>>([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     fetchBoughtItems().then(data => setItems(data));
   }, []);
 
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await fetchBoughtItems().then(data => setItems(data));
-    setRefreshing(false);
+  useEffect(() => {
+    if (selectedItem) getStoredItem(selectedItem.id);
+  }, [selectedItem]);
+
+  const handlePay = (item: Item) => {
+    setSelectedItem(item);
+    askPaymentUpdate();
+    setModalVisible(true);
   };
 
-  const renderItem = ({ item }: { item: Item }) => (
-    <View style={styles.item}>
-      <Image
-        style={styles.image}
-        source={{ uri: `data:image/jpeg;base64,${item.image}` }}
-      />
-      <Text style={styles.title}>{item.name}</Text>
-      <Text>{item.description}</Text>
-      <View style={{ marginTop: 10 }}>
-        <Text>Price: {item.price}</Text>
-        <Text>Vendor: {item.vendor}</Text>
-        <Text>Date: {item.date}</Text>
-      </View>
-    </View>
-  );
+  const askPaymentUpdate = async () => {
+    if (selectedItem) {
+      console.log('Updating payment status for:', selectedItem.id);
+      await paymentStatus(selectedItem.id);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Header />
-      <FlatList
-        data={items}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-        contentContainerStyle={[styles.flatListContent, items.length === 0 && styles.minHeightContainer]}
-      />
+      <View style={styles.itemList}>
+        {items.map(item => (
+          <TouchableOpacity key={item.id} style={styles.item} onPress={() => handlePay(item)}>
+            <Image
+              style={styles.image}
+              source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+            />
+            <Text style={styles.title}>{item.name}</Text>
+            <Text>{item.description}</Text>
+            <Text>{item.finalPrice ? `Final Price: ${item.finalPrice}` : `Initial Price: ${item.price}`}</Text>
+            <Text>Vendor: {item.vendor}</Text>
+            <Text>Date: {item.date}</Text>
+            <Text style={{ color: item.isPaid ? 'green' : 'red' }}>{item.isPaid ? 'Paid' : 'Not Paid'}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      {selectedItem && (
+        <Modal animationType="slide" transparent={true} visible={modalVisible}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 8, elevation: 3 }}>
+              <Text style={styles.title}>{selectedItem.name}</Text>
+              <Text>Valor total: R${selectedItem.finalPrice}</Text>
+              <Text>Vendor: {selectedItem.vendor}</Text>
+              <Text>Pix: {selectedItem.pix}</Text>
+              <Text style={{ color: selectedItem.isPaid ? 'green' : 'red' }}>{selectedItem.isPaid ? 'Paid' : 'Not Paid'}</Text>
+              <Button title="Done" onPress={() => setModalVisible(false)} />
+            </View>
+          </View>
+        </Modal>
+      )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 45,
-    maxWidth: 500,
+    alignItems: 'center',
+  },
+  itemList: {
+    width: '100%',
   },
   item: {
     backgroundColor: '#fff',
@@ -98,11 +115,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 10,
     borderRadius: 8,
-  },
-  flatListContent: {
-    flexGrow: 1,
-  },
-  minHeightContainer: {
-    minHeight: 200,
   },
 });

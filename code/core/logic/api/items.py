@@ -19,6 +19,7 @@
 from ..models import *
 from .schemas import ItemSchema
 from django.utils.timezone import now
+from ..utils import decode_token
 from typing import List
 from ninja import Router
 from datetime import timedelta
@@ -78,13 +79,37 @@ def update_items(request):
 
 @item_router.post("/my_items/", response=List[int])
 def my_items(request):
+    user_id = decode_token(json.loads(request.body.decode("utf-8")).get('token'))
     fifteen_minutes_ago = now() - timedelta(minutes=15)
     items = Item.objects.filter(auction__status__in=['P', 'O'],
                                 auction__date_and_time__gt=fifteen_minutes_ago,
-                                # auction__last_buyer=request.user)
-                                auction__last_buyer=request.body.decode("utf-8").get('id'))
+                                auction__last_buyer=user_id)
     for item in items:
         if item.auction.date_and_time <= fifteen_minutes_ago:
             item.auction.status = 'F' if item.auction.last_buyer is not None else 'C'
             item.auction.save()
-    return [item.id for item in items]
+    my_items = Item.objects.filter(auction__status='F', auction__last_buyer=user_id)
+    print('Sending my items to user', user_id, [item.id for item in my_items])
+    return [item.id for item in my_items]
+
+
+@item_router.post("/get_items/", response=List[ItemSchema])
+def get_items_by_ids(request):
+    return format_items(Item.objects.filter(id__in=json.loads(request.body.decode("utf-8")).get('ids')))
+
+
+@item_router.post("/finished_item/", response=dict)
+def finished_item(request):
+    item = Item.objects.get(id=json.loads(request.body.decode("utf-8")).get('id'))
+    if item.auction.status != 'F':
+        # Check if the item should be finished
+        if item.auction.date_and_time <= now() - timedelta(minutes=15):
+            item.auction.status = 'F' if item.auction.last_buyer is not None else 'C'
+            item.auction.save()
+        else:
+            return {}
+    return {
+        "price": item.auction.current_price,
+        "sold": item.auction.paid,
+        "pix": item.vendor.vendor.pix
+    }

@@ -130,24 +130,23 @@ Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
 
 | **ID** | **Descrição** | **Prioridade** | **Plataforma** |
 | --- | --- | --- | --- |
-| RF001 | Comprador gerencia conta | ESSENCIAL | web |
-| RF002 | Leiloeiro gerencia item para leilão | ESSENCIAL | web |
-| RF003 | Leiloeiro gerencia leilão | ESSENCIAL | web |
-| RF004 | Leiloeiro gerencia data do leilão | ESSENCIAL | web |
-| RF005 | Usuário consulta calendário de leilões marcados | ESSENCIAL | mobile |
-| RF006 | Usuário pesquisa item | ESSENCIAL | mobile |
-| RF007 | Usuário entra em leilão | ESSENCIAL | mobile |
-| RF008 | Usuário lança bids | ESSENCIAL | mobile |
-| RF009 | Usuário consulta calendário na land page | ALTO | mobile |
-| RF010 | Leiloeiro define valor inicial do item | ALTO | web |
-| RF011 | Leiloeiro define o valor mínimo que o lance deve ser | ALTO | web |
-| RF012 | Comprador envia pix para o leiloeiro após ganhar | ALTO | mobile |
-| RF013 | Usuário manda mensagem para outro usuário | BAIXO | mobile |
-| RF014 | Sistema valida item | BAIXO | web |
-| RF015 | Usuário marca leilão que quer participar para receber notificação | BAIXO | mobile |
-| RF016 | Usuário recebe notificação ao início de leilão que marcou | BAIXO | mobile |
-| RF017 | Usuário consulta seu histórico de lances realizados | BAIXO | mobile |
-| RF018 | Leiloeiro gerencia conta | BAIXO | web |
+| RF001 | Comprador gerencia conta | ESSENCIAL | mobile |
+| RF002 | Leiloeiro gerencia conta | BAIXO | web |
+| RF003 | Leiloeiro gerencia item para leilão | ESSENCIAL | web |
+| RF004 | Leiloeiro gerencia leilão | ESSENCIAL | web |
+| RF005 | Leiloeiro gerencia data do leilão | ESSENCIAL | web |
+| RF006 | Usuário consulta calendário de leilões marcados | ESSENCIAL | mobile |
+| RF007 | Usuário pesquisa item | ESSENCIAL | mobile |
+| RF008 | Usuário entra em leilão | ESSENCIAL | mobile |
+| RF009 | Usuário lança bids | ESSENCIAL | mobile |
+| RF010 | Usuário consulta calendário na land page | ALTO | mobile |
+| RF011 | Leiloeiro define valor inicial do item | ALTO | web |
+| RF012 | Sistema define o valor que o lance deve ter | ALTO | web |
+| RF013 | Comprador envia pix para o leiloeiro após ganhar | ALTO | mobile |
+| RF014 | Usuário manda mensagem para outro usuário no leilão | BAIXO | mobile |
+| RF015 | Sistema valida item | BAIXO | web |
+| RF016 | Usuário marca leilão que quer participar para receber notificação | BAIXO | mobile |
+| RF017 | Usuário consulta seu histórico de itens comprados | BAIXO | mobile |
 
 ## 2.2. Requisitos Não-Funcionais
 

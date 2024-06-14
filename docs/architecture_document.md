@@ -153,7 +153,7 @@ Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
 | **ID** | **Descrição** |
 | --- | --- |
 | RNF001 | Sistema suporta de 500 usuários |
-| RNF002 | Sistema protege senhas do usuário criptografando-as utilizando algoritmo Argon2 |
+| RNF002 | Sistema protege senhas do usuário criptografando-as utilizando algoritmo PBKDF2 |
 | RNF003 | Tempo de resposta do sistema deve ser inferior a 2 segundos para a maioria das operações |
 | RNF004 | O sistema deve ser hospedado em um servidor com pelo menos 4GB de RAM e 4 núcleos de processamento |
 

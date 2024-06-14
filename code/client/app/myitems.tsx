@@ -19,7 +19,7 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, TextInput, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, Button } from 'react-native';
 import Header from '../components/Header';
 import { fetchBoughtItems, paymentStatus, getStoredItem } from '../utils/dataFetching';
 import { Item } from '../types/Item';
@@ -34,19 +34,25 @@ export default function BoughtItems() {
   }, []);
 
   useEffect(() => {
-    if (selectedItem) getStoredItem(selectedItem.id);
+    if (selectedItem) {
+      getStoredItem(selectedItem.id);
+      askPaymentUpdate(selectedItem.id);
+    }
   }, [selectedItem]);
 
   const handlePay = (item: Item) => {
     setSelectedItem(item);
-    askPaymentUpdate();
     setModalVisible(true);
   };
 
-  const askPaymentUpdate = async () => {
-    if (selectedItem) {
-      console.log('Updating payment status for:', selectedItem.id);
-      await paymentStatus(selectedItem.id);
+  const askPaymentUpdate = async (itemId: number) => {
+    console.log('Updating payment status for:', itemId);
+    const result = await paymentStatus(itemId);
+    if (result) {
+      const updatedItems = items.map(item =>
+        item.id === itemId ? { ...item, ...result } : item
+      );
+      setItems(updatedItems);
     }
   };
 
@@ -62,7 +68,7 @@ export default function BoughtItems() {
             />
             <Text style={styles.title}>{item.name}</Text>
             <Text>{item.description}</Text>
-            <Text>{item.finalPrice ? `Final Price: ${item.finalPrice}` : `Initial Price: ${item.price}`}</Text>
+            <Text>{item.finalPrice ? `Final Price: $${item.finalPrice}` : `Initial Price: $${item.price}`}</Text>
             <Text>Vendor: {item.vendor}</Text>
             <Text>Date: {item.date}</Text>
             <Text style={{ color: item.isPaid ? 'green' : 'red' }}>{item.isPaid ? 'Paid' : 'Not Paid'}</Text>
@@ -85,7 +91,7 @@ export default function BoughtItems() {
       )}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

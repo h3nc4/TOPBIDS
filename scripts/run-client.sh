@@ -1,7 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 cd code/client
-cp .config.json.example .config.json
-sed -i "s/\"http:\/\/serverip:serverport\"/\"http:\/\/$(hostname -I | gawk '{print $1}'):8000\"/g" .config.json
-sed -i "s/\"http:\/\/guardip:guardport\"/\"http:\/\/$(hostname -I | gawk '{print $1}'):3000\"/g" .config.json
+ip=$(hostname -I | gawk '{print $1}')
+cat <<EOF > .config.json
+{
+  "MASTER_URL": "http://$ip:8000"
+}
+EOF
 npx expo start

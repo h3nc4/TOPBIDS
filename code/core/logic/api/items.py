@@ -95,7 +95,7 @@ def my_items(request):
 
 @item_router.post("/get_items/", response=List[ItemSchema])
 def get_items_by_ids(request):
-    return format_items(Item.objects.filter(id__in=json.loads(request.body.decode("utf-8")).get('ids')))
+    return format_items(Item.objects.filter(id__in=json.loads(request.body.decode("utf-8"))))
 
 
 @item_router.post("/finished_item/", response=dict)

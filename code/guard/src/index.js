@@ -5,10 +5,8 @@ import { setupSockets } from './update/socket.js'; // Import setupSockets functi
 import http from 'http'; // Import HTTP library
 import { Server } from 'socket.io';
 
-const API_URL = process.env.MASTER_URL + process.env.API_ROUTE;
-
 function pingMaster() {
-    fetch(`${API_URL}/guard/status/`).then(response => {
+    fetch(`${process.env.MASTER_URL}/guard/status/`).then(response => {
         if (!response.ok)
             console.log('Failed to ping Master server at', process.env.MASTER_URL);
         console.log('Master server acknowledged');
@@ -40,5 +38,5 @@ consume(); // Start consuming messages from RabbitMQ
 server.listen(3000, () => {
     console.log(`Server listening on port 3000`);
     pingMaster(); // Ping Master server to let it know this guard is online
-    setInterval(pingMaster, process.env.INTERVAL || 60000); // Ping Master server every minute
+    setInterval(pingMaster, 60000); // Ping Master server every minute
 });

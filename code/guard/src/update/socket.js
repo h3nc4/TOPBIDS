@@ -3,7 +3,7 @@ import { addClient, removeClient, publish, currentBid } from '../mq/messaging.js
 export function setupSockets(io) {
     io.on('connection', (socket) => {
         console.log('WebSocket client connected', socket.handshake.auth.jwt);
-        fetch(`${process.env.MASTER_URL}/api/auth/check/`, {
+        fetch(`${process.env.MASTER_URL}/auth/check/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(socket.handshake.auth.jwt),

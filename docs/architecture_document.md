@@ -259,33 +259,74 @@ _Apresente as telas dos sistema construído com uma descrição sucinta de cada 
 
 # 5. Avaliação da Arquitetura
 
-_Esta seção descreve a avaliação da arquitetura apresentada, baseada no método ATAM._
-
 ## 5.1. Cenários
 
-_Apresente os cenários de testes utilizados na realização dos testes da sua aplicação. Escolha cenários de testes que demonstrem os requisitos não funcionais sendo satisfeitos. Os requisitos a seguir são apenas exemplos de possíveis requisitos, devendo ser revistos, adequados a cada projeto e complementados de forma a terem uma especificação completa e auto-explicativa._
+**Cenário 1 - Escalabilidade:** Verificar se a plataforma de leilões online pode lidar com um aumento no número de usuários simultâneos sem perda significativa de desempenho.
+- Ambiente de testes configurado nuvem similar ao de produção.
+### Passos:
+- Monitorar o tempo de resposta das operações críticas (registro de itens, lances, consultas).
+- Analisar o uso de recursos do sistema (CPU, memória) durante o teste.
 
-**Cenário 1 - Acessibilidade:** Suspendisse consequat consectetur velit. Sed sem risus, dictum dictum facilisis vitae, commodo quis leo. Vivamus nulla sem, cursus a mollis quis, interdum at nulla. Nullam dictum congue mauris. Praesent nec nisi hendrerit, ullamcorper tortor non, rutrum sem. In non lectus tortor. Nulla vel tincidunt eros.
+**Cenário 2 - Segurança:** Garantir que a plataforma de leilões online está protegida contra ameaças comuns de segurança.
+- Acesso aos módulos críticos da aplicação para testes de segurança.
+### Passos:
+- Executar testes de injeção de SQL em campos de entrada para verificar a validação e sanitização.
 
-**Cenário 2 - Interoperabilidade:** Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ut accumsan erat. Pellentesque in enim tempus, iaculis sem in, semper arcu.
+**Cenário 3 - Desempenho:** Avaliar se a plataforma pode responder a operações críticas dentro de um tempo aceitável sob condições normais e de pico.
+- Ambiente de testes configurado de forma semelhante ao ambiente de produção.
+### Passos:
+- Identificar operações críticas (login, registro de itens, lances).
+- Medir o tempo de resposta dessas operações sob carga normal (simulação de 500 usuários).
 
-**Cenário 3 - Manutenibilidade:** Phasellus magna tellus, consectetur quis scelerisque eget, ultricies eu ligula. Sed rhoncus fermentum nisi, a ullamcorper leo fringilla id. Nulla lacinia sem vel magna ornare, non tincidunt ipsum rhoncus. Nam euismod semper ante id tristique. Mauris vel elit augue.
-
-**Cenário 4 - Segurança:** Suspendisse consectetur porta tortor non convallis. Sed lobortis erat sed dignissim dignissim. Nunc eleifend elit et aliquet imperdiet. Ut eu quam at lacus tincidunt fringilla eget maximus metus. Praesent finibus, sapien eget molestie porta, neque turpis congue risus, vel porttitor sapien tortor ac nulla. Aliquam erat volutpat.
-
+**Cenário 4 - Disponibilidade:** Verificar se a plataforma está disponível e funcionando corretamente em todos os momentos esperados.
+- Configuração de alertas para downtime e falhas.
+### Passos:
+- Monitorar a plataforma continuamente para verificar a disponibilidade (requisições periódicas para endpoints críticos).
+- Simular falhas (desligar servidores, falhas de rede) e observar a resposta da aplicação.
+  
 ## 5.2. Avaliação
 
-_Apresente as medidas registradas na coleta de dados. O que não for possível quantificar apresente uma justificativa baseada em evidências qualitativas que suportam o atendimento do requisito não-funcional. Apresente uma avaliação geral da arquitetura indicando os pontos fortes e as limitações da arquitetura proposta._
+| Atributo de Qualidade   | Segurança                                                                                                                           |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| Requisitos de Qualidade | As senhas dos usuários devem ser criptografadas utilizando o algoritmo PBKDF2                                                       |
+| Preocupação             | Garantir a segurança e proteção das senhas dos usuários contra ataques de força bruta e outras vulnerabilidades                     |
+| Cenários                | Um usuário cria uma conta ou altera sua senha                                                                                       |
+| Ambiente                | Ambiente de produção com um servidor de autenticação e banco de dados                                                               |
+| Estímulo                | Registro ou alteração de senha do usuário                                                                                           |
+| Mecanismo               | Implementação do algoritmo PBKDF2 para criptografia de senhas antes de armazená-las no banco de dados                               |
+| Medida de Resposta      | As senhas devem ser armazenadas de forma segura e verificar-se que nenhuma senha pode ser recuperada ou descriptografada facilmente |
 
-| **Atributo de Qualidade:** | Segurança |
-| --- | --- |
-| **Requisito de Qualidade** | Acesso aos recursos restritos deve ser controlado |
-| **Preocupação:** | Os acessos de usuários devem ser controlados de forma que cada um tenha acesso apenas aos recursos condizentes as suas credenciais. |
-| **Cenários(s):** | Cenário 4 |
-| **Ambiente:** | Sistema em operação normal |
-| **Estímulo:** | Acesso do administrador do sistema as funcionalidades de cadastro de novos produtos e exclusão de produtos. |
-| **Mecanismo:** | O servidor de aplicação (Rails) gera um _token_ de acesso para o usuário que se autentica no sistema. Este _token_ é transferido para a camada de visualização (Angular) após a autenticação e o tratamento visual das funcionalidades podem ser tratados neste nível. |
-| **Medida de Resposta:** | As áreas restritas do sistema devem ser disponibilizadas apenas quando há o acesso de usuários credenciados. |
+| Atributo de Qualidade   | Desempenho                                                                                         |
+|-------------------------|----------------------------------------------------------------------------------------------------|
+| Requisitos de Qualidade | O tempo de resposta do sistema deve ser inferior a 2 segundos para 95% das operações               |
+| Preocupação             | Garantir que a maioria das interações do usuário com o sistema seja rápida e eficiente             |
+| Cenários                | Usuários realizam operações como login, consulta de itens e lances em leilões                      |
+| Ambiente                | Ambiente de produção com carga normal de usuários                                                  |
+| Estímulo                | Realização de operações comuns no sistema (login, consulta, lance)                                 |
+| Mecanismo               | Otimização de código, uso de ORM, consultas eficientes ao banco de dados, e balanceamento de carga |
+| Medida de Resposta      | 95% das operações devem ser concluídas em menos de 2 segundos                                      |
+
+| Atributo de Qualidade   | Disponibilidade                                                                                                                                      |
+|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Requisitos de Qualidade | O sistema deve ser hospedado em um servidor com no mínimo 4GB de RAM e 4 núcleos de processamento                                                    |
+| Preocupação             | Garantir que o servidor de hospedagem tenha recursos suficientes para suportar o sistema e seus usuários                                             |
+| Cenários                | O sistema está operando em um servidor com as especificações mínimas requeridas                                                                      |
+| Ambiente                | Servidor de produção com pelo menos 4GB de RAM e 4 núcleos de processamento                                                                          |
+| Estímulo                | Operação contínua do sistema com as especificações mínimas do servidor                                                                               |
+| Mecanismo               | Implementação de monitoramento de recursos e ajustes conforme necessário para garantir o desempenho adequado                                         |
+| Medida de Resposta      | O sistema deve operar de forma estável e eficiente, utilizando os recursos disponíveis do servidor sem apresentar falhas ou degradação significativa |
+
+| Atributo de Qualidade   | Escalabilidade                                                                                                                                |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Requisitos de Qualidade | O sistema deve suportar até 500 usuários simultâneos                                                                                          |
+| Preocupação             | Garantir que o sistema funcione corretamente e de maneira eficiente com um número elevado de usuários simultâneos                             |
+| Cenários                | Usuários se conectam e realizam operações simultaneamente durante um evento de leilão                                                         |
+| Ambiente                | Ambiente de produção com carga de 500 usuários simultâneos                                                                                    |
+| Estímulo                | Conexão simultânea de 500 usuários realizando operações de leilão                                                                             |
+| Mecanismo               | Escalonamento automático de recursos, otimização de consultas de banco de dados, uso de caching e balanceamento de carga                      |
+| Medida de Resposta      | O sistema deve manter um tempo de resposta aceitável (menor que 2 segundos) e não apresentar falhas ou degradação significativa de desempenho |
+
+
 
 **Considerações sobre a arquitetura:**
 

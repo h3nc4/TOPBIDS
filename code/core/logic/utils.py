@@ -22,6 +22,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.conf import settings
 from datetime import datetime
 from threading import Thread
+from django.template import Template, Context
 import jwt
 import six
 import secrets
@@ -46,6 +47,18 @@ def mail(subject, template_name, context, to_email):
     email_thread = Thread(target=send_email)
     email_thread.start()
 
+def _mail(subject, template_string, context, to_email):
+    def send_email():
+        try:
+            template = Template(template_string)
+            email_body = template.render(Context(context))
+            email = EmailMessage(subject, email_body, to=[to_email])
+            email.send()
+            print(datetime.now().strftime("[%d/%b/%Y %H:%M:%S] Email sent to " + to_email))
+        except Exception as e:
+            print(f"Error sending email: {str(e)}")
+    email_thread = Thread(target=send_email)
+    email_thread.start()
 
 def generate_token(user_id):
     return jwt.encode({'user_id': user_id, 'filler': secrets.token_urlsafe(10)}, settings.SECRET_KEY_JWT, algorithm='HS256')

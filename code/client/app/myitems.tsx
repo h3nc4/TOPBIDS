@@ -83,6 +83,7 @@ export default function BoughtItems() {
               <Text style={styles.title}>{selectedItem.name}</Text>
               <Text>Valor total: R${selectedItem.finalPrice}</Text>
               <Text>Leiloeiro: {selectedItem.vendor}</Text>
+              <Text>Pix: {selectedItem.pix}</Text>
               <Text style={{ color: selectedItem.isPaid ? 'green' : 'red' }}>{selectedItem.isPaid ? 'Pago' : 'Não Pago'}</Text>
               <Button title="Done" onPress={closeModal} />
             </View>

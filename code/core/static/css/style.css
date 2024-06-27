@@ -82,6 +82,14 @@ footer a:hover {
     border-color: #000000;
 }
 
+.resize-img {
+    transform: scaleY(0.7); /* Reduzindo a largura em 20% */
+}
+
+.spacing {
+      line-height: 2; /* Aumente o valor para aumentar o espaçamento entre as linhas */
+}
+
 .btnLogin,
 .btnLogin:hover,
 .btnRedefSenha,

@@ -19,9 +19,9 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, Button, ScrollView } from 'react-native';
 import Header from '../components/Header';
-import { fetchBoughtItems, paymentStatus, getStoredItem } from '../utils/dataFetching';
+import { fetchBoughtItems, paymentStatus } from '../utils/dataFetching';
 import { Item } from '../types/Item';
 
 export default function BoughtItems() {
@@ -33,16 +33,10 @@ export default function BoughtItems() {
     fetchBoughtItems().then(data => setItems(data));
   }, []);
 
-  useEffect(() => {
-    if (selectedItem) {
-      getStoredItem(selectedItem.id);
-      askPaymentUpdate(selectedItem.id);
-    }
-  }, [selectedItem]);
-
-  const handlePay = (item: Item) => {
+  const handlePay = async (item: Item) => {
     setSelectedItem(item);
     setModalVisible(true);
+    await askPaymentUpdate(item.id);
   };
 
   const askPaymentUpdate = async (itemId: number) => {
@@ -53,38 +47,44 @@ export default function BoughtItems() {
         item.id === itemId ? { ...item, ...result } : item
       );
       setItems(updatedItems);
+      setSelectedItem(updatedItems.find(item => item.id === itemId) || null);
     }
   };
 
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
   return (
-    <View style={styles.container}>
+    <View style={styles.outerContainer}>
       <Header />
-      <View style={styles.itemList}>
-        {items.map(item => (
-          <TouchableOpacity key={item.id} style={styles.item} onPress={() => handlePay(item)}>
-            <Image
-              style={styles.image}
-              source={{ uri: `data:image/jpeg;base64,${item.image}` }}
-            />
-            <Text style={styles.title}>{item.name}</Text>
-            <Text>{item.description}</Text>
-            <Text>{item.finalPrice ? `Final Price: $${item.finalPrice}` : `Initial Price: $${item.price}`}</Text>
-            <Text>Vendor: {item.vendor}</Text>
-            <Text>Date: {item.date}</Text>
-            <Text style={{ color: item.isPaid ? 'green' : 'red' }}>{item.isPaid ? 'Paid' : 'Not Paid'}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <View style={styles.itemList}>
+          {items.map(item => (
+            <TouchableOpacity key={item.id} style={styles.item} onPress={() => handlePay(item)}>
+              <Image
+                style={styles.image}
+                source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+              />
+              <Text style={styles.title}>{item.name}</Text>
+              <Text>{item.description}</Text>
+              <Text>{item.finalPrice ? `Preço Final: ${item.finalPrice}` : `Preço Inicial: ${item.price}`}</Text>
+              <Text>Leiloeiro: {item.vendor}</Text>
+              <Text>Data: {item.date}</Text>
+              <Text style={{ color: item.isPaid ? 'green' : 'red' }}>{item.isPaid ? 'Pago' : 'Não Pago'}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
       {selectedItem && (
         <Modal animationType="slide" transparent={true} visible={modalVisible}>
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
             <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 8, elevation: 3 }}>
               <Text style={styles.title}>{selectedItem.name}</Text>
               <Text>Valor total: R${selectedItem.finalPrice}</Text>
-              <Text>Vendor: {selectedItem.vendor}</Text>
-              <Text>Pix: {selectedItem.pix}</Text>
-              <Text style={{ color: selectedItem.isPaid ? 'green' : 'red' }}>{selectedItem.isPaid ? 'Paid' : 'Not Paid'}</Text>
-              <Button title="Done" onPress={() => setModalVisible(false)} />
+              <Text>Leiloeiro: {selectedItem.vendor}</Text>
+              <Text style={{ color: selectedItem.isPaid ? 'green' : 'red' }}>{selectedItem.isPaid ? 'Pago' : 'Não Pago'}</Text>
+              <Button title="Done" onPress={closeModal} />
             </View>
           </View>
         </Modal>
@@ -94,10 +94,13 @@ export default function BoughtItems() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  outerContainer: {
     flex: 1,
-    marginTop: 45,
+  },
+  contentContainer: {
+    flexGrow: 1,
     alignItems: 'center',
+    marginTop: 45,
   },
   itemList: {
     width: '100%',

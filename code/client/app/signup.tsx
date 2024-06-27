@@ -19,7 +19,7 @@
 */
 
 import React, { useState } from 'react';
-import { Button, View, Text, TextInput, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, Text, TextInput, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { signupUser } from '../api/userApi';
@@ -35,14 +35,21 @@ export default function signup() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zipCode, setZipCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSignup = async () => {
     try {
-      await AsyncStorage.setItem('user', await signupUser(
+      const response = await signupUser(
         JSON.stringify({ user: { username, email, password, cpf, phone, address, city, state, zip_code: zipCode } })
-      ));
-      router.replace('dashboard'); // Navigate to Dashboard
-    } catch (error) {
+      );
+      const responseJson = JSON.parse(response);
+      if (responseJson.token) {
+        await AsyncStorage.setItem('user', response);
+        router.replace('dashboard');
+      }
+      setErrorMessage('Check your email.');
+    } catch (error: any) {
+      setErrorMessage(error.message || 'An error occurred during signup');
       console.error('Error signing up:', error);
     }
   };
@@ -50,17 +57,23 @@ export default function signup() {
   return (
     <View style={styles.container}>
       <Header />
-      <Text style={styles.title}>Sign Up</Text>
-      <TextInput style={styles.input} placeholder="Username" value={username} onChangeText={setUsername} />
-      <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
-      <TextInput style={styles.input} placeholder="CPF" value={cpf} onChangeText={setCpf} />
-      <TextInput style={styles.input} placeholder="Phone" value={phone} onChangeText={setPhone} />
-      <TextInput style={styles.input} placeholder="Address" value={address} onChangeText={setAddress} />
-      <TextInput style={styles.input} placeholder="City" value={city} onChangeText={setCity} />
-      <TextInput style={styles.input} placeholder="State" value={state} onChangeText={setState} />
-      <TextInput style={styles.input} placeholder="Zip Code" value={zipCode} onChangeText={setZipCode} />
-      <Button title="Sign Up" onPress={handleSignup} />
+      <View style={styles.content}>
+        <Text style={styles.title}>Cadastro</Text>
+        {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+        <TextInput style={styles.input} placeholder="Nome" value={username} onChangeText={setUsername} />
+        <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
+        <TextInput style={styles.input} placeholder="Senha" secureTextEntry value={password} onChangeText={setPassword} />
+        <TextInput style={styles.input} placeholder="CPF" value={cpf} onChangeText={setCpf} />
+        <TextInput style={styles.input} placeholder="Telefone" value={phone} onChangeText={setPhone} />
+        <TextInput style={styles.input} placeholder="Endereço" value={address} onChangeText={setAddress} />
+        <TextInput style={styles.input} placeholder="Cidade" value={city} onChangeText={setCity} />
+        <TextInput style={styles.input} placeholder="Estado" value={state} onChangeText={setState} />
+        <TextInput style={styles.input} placeholder="CEP" value={zipCode} onChangeText={setZipCode} />
+        <TouchableOpacity style={styles.button} onPress={handleSignup}>
+          <Text style={styles.buttonText}>Cadastrar</Text>
+        </TouchableOpacity>
+        <Text style={styles.link} onPress={() => router.push('login')}>Já possui uma conta? Faça Login!</Text>
+      </View>
     </View>
   );
 };
@@ -68,19 +81,45 @@ export default function signup() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f8f9fa',
+  },
+  content: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 20,
     marginBottom: 20,
   },
   input: {
-    width: '80%',
+    width: '100%',
     height: 40,
-    borderWidth: 1,
-    borderColor: 'gray',
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
     marginBottom: 10,
     paddingHorizontal: 10,
+  },
+  button: {
+    width: '100%',
+    height: 40,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  link: {
+    color: 'black',
+    textDecorationLine: 'underline',
+    marginTop: 10,
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
   },
 });

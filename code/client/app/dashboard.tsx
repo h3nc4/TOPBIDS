@@ -19,13 +19,14 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { FlatList, View, Text, Image, TextInput, RefreshControl, StyleSheet, Button } from 'react-native';
+import { FlatList, View, Text, Image, TextInput, RefreshControl, StyleSheet, TouchableOpacity } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
 import { fetchData } from '../utils/dataFetching';
 import { Item } from '../types/Item';
 import { router } from 'expo-router';
 
-export default function dashboard() {
+export default function Dashboard() {
   const [items, setItems] = useState<Array<Item>>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
@@ -56,11 +57,11 @@ export default function dashboard() {
   };
 
   const renderItem = ({ item }: { item: Item }) => {
-    if (!item.isActive) return null; // Only render if the item is active
+    if (!item.isActive) return null;
     const tDiff = diff(new Date(item.date));
-    const navigateToAuction = () => { // Navigate to Auction page with item ID as parameter
+    const navigateToAuction = () => {
       console.log("Navigating to Auction page...", item.id);
-      router.push({pathname: '/auction', params: { id: item.id }});
+      router.push({ pathname: '/auction', params: { id: item.id } });
     };
 
     const showButton = tDiff.days === 0 && tDiff.hours === 0 && tDiff.minutes <= 15 && !tDiff.isFuture;
@@ -71,15 +72,23 @@ export default function dashboard() {
           style={styles.image}
           source={{ uri: `data:image/jpeg;base64,${item.image}` }}
         />
-        <Text style={styles.title}>{item.name}</Text>
-        <Text>{item.description}</Text>
-        <View style={{ marginTop: 10 }}>
-          <Text>Price: {item.price}</Text>
-          <Text>Vendor: {item.vendor}</Text>
-          <Text>Date: {item.date}</Text>
-          { tDiff.isFuture && <Text>Time Left: {tDiff.days}d {tDiff.hours}h {tDiff.minutes}m {tDiff.seconds}s</Text>}
+        <View style={styles.textContainer}>
+          <View style={styles.textContent}>
+            <Text style={styles.title}>{item.name}</Text>
+            <Text>{item.description}</Text>
+            <View style={{ marginTop: 10 }}>
+              <Text>Preço: {item.price}</Text>
+              <Text>Leiloeiro: {item.vendor}</Text>
+              <Text>Data: {item.date}</Text>
+              {tDiff.isFuture && <Text>Tempo Restante: {tDiff.days}d {tDiff.hours}h {tDiff.minutes}m {tDiff.seconds}s</Text>}
+            </View>
+          </View>
+          {showButton && (
+            <TouchableOpacity onPress={navigateToAuction} style={styles.arrowButton}>
+              <Ionicons name="arrow-forward-circle-outline" size={30} color="black" />
+            </TouchableOpacity>
+          )}
         </View>
-        {showButton && <Button title="View Details" onPress={navigateToAuction} />}
       </View>
     );
   };
@@ -92,7 +101,7 @@ export default function dashboard() {
           style={styles.searchInput}
           onChangeText={setSearchQuery}
           value={searchQuery}
-          placeholder="Search items..."
+          placeholder="Procurar Itens..."
           onSubmitEditing={handleSearch}
         />
       </View>
@@ -115,27 +124,37 @@ export default function dashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 45,
     maxWidth: 500,
   },
   item: {
     backgroundColor: '#fff',
-    padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
     borderRadius: 8,
     elevation: 3,
   },
+  textContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#ffcccc',
+    padding: 20,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textContent: {
+    flex: 1,
+  },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    alignSelf: 'center',
   },
   image: {
     width: '70%',
     aspectRatio: 1,
     alignSelf: 'center',
     marginBottom: 10,
+    marginTop: 10,
     borderRadius: 8,
   },
   searchContainer: {
@@ -155,6 +174,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   minHeightContainer: {
-    minHeight: 200, // Set a minimum height for FlatList container when there are no items
+    minHeight: 200,
+  },
+  arrowButton: {
+    marginLeft: 10,
   },
 });

@@ -46,5 +46,32 @@ export const signupUser = async (user: string): Promise<string> => {
     const data = await response.json();
     return JSON.stringify(data);
   }
-  throw new Error('Error signing up');
+  const error = await response.json();
+  throw new Error(JSON.stringify(error.error));
+};
+
+export const sendRecoveryEmail = async (email: string): Promise<{ message: string }> => {
+  const response = await fetch(`${API_URL}/auth/forgot/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  if (response.ok) {
+    return await response.json();
+  }
+  const error = await response.json();
+  throw new Error(error.error || 'Failed to send recovery email');
+};
+
+export const changeUserPassword = async (newPassword: string, uid: string, token: string): Promise<{ message: string }> => {
+  const response = await fetch(`${API_URL}/auth/reset/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ new_password: newPassword, uid, token }),
+  });
+  if (response.ok) {
+    return await response.json();
+  }
+  const error = await response.json();
+  throw new Error(error.error || 'Failed to change password');
 };

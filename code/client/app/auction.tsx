@@ -19,7 +19,7 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, Button, TextInput, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, Button, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import Header from '../components/Header';
 import { getStoredItem, getUserJWT } from '../utils/dataFetching';
 import { bestGuard } from '../utils/dataFetching';
@@ -29,15 +29,15 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { io, Socket } from "socket.io-client";
 
 export default function auction() {
-  const { id } = useLocalSearchParams(); // Extract the item ID from the route params
+  const { id } = useLocalSearchParams();
   const itemId = typeof id === 'string' ? parseInt(id, 10) : typeof id === 'number' ? id : 0;
   const [item, setItem] = useState<Item | null>(null);
-  const [socket, setSocket] = useState<Socket | null>(null); // State to hold the WebSocket connection
-  const [currentPrice, setCurrentPrice] = useState<number | null>(null); // State to hold the current price
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [currentPrice, setCurrentPrice] = useState<number | null>(null);
   const [jwt, setJWT] = useState<JWT | null>(null);
-  const [messages, setMessages] = useState<string[]>([]); // State to hold chat messages
-  const [newMessage, setNewMessage] = useState<string>(''); // State for new chat message
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [messages, setMessages] = useState<string[]>([]);
+  const [newMessage, setNewMessage] = useState<string>('');
+  const [loading, setLoading] = useState(true);
 
   const initializeSocket = async () => {
     if (!loading && jwt !== null && item !== null) {
@@ -78,10 +78,10 @@ export default function auction() {
       setCurrentPrice(item.price);
       getUserJWT().then(data => {
         setJWT(data);
-        setLoading(false); // Set loading to false when JWT is received
+        setLoading(false);
       }).catch(error => {
         console.error('Error fetching JWT:', error);
-        setLoading(false); // Set loading to false even if there's an error
+        setLoading(false);
       });
     }
   }, [item]);
@@ -89,9 +89,9 @@ export default function auction() {
   useEffect(() => {
     initializeSocket();
     return () => { if (socket) socket.disconnect(); };
-  }, [jwt, loading, item]); // Depend on jwt and loading states
+  }, [jwt, loading, item]);
 
-  const placeBid = () => { // Function to place a bid
+  const placeBid = () => {
     if (socket !== null && currentPrice !== null && jwt !== null) {
       console.log("emitting bid...");
       socket.emit('bid', {
@@ -103,7 +103,7 @@ export default function auction() {
       console.log("error initializing socket, current price or jwt", socket, currentPrice, jwt);
   };
 
-  const sendMessage = () => { // Function to send a chat message
+  const sendMessage = () => {
     if (socket !== null && newMessage.trim() !== '' && jwt !== null) {
       console.log("emitting chat message...", newMessage);
       socket.emit('message', { room: id, message: newMessage, user: jwt.user });
@@ -113,48 +113,57 @@ export default function auction() {
   };
 
   return (
-    <KeyboardAwareScrollView
-      style={{ flex: 1 }}
-      contentContainerStyle={styles.container}
-      enableOnAndroid={true}
-      extraScrollHeight={150} // Adjust this value as needed
-    >
-      <View style={styles.container}>
-        <Header />
-        {item ? ( // Conditionally render only if item is not null
-          <View style={styles.item}>
-            <Image
-              style={styles.image}
-              source={{ uri: `data:image/jpeg;base64,${item.image}` }}
-            />
-            <Text style={styles.title}>{item.name}</Text>
-            <Text>{item.description}</Text>
-            <View style={{ marginTop: 10 }}>
-              <Text>Price: {currentPrice !== null ? currentPrice : item.price}</Text>
-              <Text>Vendor: {item.vendor}</Text>
-              <Text>Date: {item.date}</Text>
+    <View style={styles.outerContainer}>
+      <Header />
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={styles.container}
+        enableOnAndroid={true}
+        extraScrollHeight={150}
+      >
+        <View style={styles.container}>
+          {item ? (
+            <View style={styles.item}>
+              <Image
+                style={styles.image}
+                source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+              />
+              <Text style={styles.title}>{item.name}</Text>
+              <Text>{item.description}</Text>
+              <View style={{ marginTop: 10 }}>
+                <Text>Preço: {currentPrice !== null ? currentPrice : item.price}</Text>
+                <Text>Leiloeiro: {item.vendor}</Text>
+                <Text>Data: {item.date}</Text>
+              </View>
+              <TouchableOpacity style={styles.button} onPress={placeBid}>
+                <Text style={styles.buttonText}>Cobrir Lance</Text>
+              </TouchableOpacity>
+              <ScrollView style={styles.chatContainer}>
+                {messages.map((msg, index) => (
+                  <Text key={index} style={styles.chatMessage}>{msg}</Text>
+                ))}
+              </ScrollView>
+              <TextInput
+                style={styles.chatInput}
+                value={newMessage}
+                onChangeText={setNewMessage}
+                placeholder="Escreva uma mensagem..."
+              />
+              <TouchableOpacity style={styles.button} onPress={sendMessage}>
+                <Text style={styles.buttonText}>Enviar</Text>
+              </TouchableOpacity>
             </View>
-            <Button title="Place Bid" onPress={placeBid} />
-            <ScrollView style={styles.chatContainer}>
-              {messages.map((msg, index) => (
-                <Text key={index} style={styles.chatMessage}>{msg}</Text>
-              ))}
-            </ScrollView>
-            <TextInput
-              style={styles.chatInput}
-              value={newMessage}
-              onChangeText={setNewMessage}
-              placeholder="Type a message..."
-            />
-            <Button title="Send" onPress={sendMessage} />
-          </View>
-        ) : <></>}
-      </View>
-    </KeyboardAwareScrollView>
+          ) : <></>}
+        </View>
+      </KeyboardAwareScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     marginTop: 45,
@@ -199,5 +208,18 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     marginVertical: 10,
+    margin: 0,
+  },
+  button: {
+    width: '100%',
+    height: 40,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
   },
 });

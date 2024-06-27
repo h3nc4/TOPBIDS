@@ -19,17 +19,17 @@
 */
 
 import React, { useEffect } from 'react';
-import { Button, View, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../components/Header';
 
-export default function home() {
+export default function Home() {
   useEffect(() => { checkToken(); }, []);
 
   const checkToken = async () => {
     const user = await AsyncStorage.getItem('user');
-    if (user) router.replace('dashboard'); // Navigate to Dashboard if user is logged in
+    if (user) router.replace('dashboard');
   };
 
   const gotoLogin = () => router.navigate('login');
@@ -38,10 +38,17 @@ export default function home() {
   return (
     <View style={styles.container}>
       <Header />
-      <Text style={styles.title}>Bem vindo ao TOPBIDS</Text>
-      <View style={styles.buttonContainer}>
-        <Button title="Login" onPress={gotoLogin} />
-        <Button title="Signup" onPress={gotoSignup} />
+      <View style={styles.content}>
+        <Text style={styles.title}>TOPBIDS</Text>
+        <Text style={styles.subtitle}>Faça login ou crie uma conta</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={gotoLogin}>
+            <Text style={styles.buttonText}>Entrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={gotoSignup}>
+            <Text style={styles.buttonText}>Cadastrar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -50,12 +57,38 @@ export default function home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f8f9fa',
+  },
+  content: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 20,
   },
   title: {
-    fontSize: 20,
-    marginBottom: 20,
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
-  buttonContainer: { width: '80%' }
+  subtitle: {
+    fontSize: 16,
+    marginBottom: 30,
+  },
+  buttonContainer: {
+    width: '80%',
+    alignItems: 'center',
+  },
+  button: {
+    width: '100%',
+    padding: 15,
+    marginVertical: 5,
+    backgroundColor: 'black',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

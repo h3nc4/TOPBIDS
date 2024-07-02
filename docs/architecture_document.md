@@ -255,7 +255,21 @@ As restrições impostas ao projeto que afetam sua arquitetura são:
 
 # 4. Projeto da Solução
 
-_Apresente as telas dos sistema construído com uma descrição sucinta de cada uma das interfaces._
+### Mobile
+![Diagrama de classes](imagens/cadastro.jpg)
+Tela de cadastro da versão mobile.
+
+![Diagrama de classes](imagens/login.jpg)
+Tela de login da versão mobile.
+
+![Diagrama de classes](imagens/anuncio.jpg)
+Tela de anuncio do Leilão.
+
+![Diagrama de classes](imagens/duração.jpg)
+Tela de demonstração da duração do leilão.
+
+![Diagrama de classes](imagens/lance.jpg)
+Tela do lance de leilão.
 
 # 5. Avaliação da Arquitetura
 
@@ -326,22 +340,19 @@ _Apresente as telas dos sistema construído com uma descrição sucinta de cada 
 | Mecanismo               | Escalonamento automático de recursos, otimização de consultas de banco de dados, uso de caching e balanceamento de carga                      |
 | Medida de Resposta      | O sistema deve manter um tempo de resposta aceitável (menor que 2 segundos) e não apresentar falhas ou degradação significativa de desempenho |
 
-
+![Visão Geral da Solução](imagens/RFN1.png "Visão Geral da Solução")
+![Visão Geral da Solução](imagens/RFN2.png "Visão Geral da Solução")
 
 **Considerações sobre a arquitetura:**
 
-| **Riscos:** | Não existe |
+| **Riscos:** | Existe |
 | --- | --- |
-| **Pontos de Sensibilidade:** | Não existe |
-| _**Tradeoff**_ **:** | Não existe |
+| **Pontos de Sensibilidade:** | Existe |
+| _**Tradeoff**_ **:** | Existe |
 
-Evidências dos testes realizados
-
-_Apresente imagens, descreva os testes de tal forma que se comprove a realização da avaliação._
+![Visão Geral da Solução](imagens/Teste.png "Visão Geral da Solução")
 
 # 6. REFERÊNCIAS
-
-_Como um projeto da arquitetura de uma aplicação não requer revisão bibliográfica, a inclusão das referências não é obrigatória. No entanto, caso você deseje incluir referências relacionadas às tecnologias, padrões, ou metodologias que serão usadas no seu trabalho, relacione-as de acordo com a ABNT._
 
 Verifique no link abaixo como devem ser as referências no padrão ABNT:
 

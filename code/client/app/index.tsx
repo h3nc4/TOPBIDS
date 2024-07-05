@@ -23,6 +23,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../components/Header';
+import config from '../.config.json';
 
 export default function Home() {
   useEffect(() => { checkToken(); }, []);
@@ -34,6 +35,30 @@ export default function Home() {
 
   const gotoLogin = () => router.navigate('login');
   const gotoSignup = () => router.navigate('signup');
+  
+  const deactivateAccount = async () => {
+    try {
+      const user = await AsyncStorage.getItem('user');
+      const response = await fetch(`${config.MASTER_URL}/deactivate/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user}`
+        }
+      });
+      if (response.ok) {
+        await AsyncStorage.removeItem('user');
+        router.replace('login');
+      } else {
+        const errorText = await response.text();
+        console.error('Error deactivating account:', errorText);
+        // Handle error feedback to the user
+      }
+    } catch (error) {
+      console.error('Error deactivating account:', error);
+      // Handle network or other errors
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -47,6 +72,9 @@ export default function Home() {
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={gotoSignup}>
             <Text style={styles.buttonText}>Cadastrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.deactivateButton]} onPress={deactivateAccount}>
+            <Text style={styles.buttonText}>Desativar Conta</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -90,5 +118,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  deactivateButton: {
+    backgroundColor: 'red',
+    marginTop: 20,
   },
 });

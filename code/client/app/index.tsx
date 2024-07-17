@@ -23,6 +23,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../components/Header';
+import { deactivateAccount } from '../utils/account';
 
 export default function Home() {
   useEffect(() => { checkToken(); }, []);
@@ -34,7 +35,7 @@ export default function Home() {
 
   const gotoLogin = () => router.navigate('login');
   const gotoSignup = () => router.navigate('signup');
-
+  
   return (
     <View style={styles.container}>
       <Header />
@@ -47,6 +48,9 @@ export default function Home() {
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={gotoSignup}>
             <Text style={styles.buttonText}>Cadastrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.deactivateButton]} onPress={deactivateAccount}>
+            <Text style={styles.buttonText}>Desativar Conta</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -90,5 +94,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  deactivateButton: {
+    backgroundColor: 'red',
+    marginTop: 20,
   },
 });
